@@ -21,6 +21,9 @@ serve -s /usr/share/nginx/html -l 80
   # export $(grep -v '^#' /usr/local/bin/.env | xargs)
 # fi
 
+
+# docker run --network=my_network -p 80:80 -p 8080:8080 --name autodocs-container --env-file ~/Desktop/autodocs/.env raymondmwebe/autodocs
+
 # Start the backend application
 # /usr/local/bin/main &
 
