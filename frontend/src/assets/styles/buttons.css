@@ -1,0 +1,31 @@
+.action-btn{
+    @apply cursor-pointer text-xs px-2 py-1 bg-primary text-white rounded hover:bg-primary-700;
+}
+
+.danger-action-btn{
+    @apply cursor-pointer text-xs px-2 py-1 bg-danger text-white rounded hover:bg-danger-700;
+}
+
+.action-outline-btn{
+    @apply cursor-pointer text-xs px-2 py-1 bg-white border border-primary text-primary rounded hover:text-primary-700 hover:bg-primary-50;
+}
+
+.button{
+    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-primary-700;
+}
+
+.button-outline{
+    @apply text-sm px-3 py-2 bg-white text-primary border border-primary rounded hover:text-primary-700 hover:shadow;
+}
+
+.approve-button{
+    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-success-700;
+}
+
+.query-button{
+    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-warning-700;
+}
+
+.reject-button{
+    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-red-700;
+}

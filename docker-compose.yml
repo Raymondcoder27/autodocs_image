@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    restart: always
+    env_file:
+      - ./backend/.env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    networks:
+      - autodocs-network
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
+    #   interval: 10s
+    #   start_period: 40s
+    #   timeout: 20s
+    #   retries: 10
+
+  minio:
+    image: minio/minio:latest
+    container_name: my_minio
+    env_file:
+      - ./backend/.env
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    command: server /data
+    networks:
+      - autodocs-network
+    healthcheck:
+      test: ["CMD", "curl", "--silent", "--fail", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      retries: 3
+      start_period: 20s
+      timeout: 5s
+
+  backend:
+    build: ./backend
+    container_name: backend_c
+    env_file:
+      - ./backend/.env
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - minio
+    networks:
+      - autodocs-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_c
+    ports:
+      - "3000:3550"
+    networks:
+      - autodocs-network
+
+networks:
+  autodocs-network:
+
+volumes:
+  pg_data:
+  minio-data:

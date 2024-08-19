@@ -1,0 +1,7 @@
+.tab{
+    @apply cursor-pointer bg-gray-50 text-center text-gray-500 py-1 px-2 border-b border-gray-300 rounded-t hover:font-bold hover:text-primary hover:border-primary;
+}
+
+.tab-active{
+    @apply cursor-pointer bg-primary-50 text-center text-primary py-1 px-2 border-b-2 border-primary rounded-t font-bold;
+}

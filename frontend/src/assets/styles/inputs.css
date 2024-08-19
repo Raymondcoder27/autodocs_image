@@ -1,0 +1,28 @@
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    @apply border border-primary-300;
+}
+
+input:disabled,
+textarea:disabled,
+select:disabled {
+    outline: none;
+    @apply bg-black-10 text-gray-500;
+}
+
+input,
+textarea,
+select {
+    outline: none;
+    @apply border border-primary-200;
+}
+
+.form-element {
+    @apply w-full rounded text-sm py-2 px-2;
+}
+
+.form-element-wrap {
+    @apply rounded text-sm py-2 px-2;
+}

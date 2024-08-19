@@ -1,0 +1,81 @@
+
+.draft-status{
+    @apply w-full px-2 py-1 bg-gray-100 text-gray-500 font-bold rounded;
+}
+
+.pending-status{
+    @apply w-full px-2 py-1 bg-primary-50 text-primary-400 font-bold rounded;
+}
+
+.payment-status{
+    @apply w-full px-2 py-1 border border-gray-400 bg-gray-50 text-gray-600 font-bold rounded;
+}
+
+.approved-status{
+    @apply w-full px-2 py-1 bg-success-100 text-success-600 font-bold rounded;
+}
+
+.registered-status{
+    @apply w-full px-2 py-1 bg-success-100 text-success-600 font-bold rounded border border-success-300;
+}
+
+.semi-approved-status{
+    @apply w-full px-2 py-1 bg-success-100 text-success-400 font-bold rounded;
+}
+
+.assigned-status{
+    @apply w-full px-2 py-1 bg-primary-100 text-primary-600 font-bold rounded;
+}
+
+.queried-status{
+    @apply w-full px-2 py-1 border border-warning-300 bg-warning-100 text-warning-600 font-bold rounded;
+}
+
+.warning-status{
+    @apply w-full px-2 py-1 border border-warning-300 bg-warning-100 text-warning-600 font-bold rounded;
+}
+
+.rejected-status{
+    @apply w-full px-2 py-1 bg-danger-100 text-danger-600 font-bold rounded;
+}
+
+.divorced-status{
+    @apply w-full px-2 py-1 border border-red-200 bg-danger-100 text-danger-600 font-bold rounded;
+}
+
+.stat{
+    @apply p-5 rounded border border-gray-50 shadow bg-white;
+}
+
+.stat-count{
+    @apply text-center text-3xl font-bold;
+}
+
+.stat-label{
+    @apply text-center text-sm;
+}
+
+.draft-stat{
+    @apply border-gray-100 text-gray-400;
+}
+
+.pending-stat{
+    @apply border-gray-100 text-gray-600;
+}
+
+.approved-stat{
+    @apply border-success-100 text-success-600;
+}
+
+.assigned-stat{
+    @apply border-primary-100 text-primary-600;
+}
+
+.queried-stat{
+    @apply border-warning-500 text-warning-700;
+}
+
+.rejected-stat{
+    @apply border-red-100 text-red-600;
+}
+
