@@ -1,0 +1,21 @@
+table {
+  @apply w-full my-2 text-sm text-black-500 shadow rounded;
+}
+
+.header {
+  text-align: left;
+  @apply text-black-500;
+}
+
+td, th {
+  @apply cursor-pointer py-2 px-2;
+}
+
+th {
+  @apply font-bold capitalize py-2 bg-gray-50;
+}
+
+td {
+  @apply border-b border-gray-50;
+}
+

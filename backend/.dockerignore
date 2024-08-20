@@ -1,0 +1,19 @@
+# Ignore Go build artifacts and vendor directory (if using modules)
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.o
+vendor/
+
+# Ignore environment files
+.env.local
+.env.*.local
+
+# Ignore IDE and OS-specific files
+.DS_Store
+*.log
+.idea/
+.vscode/
+*.swp
