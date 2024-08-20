@@ -74,6 +74,7 @@ function deleteDocument(){
              <tr>
                <th class="header">#</th>
                <th class="header">Name</th>
+               <th class="header">Description</th>
                <th class="header">Reference</th>
                <th class="header">Template</th>
                <th class="header">Date</th>
@@ -93,6 +94,7 @@ function deleteDocument(){
               <td>
                 <span class="text-primary italic border border-primary-50 rounded text-sm px-2 py-[2px]">{{document.documentName}} <i class="fa-solid fa-copy mx-2"></i></span>
               </td>
+              <td>{{document.description}}</td>
               <td>{{document.refNumber}}</td>
               <td>{{templateStore.templates?.find((t:Template) => t.id == document.templateId).templateName}}</td>
               <td>{{dateTimeFormat(document.created_at)}}</td>

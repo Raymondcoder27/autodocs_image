@@ -51,9 +51,9 @@ COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
 
 # Set environment variables
-ENV PORT=8080
-ENV MINIO_ROOT_USER=minioadmin
-ENV MINIO_ROOT_PASSWORD=minioadmin
+# ENV PORT=8080
+# ENV MINIO_ROOT_USER=minioadmin
+# ENV MINIO_ROOT_PASSWORD=minioadmin
 
 # Expose ports
 EXPOSE 3550
@@ -61,3 +61,4 @@ EXPOSE 4100
 
 # Start backend and frontend
 ENTRYPOINT ["/usr/local/bin/start.sh"]
+

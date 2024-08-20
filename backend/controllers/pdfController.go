@@ -44,7 +44,7 @@ type TemplateUploadResponse struct {
 
 type GenerateRequest struct {
 	RefNumber   string                 `json:"refNumber"`
-	Description string                 `json:"documentDescription"`
+	Description string                 `json:"description"`
 	Data        map[string]interface{} `json:"data"`
 }
 

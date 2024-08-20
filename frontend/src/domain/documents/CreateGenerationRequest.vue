@@ -31,6 +31,7 @@ onMounted(() =>{
 function submit(){
   loading.value = true
   form.value.data = JSON.parse(json.value)
+  form.value.description = description.value
   store.sendRequest(form.value)
       .then(() =>{
         loading.value = false
