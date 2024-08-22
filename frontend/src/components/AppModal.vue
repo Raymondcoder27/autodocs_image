@@ -50,7 +50,7 @@ const closeModal: () => void = () => {
 <template>
   <TransitionRoot appear :show="modelValue" as="template">
     <Dialog as="div" @close="closeModal" class="relative">
-      <TransitionChild
+      <!-- <TransitionChild
         as="template"
         enter="duration-300 ease-out"
         enter-from="opacity-0"
@@ -58,20 +58,40 @@ const closeModal: () => void = () => {
         leave="duration-200 ease-in"
         leave-from="opacity-100"
         leave-to="opacity-0"
+      > -->
+      <!-- Overlay Transition -->
+      <TransitionChild
+        as="template"
+        enter="transition-opacity duration-300 ease-out"
+        enter-from="opacity-0"
+        enter-to="opacity-100"
+        leave="transition-opacity duration-200 ease-in"
+        leave-from="opacity-100"
+        leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-black bg-opacity-25 z-[60]" />
+        <div class="fixed inset-0 bg-black bg-opacity-25 z-[65]" />
       </TransitionChild>
 
-      <div class="fixed inset-0 bg-black/25 z-[60]" aria-hidden="true" />
+      <div id="bgwrapper" class="fixed inset-0 bg-black/25 z-[63]" aria-hidden="true" />
 
-      <div class="fixed inset-0 overflow-y-auto z-[61]">
+      <div class="fixed inset-0 overflow-y-auto z-[65]">
         <div class="flex min-h-full items-center justify-center text-center">
-          <TransitionChild
+          <!-- <TransitionChild
             as="template"
             enter="duration-300 ease-out"
             enter-from="opacity-0 scale-95"
             enter-to="opacity-100 scale-100"
             leave="duration-200 ease-in"
+            leave-from="opacity-100 scale-100"
+            leave-to="opacity-0 scale-95"
+          > -->
+           <!-- Modal Content Transition -->
+           <TransitionChild
+            as="template"
+            enter="transition-transform transition-opacity duration-300 ease-out"
+            enter-from="opacity-0 scale-95"
+            enter-to="opacity-100 scale-100"
+            leave="transition-transform transition-opacity duration-200 ease-in"
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
@@ -95,3 +115,15 @@ const closeModal: () => void = () => {
     </Dialog>
   </TransitionRoot>
 </template>
+
+
+<style scoped>
+  #bgwrapper{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+  }
+</style>

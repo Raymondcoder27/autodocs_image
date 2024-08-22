@@ -30,6 +30,7 @@ function submit(){
         payload.value.file = null
         loading.value = false
         window.location.reload()
+        notify.success("Template uploaded successfully");
       })
       .catch(() =>{
         loading.value = false
