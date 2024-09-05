@@ -26,6 +26,10 @@ onMounted(() => {
 });
 
 function submit() {
+  // catch (!form.value.data){
+  //   notify.error("Please insert all required data")
+  // }
+  try{
   loading.value = true;
   form.value.data = JSON.parse(json.value);
   form.value.description = description.value;
@@ -33,13 +37,24 @@ function submit() {
     .sendRequest(form.value)
     .then(() => {
       loading.value = false;
+      // window.location.reload();
+
+      // Delay before showing the notification
       notify.success("Document generated successfully");
-      window.location.reload();
+
+      setTimeout(() => {
+        window.location.reload(); // Reload after notification is shown
+      }, 1000);
     })
     .catch(() => {
       loading.value = false;
     });
+  }catch{
+    notify.error("Please insert all required data")
+    loading.value = false
+  }
 }
+
 
 function fetch() {
   loading.value = true;
@@ -53,6 +68,7 @@ function fetch() {
       notify.error(error.response?.data.message || "Error fetching templates");
     });
 }
+
 </script>
 
 <template>
@@ -61,9 +77,10 @@ function fetch() {
       <form @submit.prevent="submit">
         <div class="grid grid-cols-1 gap-2">
           <div class="flex flex-col py-1">
-            <label class="font-bold">Select Template</label>
-            <select class="form-element" v-model="form.refNumber">
+            <label class="font-semibold text-sm">Select Template</label>
+            <select class="form-element border-blue-400 hover:border-blue-500 focus:border-blue-500" v-model="form.refNumber">
               <option
+              class="text-sm font-light rounded bg-gray-100 hover:bg-red-400"
                 :value="template.refNumber"
                 v-for="(template, idx) in templateStore.templates"
                 :key="idx"
@@ -73,17 +90,21 @@ function fetch() {
             </select>
           </div>
           <div class="flex flex-col py-1">
-            <label class="font-bold">Document Description</label>
-            <input type="text" v-model="description" />
+            <label class="font-semibold text-sm ">Document Description</label>
+            <input type="text" 
+            class="form-element"
+             v-model="description" />
           </div>
           <div class="flex flex-col py-1">
-            <label class="font-bold">JSON Data</label>
+            <label class="font-semibold text-sm">JSON Data</label>
             <textarea class="form-element" v-model="json" rows="4"></textarea>
           </div>
         </div>
 
-        <div class="flex flex-col py-2">
-          <label class="font-bold">Data Preview</label>
+        <div
+        v-if="json"
+         class="flex flex-col py-2">
+          <label class="font-semibold text-sm">Data Preview</label>
           <pre class="text-wrap bg-gray-10 text-[10px] p-2 h-full flex-grow">{{
             json
           }}</pre>

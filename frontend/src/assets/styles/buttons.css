@@ -1,9 +1,11 @@
 .action-btn{
-    @apply cursor-pointer text-xs px-2 py-1 bg-primary text-white rounded hover:bg-primary-700;
+    /* @apply cursor-pointer text-xs px-2 py-1 bg-primary text-white rounded hover:bg-primary-700; */
+    @apply cursor-pointer text-xs px-2 py-1 bg-blue-400 text-white rounded hover:bg-blue-600;
+
 }
 
 .danger-action-btn{
-    @apply cursor-pointer text-xs px-2 py-1 bg-danger text-white rounded hover:bg-danger-700;
+    @apply cursor-pointer text-xs px-2 py-1 bg-danger text-white rounded hover:bg-red-700;
 }
 
 .action-outline-btn{
@@ -11,7 +13,8 @@
 }
 
 .button{
-    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-primary-700;
+    /* @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-primary-700; */
+    @apply text-sm px-2 font-semibold py-1 bg-blue-400 text-white rounded-md hover:bg-black-900;
 }
 
 .button-outline{
@@ -23,9 +26,11 @@
 }
 
 .query-button{
-    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-warning-700;
+    /* @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-warning-700; */
+        @apply text-sm px-3 py-2 bg-blue-400 text-white rounded hover:bg-warning-700;
 }
 
 .reject-button{
-    @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-red-700;
+    /* @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-red-700; */
+        @apply text-sm px-3 py-2 bg-blue-400 text-white rounded hover:bg-red-700;
 }

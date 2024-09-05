@@ -34,11 +34,11 @@ function navigate(routeName:string){
 </script>
 
 <template>
-  <div class="flex m-2 bg-white rounded-lg">
+  <div class="flex m-2 bg-white rounded-lg shadow-lg shadow-gray-500">
     <div class="w-full">
       <div :class="isRouteActive(item.name) ? 'menu-active' : 'menu'" v-for="(item, idx) in sideMenu" :key="idx" @click="navigate(item.name)">
         <i class="mx-2 my-auto" :class="item.icon"></i>
-        <label>{{item.label}}</label>
+        <label class="cursor-pointer">{{item.label}}</label>
       </div>
     </div>
   </div>
@@ -46,10 +46,10 @@ function navigate(routeName:string){
 
 <style scoped>
 .menu{
-  @apply w-56 flex my-auto text-primary px-2 py-3 hover:bg-primary-10 hover:text-primary-700
+  @apply w-56 ml-2 flex my-auto text-gray-600 px-2 py-3 hover:text-black-900 cursor-pointer text-sm
 }
 
 .menu-active{
-  @apply w-56 flex my-auto font-bold bg-primary-10 text-primary-700 px-2 py-3 hover:bg-gray-10
+  @apply w-52 ml-3 flex my-auto font-bold bg-blue-400 rounded-md text-white px-1 py-2  cursor-pointer text-sm
 }
 </style>

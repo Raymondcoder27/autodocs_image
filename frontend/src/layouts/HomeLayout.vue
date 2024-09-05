@@ -9,7 +9,7 @@ import AppHeader from "@/components/AppHeader.vue";
   <div class="flex flex-col w-screen h-screen bg-white">
     <div class="flex flex-col relative h-full w-full">
       <AppHeader/>
-      <main class="flex flex-col h-full w-full bg-gray-10">
+      <main class="flex flex-col h-full w-full bg-gray-100">
         <div class="flex flex-row h-full">
           <SideMenu class="pt-5"/>
           <div class="flex flex-col flex-grow rounded p-2">

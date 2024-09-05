@@ -39,7 +39,6 @@ export const useDocumentStore = defineStore("documents", () => {
             })
     }
 
-
     return {
         documents,
         generationResponse,

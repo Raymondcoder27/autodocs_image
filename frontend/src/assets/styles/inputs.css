@@ -2,25 +2,26 @@ input:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    @apply border border-primary-300;
+    @apply border border-blue-400;
 }
 
 input:disabled,
 textarea:disabled,
 select:disabled {
     outline: none;
-    @apply bg-black-10 text-gray-500;
+    @apply bg-black-10 text-gray-500 border border-blue-400;
 }
 
 input,
 textarea,
 select {
     outline: none;
-    @apply border border-primary-200;
+    /* @apply border border-primary-200 border border-blue-400; */
+    @apply border border-primary-200 border border-blue-400;
 }
 
 .form-element {
-    @apply w-full rounded text-sm py-2 px-2;
+    @apply w-full rounded text-sm py-2 px-2 border border-blue-400;
 }
 
 .form-element-wrap {

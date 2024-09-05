@@ -19,7 +19,6 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 # Use a minimal base image for the final stage
 FROM debian:bullseye-slim
 
-
 RUN apt-get update && apt-get install -y \
 netcat \
 wkhtmltopdf \

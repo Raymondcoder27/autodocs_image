@@ -20,7 +20,7 @@ const props = defineProps({
 })
 const emit = defineEmits(["update:modelValue"])
 const modalClass = computed(() => {
-  return cva("w-full transform rounded-md z-[65] bg-white text-left align-middle shadow-xl transition-all", {
+  return cva("w-full transform rounded-md z-[25] bg-white text-left align-middle shadow-xl transition-all", {
     variants: {
       xs: { true: "max-w-xs" },
       sm: { true: "max-w-sm" },
@@ -46,19 +46,9 @@ const closeModal: () => void = () => {
   emit("update:modelValue", props.static)
 }
 </script>
-
 <template>
   <TransitionRoot appear :show="modelValue" as="template">
     <Dialog as="div" @close="closeModal" class="relative">
-      <!-- <TransitionChild
-        as="template"
-        enter="duration-300 ease-out"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="duration-200 ease-in"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
-      > -->
       <!-- Overlay Transition -->
       <TransitionChild
         as="template"
@@ -69,24 +59,14 @@ const closeModal: () => void = () => {
         leave-from="opacity-100"
         leave-to="opacity-0"
       >
-        <div class="fixed inset-0 bg-black bg-opacity-25 z-[65]" />
+        <div class="fixed inset-0 bg-black bg-opacity-25 z-[25]" />
       </TransitionChild>
 
-      <div id="bgwrapper" class="fixed inset-0 bg-black/25 z-[63]" aria-hidden="true" />
+      <div id="bgwrapper" class="fixed inset-0 bg-black/25 z-[23]" aria-hidden="true" />
 
-      <div class="fixed inset-0 overflow-y-auto z-[65]">
+      <div class="fixed inset-0 overflow-y-auto z-[25]">
         <div class="flex min-h-full items-center justify-center text-center">
-          <!-- <TransitionChild
-            as="template"
-            enter="duration-300 ease-out"
-            enter-from="opacity-0 scale-95"
-            enter-to="opacity-100 scale-100"
-            leave="duration-200 ease-in"
-            leave-from="opacity-100 scale-100"
-            leave-to="opacity-0 scale-95"
-          > -->
-           <!-- Modal Content Transition -->
-           <TransitionChild
+          <TransitionChild
             as="template"
             enter="transition-transform transition-opacity duration-300 ease-out"
             enter-from="opacity-0 scale-95"
@@ -96,15 +76,17 @@ const closeModal: () => void = () => {
             leave-to="opacity-0 scale-95"
           >
             <DialogPanel :class="modalClass">
-              <div class="w-full p-6 py-3 border-b border-neutral-300 flex flex-row justify-between">
-                <DialogTitle as="h3" class="text-lg flex-grow font-medium leading-6 text-neutral-900 capitalize">
+              <!-- Header Section -->
+              <div class="w-full p-6 py-3 border-b border-neutral-300 flex flex-row items-center">
+                <div class="flex-grow">
                   <slot name="title" />
-                </DialogTitle>
+                </div>
                 <div @click="emit('update:modelValue', false)" class="cursor-pointer flex items-center">
                   <XMarkIcon class="w-5 h-5 text-neutral-900" aria-hidden="true" />
                 </div>
               </div>
 
+              <!-- Body Section -->
               <div class="p-6 pt-3 pb-5">
                 <slot />
               </div>
@@ -116,9 +98,8 @@ const closeModal: () => void = () => {
   </TransitionRoot>
 </template>
 
-
 <style scoped>
-  #bgwrapper{
+  #bgwrapper {
     position: fixed;
     top: 0;
     right: 0;

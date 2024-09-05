@@ -1,10 +1,10 @@
 table {
-  @apply w-full my-2 text-sm text-black-500 shadow rounded;
+  @apply w-full my-2 text-sm text-gray-600 shadow rounded;
 }
 
 .header {
   text-align: left;
-  @apply text-black-500;
+  @apply text-gray-600;
 }
 
 tr:hover {
@@ -13,6 +13,7 @@ tr:hover {
 
 td, th {
   @apply cursor-pointer py-2 px-2;
+  font-size: 13px;
 }
 
 th {

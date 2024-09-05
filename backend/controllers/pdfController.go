@@ -212,7 +212,6 @@ func PreviewDocument(c *gin.Context) {
 
 	// c.JSON(http.StatusOK, pdfBase64)
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": pdfBase64, "timestamp": document.CreatedAt})
-
 }
 
 // PreviewTemplate returns the template file content
