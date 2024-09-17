@@ -33,7 +33,7 @@ watch(() => props.refNumber,
   <div class="flex">
     <div class="w-full">
       <div class="grid grid-cols-1 shadow" v-if="props.refNumber">
-        <div class="relative w-full aspect-[1/1.1] overflow-hidden border border-gray-50 rounded-lg bg-white h-full">
+        <div class="relative w-full aspect-[1/1.1] overflow-hidden border border-gray-50 rounded-lg bg-white h-[70%]">
           <iframe v-if="store.fileBase64"
                   allowtransparency="true"
                   loading="lazy"

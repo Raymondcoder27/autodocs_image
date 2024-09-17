@@ -64,7 +64,7 @@ const closeModal: () => void = () => {
 
       <div id="bgwrapper" class="fixed inset-0 bg-black/25 z-[23]" aria-hidden="true" />
 
-      <div class="fixed inset-0 overflow-y-auto z-[25]">
+      <div class="fixed inset-0 z-[25]">
         <div class="flex min-h-full items-center justify-center text-center">
           <TransitionChild
             as="template"
@@ -75,7 +75,7 @@ const closeModal: () => void = () => {
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel :class="modalClass">
+            <DialogPanel :class="modalClass" class="max-h-[80vh] overflow-y-auto">
               <!-- Header Section -->
               <div class="w-full p-6 py-3 border-b border-neutral-300 flex flex-row items-center">
                 <div class="flex-grow">
@@ -87,7 +87,7 @@ const closeModal: () => void = () => {
               </div>
 
               <!-- Body Section -->
-              <div class="p-6 pt-3 pb-5">
+              <div class="p-6 pt-3 pb-5 h-auto">
                 <slot />
               </div>
             </DialogPanel>
