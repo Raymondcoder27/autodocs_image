@@ -161,7 +161,6 @@ function downloadPdf() {
                 <td class="font-bold text-black-700">{{ document.description }}</td>
                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                 <td class="text-black-700">
-                  <!-- {{templateStore.templates?.find((t:Template) => t.id == document.templateId).templateName}} -->
                   {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
 
                 </td>
