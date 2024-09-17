@@ -75,7 +75,7 @@ const closeModal: () => void = () => {
             leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95"
           >
-            <DialogPanel :class="modalClass" >
+            <DialogPanel :class="modalClass" class="max-h-[90vh]">
               <!-- Header Section -->
               <div class="w-full p-6 py-3 border-b border-neutral-300 flex flex-row items-center">
                 <div class="flex-grow">
