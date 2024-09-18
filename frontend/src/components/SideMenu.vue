@@ -20,17 +20,19 @@ const sideMenu:Ref<Array<SideMenuLink>> = ref([
   {
     name:"requests",
     label:"Requests",
-    icon:"fa-solid fa-tasks"
+    icon:"fa-solid fa-envelope"
   },
   {
     name:"templates",
     label:"Templates",
-    icon:"fa-solid fa-code"
+    // icon:"fa-solid fa-code"
+    icon:"fa-solid fa-file-alt"
   },
   {
     name:"documents",
     label:"Documents",
-    icon:"fa-solid fa-file"
+    // icon:"fa-solid fa-file"
+    icon:"fa-solid fa-file-pdf"
   }
 ])
 
