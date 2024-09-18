@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full h-96 overflow-hidden">
+    <div class="w-full h-95 overflow-hidden">
         <canvas ref="lineChart"></canvas>
     </div>
 </template>
@@ -73,8 +73,8 @@ watch(
     width: 100%;
 }
 
-.h-96 {
-    height: 24rem; /* 96 * 0.25rem */
+.h-95 {
+    height: 22rem; /* 96 * 0.25rem */
 }
 
 .overflow-hidden {
@@ -84,6 +84,6 @@ watch(
 canvas {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 70%;
 }
 </style>

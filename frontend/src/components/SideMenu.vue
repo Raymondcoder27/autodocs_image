@@ -26,7 +26,7 @@ const sideMenu:Ref<Array<SideMenuLink>> = ref([
     name:"templates",
     label:"Templates",
     // icon:"fa-solid fa-code"
-    icon:"fa-solid fa-file-alt"
+    icon:"fa-solid fa-code"
   },
   {
     name:"documents",

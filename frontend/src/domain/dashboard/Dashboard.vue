@@ -27,7 +27,6 @@ async function fetchMetrics() {
     totalTemplates.value = templateStore.templates.length;
     totalDocuments.value = documentStore.documents.length;
 
-    // Calculate generation rate and failure rate
     successfulGenerations.value = documentStore.documents.filter(doc => doc.status === 'success').length;
     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
@@ -37,7 +36,6 @@ async function fetchMetrics() {
 }
 
 async function fetchChartData() {
-    // Fetch historical data for the line chart
     const documentHistory = await documentStore.fetchDocumentHistory(); // Assuming this method exists
     const templateHistory = await templateStore.fetchTemplateHistory(); // Assuming this method exists
 
@@ -66,34 +64,34 @@ async function fetchChartData() {
 </script>
 
 <template>
-    <div class="p-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mb-5">
-            <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
+    <div class="p-0">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-5">
+            <div class="bg-white border border-blue-100 p-3 rounded-lg shadow text-center">
                 <p class="text-4xl text-blue-700">{{ totalTemplates }}</p>
                 <h3 class="text-lg font-semibold text-blue-500">Total Templates</h3>
             </div>
-            <div class="bg-white border border-warning-900 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-warning-500 p-5 rounded-lg shadow text-center">
                 <p class="text-4xl text-warning-700">{{ totalDocuments }}</p>
                 <h3 class="text-lg font-semibold text-warning-900">Total Documents</h3>
             </div>
-            <div class="bg-white border border-warning-100 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-warning-700">{{ generationRate }}</p>
-                <h3 class="text-lg font-semibold text-ywarning500">Generation Rate (daily)</h3>
+            <div class="bg-white border border-green-300 p-5 rounded-lg shadow text-center">
+                <p class="text-4xl text-green-700">{{ successfulGenerations }}</p>
+                <h3 class="text-lg font-semibold text-green-500">Successful Generations</h3>
             </div>
             <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-red-700">{{ failureRate }}%</p>
-                <h3 class="text-lg font-semibold text-red-500">Failure Rate</h3>
+                <p class="text-4xl text-red-700">{{ failedGenerations }}</p>
+                <h3 class="text-lg font-semibold text-red-500">Failed Generations</h3>
             </div>
-            <div class="bg-white border border-indigo-100 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-indigo-700">{{ successfulGenerations }}</p>
-                <h3 class="text-lg font-semibold text-indigo-500">Successful Generations</h3>
+            <div class="bg-white border border-gray-400 p-5 rounded-lg shadow text-center">
+                <p class="text-4xl text-gray-500">{{ generationRate }}</p>
+                <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
-            <div class="bg-white border border-purple-50 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-purple-700">{{ failedGenerations }}</p>
-                <h3 class="text-lg font-semibold text-purple-500">Failed Generations</h3>
+            <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
+                <p class="text-4xl text-red-400">{{ failureRate }}%</p>
+                <h3 class="text-lg font-semibold text-red-200">Failure Rate</h3>
             </div>
         </div>
-        <div class="bg-white p-5 rounded-lg shadow">
+        <div class="bg-white p-4 rounded-lg shadow max-w-[1035px] max-h-[380px]">
             <line-chart :data="chartData" />
         </div>
     </div>
