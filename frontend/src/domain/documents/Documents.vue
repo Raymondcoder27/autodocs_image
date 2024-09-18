@@ -167,28 +167,25 @@ function downloadPdf() {
                 <td class="text-black-700">{{ dateTimeFormat(document.created_at) }}</td>
                 <td>
                   <div class="flex gap-2">
-                    <button
-                      class=""
-                      @click="
-                        (selectedDocumentRef = document.refNumber),
-                          (pdfPreview = true)
-                      "
-                    >
-                      <!-- <i class="fa-solid fa-eye mx-1 text-gray-500 hover:text-blue-400"></i> -->
-                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-blue-100 hover:text-blue-400"></i>
-                    </button>
-                    <button
-                      class=""
-                      @click="
-                        showDeleteModal = true;
-                        selectedDocumentRef = document.refNumber;
-                      "
-                    >
-                      <!-- <i class="fa-solid fa-trash mx-1 text-red-300 hover:text-red-500"></i> -->
-                      <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-red-100 hover:text-red-500"></i>
-
-                    </button>
-                  </div>
+                                        <button
+                                            class=""
+                                            @click="
+                                                (selectedDocumentRef = document.refNumber),
+                                                    (pdfPreview = true)
+                                            "
+                                        >
+                                            <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
+                                        </button>
+                                        <button
+                                            class=""
+                                            @click="
+                                                showDeleteModal = true;
+                                                selectedDocumentRef = document.refNumber;
+                                            "
+                                        >
+                                            <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
+                                        </button>
+                                    </div>
                 </td>
               </tr>
             </tbody>

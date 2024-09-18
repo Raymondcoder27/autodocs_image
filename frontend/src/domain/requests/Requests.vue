@@ -162,7 +162,7 @@ function downloadPdf() {
                                                     (pdfPreview = true)
                                             "
                                         >
-                                            <i class="fa-solid fa-eye mx-1 text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-100 hover:text-blue-400"></i>
+                                            <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
                                         </button>
                                         <button
                                             class=""
@@ -171,7 +171,7 @@ function downloadPdf() {
                                                 selectedDocumentRef = document.refNumber;
                                             "
                                         >
-                                            <i class="fa-solid fa-trash mx-1 text-xs text-gray-400 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-100 hover:text-red-500"></i>
+                                            <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
                                         </button>
                                     </div>
                                 </td>
