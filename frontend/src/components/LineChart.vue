@@ -27,6 +27,15 @@ onMounted(() => {
             data: props.data,
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 10,
+                        top: 10,
+                        bottom: 10,
+                    },
+                },
                 scales: {
                     x: {
                         display: true,
@@ -60,5 +69,17 @@ watch(
 </script>
 
 <style scoped>
-/* No custom CSS needed */
+.w-full {
+    width: 100%;
+}
+
+.h-96 {
+    height: 24rem; /* 96 * 0.25rem */
+}
+
+canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 </style>
