@@ -68,20 +68,20 @@ async function fetchChartData() {
     <div class="p-5">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
             <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Total Templates</h3>
                 <p class="text-2xl">{{ totalTemplates }}</p>
+                <h3 class="text-lg font-semibold">Total Templates</h3>
             </div>
             <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Total Documents</h3>
                 <p class="text-2xl">{{ totalDocuments }}</p>
+                <h3 class="text-lg font-semibold">Total Documents</h3>
             </div>
             <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Generation Rate</h3>
                 <p class="text-2xl">{{ generationRate }} per day</p>
+                <h3 class="text-lg font-semibold">Generation Rate</h3>
             </div>
             <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Failure Rate</h3>
                 <p class="text-2xl">{{ failureRate }}%</p>
+                <h3 class="text-lg font-semibold">Failure Rate</h3>
             </div>
         </div>
         <div class="bg-white p-5 rounded-lg shadow">
