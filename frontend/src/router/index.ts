@@ -19,13 +19,13 @@ const appRoutes: RouteRecordRaw[] = [
                 path: "/dashboard",
                 name: "dashboard",
                 meta: {requiresAuth: false},
-                component: () => import("@/domain/documents/Dashboard.vue"),
+                component: () => import("@/domain/dashboard/Dashboard.vue"),
             },
             {
                 path: "/requests",
                 name: "requests",
                 meta: {requiresAuth: false},
-                component: () => import("@/domain/templates/Requests.vue"),
+                component: () => import("@/domain/requests/Requests.vue"),
             },
             {
                 path: "/documents",
