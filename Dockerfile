@@ -5,7 +5,7 @@ WORKDIR /app/frontend
 
 COPY frontend/package*.json ./
 RUN npm install
-COPY front end/ ./
+COPY frontend/ ./
 RUN npm run build
 
 # Install serve globally

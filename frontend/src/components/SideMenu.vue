@@ -13,14 +13,24 @@ type SideMenuLink ={
 
 const sideMenu:Ref<Array<SideMenuLink>> = ref([
   {
-    name:"documents",
-    label:"Documents",
-    icon:"fa-solid fa-file"
+    name:"dashboard",
+    label:"Dashboard",
+    icon:"fa-solid fa-dashboard"
+  },
+  {
+    name:"requests",
+    label:"Requests",
+    icon:"fa-solid fa-tasks"
   },
   {
     name:"templates",
     label:"Templates",
     icon:"fa-solid fa-code"
+  },
+  {
+    name:"documents",
+    label:"Documents",
+    icon:"fa-solid fa-file"
   }
 ])
 
