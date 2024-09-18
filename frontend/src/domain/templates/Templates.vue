@@ -137,6 +137,7 @@ const selectedTemplate = computed(() => {
                                             <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
                                         </button>
                                     </div>
+                                    
                 </td>
               </tr>
             </tbody>
