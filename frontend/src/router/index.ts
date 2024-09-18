@@ -16,6 +16,18 @@ const appRoutes: RouteRecordRaw[] = [
         component: () => import("@/layouts/HomeLayout.vue"),
         children:[
             {
+                path: "/dashboard",
+                name: "dashboard",
+                meta: {requiresAuth: false},
+                component: () => import("@/domain/documents/Dashboard.vue"),
+            },
+            {
+                path: "/requests",
+                name: "requests",
+                meta: {requiresAuth: false},
+                component: () => import("@/domain/templates/Requests.vue"),
+            },
+            {
                 path: "/documents",
                 name: "documents",
                 meta: {requiresAuth: false},
