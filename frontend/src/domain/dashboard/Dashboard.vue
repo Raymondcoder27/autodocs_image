@@ -1,28 +1,3 @@
-<template>
-    <div class="p-5">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
-            <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Total Templates</h3>
-                <p class="text-2xl">{{ totalTemplates }}</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Total Documents</h3>
-                <p class="text-2xl">{{ totalDocuments }}</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Generation Rate</h3>
-                <p class="text-2xl">{{ generationRate }} per day</p>
-            </div>
-            <div class="bg-white p-5 rounded-lg shadow text-center">
-                <h3 class="text-lg font-semibold">Failure Rate</h3>
-                <p class="text-2xl">{{ failureRate }}%</p>
-            </div>
-        </div>
-        <div class="bg-white p-5 rounded-lg shadow">
-            <line-chart :data="chartData" />
-        </div>
-    </div>
-</template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
@@ -89,6 +64,28 @@ async function fetchChartData() {
 }
 </script>
 
-<style scoped>
-/* No custom CSS needed */
-</style>
+<template>
+    <div class="p-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-5">
+            <div class="bg-white p-5 rounded-lg shadow text-center">
+                <h3 class="text-lg font-semibold">Total Templates</h3>
+                <p class="text-2xl">{{ totalTemplates }}</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow text-center">
+                <h3 class="text-lg font-semibold">Total Documents</h3>
+                <p class="text-2xl">{{ totalDocuments }}</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow text-center">
+                <h3 class="text-lg font-semibold">Generation Rate</h3>
+                <p class="text-2xl">{{ generationRate }} per day</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow text-center">
+                <h3 class="text-lg font-semibold">Failure Rate</h3>
+                <p class="text-2xl">{{ failureRate }}%</p>
+            </div>
+        </div>
+        <div class="bg-white p-5 rounded-lg shadow">
+            <line-chart :data="chartData" />
+        </div>
+    </div>
+</template>
