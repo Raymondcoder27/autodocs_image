@@ -125,7 +125,7 @@ const selectedTemplate = computed(() => {
                           (templatePreview = true)
                       "
                     >
-                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-gray-300 hover:text-black-400"></i>
+                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-blue-100 hover:text-blue-400"></i>
 
                     </button>
                     <button
