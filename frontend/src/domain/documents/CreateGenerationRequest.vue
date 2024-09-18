@@ -105,7 +105,7 @@ function fetch() {
         v-if="json"
          class="flex flex-col py-2">
           <label class="font-semibold text-sm">Data Preview</label>
-          <pre class="text-wrap bg-gray-10 text-[10px] p-2 h-full flex-grow">{{
+          <pre class="text-wrap bg-gray-10 text-[8.5px] p-2 h-auto overflow-auto max-h-[205px] flex-grow">{{
             json
           }}</pre>
         </div>
