@@ -125,7 +125,8 @@ const selectedTemplate = computed(() => {
                           (templatePreview = true)
                       "
                     >
-                      <i class="fa-solid fa-eye mx-1 text-gray-500 hover:text-blue-400"></i>
+                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-gray-300 hover:text-black-400"></i>
+
                     </button>
                     <button
                       class=""
@@ -134,7 +135,8 @@ const selectedTemplate = computed(() => {
                         selectedTemplateRef = template.refNumber;
                       "
                     >
-                      <i class="fa-solid fa-trash mx-1 text-red-300 hover:text-red-500"></i>
+                      <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-200 rounded-sm p-1 hover:bg-red-100 hover:text-red-500"></i>
+
                     </button>
                   </div>
                 </td>
