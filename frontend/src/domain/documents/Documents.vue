@@ -173,7 +173,7 @@ function prevPage() {
                         (pdfPreview = true)
                       "
                     >
-                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
+                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm p-1 hover:bg-green-50 hover:text-green-600"></i>
                     </button>
                     <button
                       class=""
@@ -182,7 +182,7 @@ function prevPage() {
                         selectedDocumentRef = document.refNumber;
                       "
                     >
-                      <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
+                      <i class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
                     </button>
                   </div>
                 </td>

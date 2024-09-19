@@ -81,18 +81,18 @@ async function fetchChartData() {
             </div>
             <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-red-500">{{ failedGenerations }}</p>
-                <h3 class="text-lg font-semibold text-red-500">Failed Generations</h3>
+                <h3 class="text-lg font-semibold text-red-300">Failed Generations</h3>
             </div>
             <div class="bg-white border border-gray-400 p-5 rounded-lg shadow text-center">
-                <p class="text-3xl font-bold text-gray-500">{{ generationRate.toFixed(2) }}</p>
+                <p class="text-3xl font-bold text-gray-600">{{ generationRate.toFixed(2) }}</p>
                 <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
-            <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
-                <p class="text-3xl font-bold text-red-200">{{ failureRate }}%</p>
-                <h3 class="text-lg font-semibold text-red-200">Failure Rate</h3>
+            <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
+                <p class="text-3xl font-bold text-blue-100">{{ failureRate }}%</p>
+                <h3 class="text-lg font-semibold text-blue-200">Failure Rate</h3>
             </div>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow max-w-[1035px] max-h-[380px]">
+        <div class="bg-white p-4 rounded-lg shadow w-full h-full">
             <line-chart :data="chartData" />
             <!-- <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/> -->
             <!-- <line-chart :data="chartData" :options="options" :style="styleOptions" @chart-ref="chartInstance"/> -->

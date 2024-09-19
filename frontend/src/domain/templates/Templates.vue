@@ -62,11 +62,6 @@ const selectedTemplate = computed(() => {
 </script>
 
 
-
-
-
-
-
 <template>
   <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
     <div class="w-full">
@@ -125,7 +120,7 @@ const selectedTemplate = computed(() => {
                       @click="
                         (selectedTemplateRef = template.refNumber),(templatePreview = true)">
                       <i
-                        class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"
+                        class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm p-1 hover:bg-green-50 hover:text-green-600"
                       ></i>
                     </button>
                     <button
@@ -136,7 +131,7 @@ const selectedTemplate = computed(() => {
                       "
                     >
                       <i
-                        class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"
+                        class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"
                       ></i>
                     </button>
                   </div>
