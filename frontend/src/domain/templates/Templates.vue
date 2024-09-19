@@ -115,29 +115,31 @@ const selectedTemplate = computed(() => {
                 <td class="text-black-700">
                   <label class="italic">{{ template.refNumber }}</label>
                 </td>
-                <td class="text-black-700">{{ dateTimeFormat(template.created_at) }}</td>
+                <td class="text-black-700">
+                  {{ dateTimeFormat(template.created_at) }}
+                </td>
                 <td>
                   <div class="flex gap-2">
-                                        <button
-                                            class=""
-                                            @click="
-                                                (selectedDocumentRef = document.refNumber),
-                                                    (pdfPreview = true)
-                                            "
-                                        >
-                                            <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
-                                        </button>
-                                        <button
-                                            class=""
-                                            @click="
-                                                showDeleteModal = true;
-                                                selectedDocumentRef = document.refNumber;
-                                            "
-                                        >
-                                            <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
-                                        </button>
-                                    </div>
-                                    
+                    <button
+                      class=""
+                      @click="
+                        (selectedTemplateRef = template.refNumber),(templatePreview = true)">
+                      <i
+                        class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"
+                      ></i>
+                    </button>
+                    <button
+                      class=""
+                      @click="
+                        showDeleteModal = true;
+                        selectedTemplateRef = template.refNumber;
+                      "
+                    >
+                      <i
+                        class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"
+                      ></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -153,13 +155,13 @@ const selectedTemplate = computed(() => {
 
   <AppModal v-model="templatePreview" xl2>
     <template #title>
-    <h2 class="font-semibold text-sm">
-      {{ selectedTemplate?.templateName.toUpperCase() || "Loading..." }}
-    </h2>
-  </template>
-  <TemplateViewer :ref-number="selectedTemplateRef" />
+      <h2 class="font-semibold text-sm">
+        {{ selectedTemplate?.templateName.toUpperCase() || "Loading..." }}
+      </h2>
+    </template>
+    <TemplateViewer :ref-number="selectedTemplateRef" />
 
-      <!-- <div>
+    <!-- <div>
         <h2 class="text-center font-semibold text-sm">
       {{ selectedTemplate?.templateName.toUpperCase() || "Loading..." }}
     </h2>
@@ -182,7 +184,10 @@ const selectedTemplate = computed(() => {
           Are you sure you want to delete this template and lose it completely?
         </p>
         <div class="flex justify-center mx-auto w-1/2 gap-2">
-          <button class="bg-blue-400 hover:bg-blue-500 rounded w-1/2 text-white" @click="showDeleteModal = false">
+          <button
+            class="bg-blue-400 hover:bg-blue-500 rounded w-1/2 text-white"
+            @click="showDeleteModal = false"
+          >
             <i class="fa-solid fa-times-circle mx-1"></i> Cancel
           </button>
 

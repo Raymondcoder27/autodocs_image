@@ -152,7 +152,7 @@ function downloadPdf() {
                                 </td>
                                 <td class="text-black-700"><span class="bg-warning-100 border border-warning-500 text-warning-600 font-semibold rounded-sm p-1">POST</span>{{ document.method }}</td>
                                 <td class="text-black-700"><span class="bg-green-100 border border-green-300 text-green-500 font-semibold rounded-sm p-1">SUCCESS</span>{{ document.status }}</td>
-                                <td class="text-black-700"><span class="bg-gray-50 border border-gray-300 text-gray-500 font-semibold rounded-sm p-1">PREVIEW</span>{{ document.payload }}</td>
+                                <td class="text-black-700"><span class="bg-gray-50 border border-gray-300 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm p-1">PREVIEW</span>{{ document.payload }}</td>
                                 <td>
                                     <div class="flex gap-2">
                                         <button

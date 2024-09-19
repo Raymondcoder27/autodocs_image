@@ -154,6 +154,7 @@ func CreateDocument(c *gin.Context) {
 	document := models.Document{
 		ID:           id,
 		DocumentName: id,
+		JsonPayload:  string(jsonString),
 		Description:  request.Description,
 		TemplateId:   templateId,
 		RefNumber:    storageKey,
