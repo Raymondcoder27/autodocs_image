@@ -66,7 +66,7 @@ async function fetchChartData() {
 <template>
     <div class="p-0">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-5">
-            <div class="bg-white border border-blue-100 p-3 rounded-lg shadow text-center">
+            <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
                 <p class="text-4xl text-blue-700">{{ totalTemplates }}</p>
                 <h3 class="text-lg font-semibold text-blue-500">Total Templates</h3>
             </div>
