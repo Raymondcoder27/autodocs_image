@@ -22,7 +22,7 @@ import (
 // FileName  string         `json:"fileName"`
 // CreatedAt time.Time      `json:"created_at"`
 // DeletedAt gorm.DeletedAt `json:"deleted_at"`
-type TemplatePreviewResponse struct {
+type DocumentPreviewResponse struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"templateName"`
 	RefNumber string    `json:"refNumber"`
@@ -32,9 +32,17 @@ type TemplatePreviewResponse struct {
 	Status    string    `json:"requestStatus"`
 }
 
-type GetTemplatesResponse struct {
-	Method string `json:"requestMethod"`
-	Status string `json:"requestStatus"`
+type DocumentWithExtraFields struct {
+	ID            string     `json:"id"`
+	DocumentName  string     `json:"documentName"`
+	Description   string     `json:"description"`
+	TemplateID    string     `json:"templateId"`
+	RequestStatus string     `json:"requestStatus"`
+	RequestMethod string     `json:"requestMethod"`
+	JsonPayload   string     `json:"jsonPayload"`
+	RefNumber     string     `json:"refNumber"`
+	CreatedAt     time.Time  `json:"created_at"`
+	DeletedAt     *time.Time `json:"deleted_at"`
 }
 
 type PDFResponse struct {
@@ -212,7 +220,29 @@ func GetDocuments(c *gin.Context) {
 	}
 	currentTime := time.Now()
 	// c.IndentedJSON(http.StatusOK, documents)
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": documents, "timestamp": currentTime})
+
+	var result []DocumentWithExtraFields
+	for _, doc := range documents {
+		result = append(result, DocumentWithExtraFields{
+			ID:            doc.ID,
+			DocumentName:  doc.DocumentName,
+			Description:   doc.Description,
+			TemplateID:    doc.TemplateId,
+			RequestStatus: "SUCCESS", // Set default or dynamic value
+			RequestMethod: "GET",     // Set default or dynamic value
+			JsonPayload:   doc.JsonPayload,
+			RefNumber:     doc.RefNumber,
+			CreatedAt:     doc.CreatedAt,
+			// DeletedAt:     doc.DeletedAt,
+		})
+	}
+
+	// response := models.Document{
+	// 	Method: "GET",
+	// 	Status: "SUCCESS",
+	// }
+
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": result, "timestamp": currentTime})
 }
 
 // PreviewDocument returns the PDF for a given document refNumber
@@ -307,10 +337,5 @@ func Templates(c *gin.Context) {
 	currentTime := time.Now()
 	// c.IndentedJSON(http.StatusOK, templates)
 
-	response := GetTemplatesResponse{
-		Method: "GET",
-		Status: "SUCCESS",
-	}
-
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "response": response, "timestamp": currentTime})
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "timestamp": currentTime})
 }
