@@ -27,7 +27,8 @@ async function fetchMetrics() {
     totalTemplates.value = templateStore.templates.length;
     totalDocuments.value = documentStore.documents.length;
 
-    successfulGenerations.value = documentStore.documents.filter(doc => doc.status === 'success').length;
+    // successfulGenerations.value = documentStore.documents.filter(doc => doc.status === 'success').length;
+    successfulGenerations.value = documentStore.documents.length;
     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
@@ -83,7 +84,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-red-500">Failed Generations</h3>
             </div>
             <div class="bg-white border border-gray-400 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-gray-500">{{ generationRate }}</p>
+                <p class="text-4xl text-gray-500">{{ generationRate.toFixed(2) }}</p>
                 <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
             <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
