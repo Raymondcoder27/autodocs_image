@@ -166,13 +166,13 @@ function prevPage() {
           <button
             :disabled="currentPage === 1"
             @click="prevPage"
-           class="bg-gray-300 text-sm px-1 rounded-md text-black hover:bg-black-600 hover:text-white font-semibold">
+           class="bg-gray-300 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold">
            <i class="fa-solid fa-chevron-left"></i> Previous
           </button>
           <button
           :disabled="currentPage * itemsPerPage >= store.templates.length"
           @click="nextPage"
-           class="bg-gray-300 text-sm px-1 rounded-md text-black hover:bg-black-600 hover:text-white font-semibold">
+           class="bg-gray-300 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold">
            Next<i class="fa-solid fa-chevron-right"></i> 
           </button>
         </div>
