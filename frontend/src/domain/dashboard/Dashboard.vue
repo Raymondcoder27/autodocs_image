@@ -72,8 +72,8 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-blue-500">Total Templates</h3>
             </div>
             <div class="bg-white border border-warning-500 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-warning-700">{{ totalDocuments }}</p>
-                <h3 class="text-lg font-semibold text-warning-900">Total Documents</h3>
+                <p class="text-4xl text-warning-600">{{ totalDocuments }}</p>
+                <h3 class="text-lg font-semibold text-warning-600">Total Documents</h3>
             </div>
             <div class="bg-white border border-green-300 p-5 rounded-lg shadow text-center">
                 <p class="text-4xl text-green-700">{{ successfulGenerations }}</p>

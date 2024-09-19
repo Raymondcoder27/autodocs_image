@@ -1,9 +1,3 @@
-<template>
-    <div class="w-full h-95 overflow-hidden">
-        <canvas ref="lineChart"></canvas>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { Chart, registerables } from 'chart.js';
@@ -67,6 +61,14 @@ watch(
     }
 );
 </script>
+
+
+
+<template>
+    <div class="w-full h-95 overflow-hidden">
+        <canvas ref="lineChart"></canvas>
+    </div>
+</template>
 
 <style scoped>
 .w-full {
