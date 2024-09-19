@@ -1,39 +1,57 @@
-<template>
-    <div class="chart-container">
-        <canvasjs-chart :options="chartOptions"></canvasjs-chart>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CanvasJSChart } from '@canvasjs/vue-charts';
 
-const chartOptions = ref({
+const chart = ref(null);
+
+const options = {
     animationEnabled: true,
+    exportEnabled: true,
+    theme: "light2",
     title: {
-        text: "Sample Chart"
+        text: "Weekly Document generation report"
     },
     axisX: {
-        title: "X Axis Title"
+        title: "Day of Week",
+        valueFormatString: "YYYY",
+        labelTextAlign: "center",
+        labelAngle: 0
     },
     axisY: {
-        title: "Y Axis Title"
+        title: "No. of PDFs Generated",
+        valueFormatString: "#"
     },
     data: [{
         type: "line",
-        name: "Sample Data",
+        yValueFormatString: "# PDFs",
         dataPoints: [
-            { x: 1, y: 10 },
-            { x: 2, y: 15 },
-            { x: 3, y: 20 }
+        { label: "MON", y: 2 },
+            { label: "TUE", y: 4 },
+            { label: "WED", y: 8 },
+            { label: "THUR", y: 4 },
+            { label: "FRI", y: 10 },
+            { label: "SAT", y: 0 },
+            { label: "SUN", y: 6 }
+            // { label: "MON", y: 800093.07 },
+            // { label: "TUE", y: 5702000.87 },
+            // { label: "WED", y: 585710.45 },
+            // { label: "THUR", y: 10836638.18 },
+            // { label: "FRI", y: 3387744.72 },
+            // { label: "SAT", y: 7159285.80 },
+            // { label: "SUN", y: 8000010.33 }
         ]
     }]
-});
+};
+
+const styleOptions = {
+    width: "100%",
+    height: "360px"
+};
+
+const chartInstance = (chartInstance: any) => {
+    chart.value = chartInstance;
+};
 </script>
 
-<style scoped>
-.chart-container {
-    width: 100%;
-    height: 400px;
-}
-</style>
+<template>
+    <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
+</template>

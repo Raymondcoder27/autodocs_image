@@ -19,6 +19,8 @@ const store = useDocumentStore();
 const templateStore = useTemplateStore();
 const notify = useNotificationsStore();
 const pdfPreview: Ref<boolean> = ref(false);
+const currentPage: Ref<number> = ref(1);
+const itemsPerPage: number = 10;
 
 onMounted(() => {
   fetch();
@@ -64,16 +66,13 @@ function deleteDocument() {
     });
 }
 
-//computed property to find selected pdf:
 const selectedPdf = computed(() => {
   return store.documents.find(
     (document) => document.refNumber === selectedDocumentRef.value
   );
 });
 
-
 function downloadPdf() {
-  // Convert Base64 to a Blob
   const base64String = store.fileBase64;
   const byteCharacters = atob(base64String);
   const byteNumbers = new Array(byteCharacters.length);
@@ -83,28 +82,42 @@ function downloadPdf() {
   const byteArray = new Uint8Array(byteNumbers);
   const blob = new Blob([byteArray], { type: "application/pdf" });
 
-  // Create a download link
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
 
-   // Find the selected document using selectedDocumentRef
-   const selectedDoc = store.documents.find(
+  const selectedDoc = store.documents.find(
     (doc) => doc.refNumber === selectedDocumentRef.value
   );
   const fileName = selectedDoc ? `${selectedDoc.refNumber}.pdf` : "document.pdf";
 
-  a.download = fileName
+  a.download = fileName;
 
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
 
-  // Revoke the object URL to free up memory
   URL.revokeObjectURL(url);
 }
-</script>
 
+const paginatedDocuments = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return store.documents.slice(start, end);
+});
+
+function nextPage() {
+  if (currentPage.value * itemsPerPage < store.documents.length) {
+    currentPage.value++;
+  }
+}
+
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
+</script>
 <template>
   <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
     <div class="w-full">
@@ -126,12 +139,6 @@ function downloadPdf() {
             <thead class="text-xs">
               <tr>
                 <th class="header">#</th>
-                <!-- <th class="header">Name</th> -->
-                <!-- <th class="header">Description</th>
-                <th class="header">Reference</th>
-                <th class="header">Template</th>
-                <th class="header">Date</th>
-                <th class="header">Actions</th> -->
                 <th class="header">DESCRIPTION</th>
                 <th class="header">REFERENCE</th>
                 <th class="header">TEMPLATE</th>
@@ -149,97 +156,79 @@ function downloadPdf() {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(document, idx) in store.documents" :key="idx">
-                <td class="text-black">{{ idx + 1 }}</td>
-                <!-- <td>
-                  <span
-                    class="text-primary italic border border-primary-50 rounded text-sm px-2 py-[2px]"
-                    >{{ document.documentName }}
-                    <i class="fa-solid fa-copy mx-2"></i
-                  ></span>
-                </td> -->
+              <tr v-for="(document, idx) in paginatedDocuments" :key="idx">
+                <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1 }}</td>
                 <td class="font-bold text-black-700">{{ document.description }}</td>
                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                 <td class="text-black-700">
                   {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
-
                 </td>
                 <td class="text-black-700">{{ dateTimeFormat(document.created_at) }}</td>
                 <td>
                   <div class="flex gap-2">
-                                        <button
-                                            class=""
-                                            @click="
-                                                (selectedDocumentRef = document.refNumber),
-                                                    (pdfPreview = true)
-                                            "
-                                        >
-                                            <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
-                                        </button>
-                                        <button
-                                            class=""
-                                            @click="
-                                                showDeleteModal = true;
-                                                selectedDocumentRef = document.refNumber;
-                                            "
-                                        >
-                                            <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
-                                        </button>
-                                    </div>
+                    <button
+                      class=""
+                      @click="
+                        (selectedDocumentRef = document.refNumber),
+                        (pdfPreview = true)
+                      "
+                    >
+                      <i class="fa-solid fa-eye mx-1 text-xs text-gray-500 bg-gray-50 border border-gray-100 rounded-sm p-1 hover:bg-blue-50 hover:text-blue-300"></i>
+                    </button>
+                    <button
+                      class=""
+                      @click="
+                        showDeleteModal = true;
+                        selectedDocumentRef = document.refNumber;
+                      "
+                    >
+                      <i class="fa-solid fa-trash mx-1 text-xs text-gray-500 bg-gray-50  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </span>
-        <!-- <FileViewer :ref-number="selectedDocumentRef"/> -->
+        <div class="flex justify-between mt-4">
+          <button
+            class="bg-black-900 p-0.5 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold"
+            :disabled="currentPage === 1"
+            @click="prevPage"
+          >
+            Previous
+          </button>
+          <button
+            class="bg-black-900 p-0.5 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold"
+            :disabled="currentPage * itemsPerPage >= store.documents.length"
+            @click="nextPage"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   </div>
   <AppModal v-model="showCreateRequestModal" xl>
     <CreateGenerationRequest />
   </AppModal>
-  <!-- <AppModal v-model="pdfPreview" width="50%" xl2>
-  <template #title>
-    <div class="flex items-center justify-between">
-      <h2 class="font-semibold">
-        {{ selectedPdf?.description || "loading..." }}
+  <AppModal v-model="pdfPreview" width="50%" xl2>
+    <template #title>
+      <h2 class="font-semibold text-sm">
+        {{ selectedPdf?.description.toUpperCase() || "loading..." }}
       </h2>
+    </template>
+    <div class="flex justify-between items-center">
+      <div />
       <button
         @click="downloadPdf"
-        class="bg-black-900 rounded-md p-2 text-sm text-white hover:bg-blue-400"
+        class="bg-black-900 rounded-md p-1.5 mb-2 text-sm text-white hover:bg-blue-400"
       >
         <i class="fa-solid fa-download"></i> Download PDF
       </button>
     </div>
-  </template>
-
-  <FileViewer :ref-number="selectedDocumentRef" />
-</AppModal> -->
-<AppModal v-model="pdfPreview" width="50%" xl2>
-  <template #title>
-    <h2 class="font-semibold text-sm">
-      {{ selectedPdf?.description.toUpperCase() || "loading..." }}
-    </h2>
-  </template>
-
-  <div class="flex justify-between items-center">
-    <!-- Keep the FileViewer component here -->
-    <!-- <FileViewer :ref-number="selectedDocumentRef" /> -->
-     <div />
-
-    <!-- Place the download button in the body section -->
-    <button
-      @click="downloadPdf"
-      class="bg-black-900 rounded-md p-1.5 mb-2 text-sm text-white hover:bg-blue-400"
-    >
-      <i class="fa-solid fa-download"></i> Download PDF
-    </button>
-  </div>
-  <FileViewer :ref-number="selectedDocumentRef" />
-
-</AppModal>
-
-
+    <FileViewer :ref-number="selectedDocumentRef" />
+  </AppModal>
   <AppModal v-model="showDeleteModal" xl>
     <div class="flex">
       <div class="w-full">
@@ -257,7 +246,6 @@ function downloadPdf() {
           <button class="bg-blue-400 hover:bg-blue-500 w-1/2 rounded text-white" @click="showDeleteModal = false">
             <i class="fa-solid fa-times-circle mx-1"></i> Cancel
           </button>
-
           <button
             class="bg-danger text-white p-1 w-1/2 rounded hover:bg-red-800"
             @click="deleteDocument"

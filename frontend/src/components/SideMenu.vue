@@ -32,7 +32,7 @@ const sideMenu:Ref<Array<SideMenuLink>> = ref([
     name:"documents",
     label:"Documents",
     // icon:"fa-solid fa-file"
-    icon:"fa-solid fa-file-pdf"
+    icon:"fa-solid fa-file"
   }
 ])
 

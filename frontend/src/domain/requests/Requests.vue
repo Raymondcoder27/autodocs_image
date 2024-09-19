@@ -17,6 +17,7 @@ const showDeleteModal: Ref<boolean> = ref(false);
 const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
 const templateStore = useTemplateStore();
+const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
 const pdfPreview: Ref<boolean> = ref(false);
 const jsonPayloadPreview: Ref<boolean> = ref(false);
@@ -129,6 +130,7 @@ function downloadPdf() {
                                 <th class="header">#</th>
                                 <th class="header">Ref Number</th>
                                 <th class="header">Template</th>
+                                <th class="header">Document</th>
                                 <th class="header">Method</th>
                                 <th class="header">Status</th>
                                 <th class="header">Payload</th>
@@ -150,6 +152,9 @@ function downloadPdf() {
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                                 <td class="text-black-700">
                                     {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
+                                </td>
+                                <td class="text-black-700">
+                                    {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
