@@ -19,6 +19,7 @@ const store = useDocumentStore();
 const templateStore = useTemplateStore();
 const notify = useNotificationsStore();
 const pdfPreview: Ref<boolean> = ref(false);
+const jsonPayloadPreview: Ref<boolean> = ref(false);
 
 onMounted(() => {
     fetch();
@@ -152,7 +153,11 @@ function downloadPdf() {
                                 </td>
                                 <td class="text-black-700"><span class="bg-warning-100 border border-warning-500 text-warning-600 font-semibold rounded-sm p-1">POST</span>{{ document.method }}</td>
                                 <td class="text-black-700"><span class="bg-green-100 border border-green-300 text-green-500 font-semibold rounded-sm p-1">SUCCESS</span>{{ document.status }}</td>
-                                <td class="text-black-700"><span class="bg-gray-50 border border-gray-300 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm p-1">PREVIEW</span>{{ document.payload }}</td>
+                                <td class="text-black-700"><button
+                                    @click="jsonPayloadPreview = true"
+                                    class="bg-gray-50 border border-gray-300 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm p-1">
+                                    PREVIEW</button>
+                                </td>
                                 <td>
                                     <div class="flex gap-2">
                                         <button
@@ -184,6 +189,14 @@ function downloadPdf() {
     </div>
     <AppModal v-model="showCreateRequestModal" xl>
         <CreateGenerationRequest />
+    </AppModal>
+    <AppModal v-model="jsonPayloadPreview" width="50%" xl2>
+        <template #title>
+            <h2 class="font-semibold text-sm">
+                JSON PAYLOAD
+            </h2>
+        </template>
+        <pre class="text-wrap bg-gray-10 text-[10px] p-2 h-auto overflow-auto max-h-[205px] flex-grow">{{ store.documents.find((doc) => doc.refNumber === selectedDocumentRef)?.jsonPayload }}</pre>
     </AppModal>
     <AppModal v-model="pdfPreview" width="50%" xl2>
         <template #title>
