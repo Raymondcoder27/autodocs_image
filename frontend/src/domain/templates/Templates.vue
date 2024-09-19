@@ -125,7 +125,7 @@ function prevPage() {
               <tr v-for="(template, idx) in paginatedTemplates" :key="idx">
                 <!-- <td class="text-black-700">{{ idx + 1 }}</td> -->
                  <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1}}</td>
-                <td class="font-bold text-black-700">{{ idx + 1 }}</td>
+                <!-- <td class="font-bold text-black-700">{{ idx + 1 }}</td> -->
                 <td class="text-black-700">
                   <span class="font-bold">{{ template.templateName }}</span>
                 </td>
