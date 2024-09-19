@@ -16,7 +16,6 @@ import (
 	"github.com/google/uuid"
 )
 
-
 // ID        string         `json:"id"`
 // Name      string         `json:"templateName"`
 // RefNumber string         `json:"refNumber"`
@@ -29,12 +28,14 @@ type TemplatePreviewResponse struct {
 	RefNumber string    `json:"refNumber"`
 	FileName  string    `json:"fileName"`
 	CreatedAt time.Time `json:"created_at"`
-	Method   string    `json:"requestMethod"`
-	Status   string    `json:"requestStatus"`
+	Method    string    `json:"requestMethod"`
+	Status    string    `json:"requestStatus"`
 }
 
 type GetTemplatesResponse struct {
-
+	Method string `json:"requestMethod"`
+	Status string `json:"requestStatus"`
+}
 
 type PDFResponse struct {
 	ID           string    `json:"id"`
@@ -63,27 +64,12 @@ type GenerateRequest struct {
 	Data        map[string]interface{} `json:"data"`
 }
 
-
 type DeleteResponse struct {
 	Status    string    `json:"responseStatus"`
 	Method    string    `json:"responseMethod"`
 	Code      string    `json:"code"`
 	Timestamp time.Time `json:"currentTimestamp"`
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // UploadTemplate handles uploading an HTML template to MinIO
 func UploadTemplate(c *gin.Context) {
@@ -320,5 +306,11 @@ func Templates(c *gin.Context) {
 	}
 	currentTime := time.Now()
 	// c.IndentedJSON(http.StatusOK, templates)
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "timestamp": currentTime})
+
+	response := GetTemplatesResponse{
+		Method: "GET",
+		Status: "SUCCESS",
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "response": response, "timestamp": currentTime})
 }
