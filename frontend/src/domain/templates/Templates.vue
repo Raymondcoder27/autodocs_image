@@ -15,6 +15,8 @@ const templatePreview: Ref<boolean> = ref(false);
 const showDeleteModal: Ref<boolean> = ref(false);
 const selectedTemplateRef: Ref<string> = ref("");
 // const selectedTemplateRef2:Ref<string> = ref("")
+const currentPage: REf<number> = ref(1);
+const itemsPerPage: number = 10;
 
 const store = useTemplateStore();
 const notify = useNotificationsStore();
@@ -59,8 +61,25 @@ const selectedTemplate = computed(() => {
     (template) => template.refNumber === selectedTemplateRef.value
   );
 });
-</script>
 
+const paginatedTemplates = computed(()=> {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return store.templates.slice(start, end);
+})
+
+function nextPage() {
+  if (currentPage.value * itemsPerPage < store.templates.length) {
+    currentPage.value++;
+  }
+}
+
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
+</script>
 
 <template>
   <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
@@ -102,8 +121,11 @@ const selectedTemplate = computed(() => {
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(template, idx) in store.templates" :key="idx">
-                <td class="text-black-700">{{ idx + 1 }}</td>
+              <!-- <tr v-for="(template, idx) in store.templates" :key="idx"> -->
+              <tr v-for="(template, idx) in paginatedTemplates" :key="idx">
+                <!-- <td class="text-black-700">{{ idx + 1 }}</td> -->
+                 <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1}}</td>
+                <td class="font-bold text-black-700">{{ idx + 1 }}</td>
                 <td class="text-black-700">
                   <span class="font-bold">{{ template.templateName }}</span>
                 </td>
@@ -140,6 +162,20 @@ const selectedTemplate = computed(() => {
             </tbody>
           </table>
         </span>
+        <div class="flex justify-between mt-4">
+          <button
+            :disabled="currentPage === 1"
+            @click="prevPage"
+           class="bg-black-900 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold">
+            <i class="fa-solid fa-chevron-left"></i> Previous
+          </button>
+          <button
+          :disabled="currentPage * itemsPerPage >= store.templates.length"
+          @click="nextPage"
+           class="bg-black-900 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold">
+            <i class="fa-solid fa-chevron-right"></i> Next
+          </button>
+        </div>
         <!-- <TemplateViewer :ref-number="selectedTemplateRef"/> -->
       </div>
     </div>
