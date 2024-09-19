@@ -192,18 +192,18 @@ function prevPage() {
         </span>
         <div class="flex justify-between mt-4">
           <button
-            class="bg-black-900 p-0.5 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold"
+            class="bg-gray-300 text-sm px-1 rounded-md text-black hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
             @click="prevPage"
           >
-            Previous
+          <i class="fa-solid fa-chevron-left"></i> Previous
           </button>
           <button
-            class="bg-black-900 p-0.5 text-sm px-2 rounded-md text-white hover:bg-gray-300 hover:text-black-900 font-semibold"
+            class="bg-gray-300 text-sm px-1 rounded-md text-black hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage * itemsPerPage >= store.documents.length"
             @click="nextPage"
           >
-            Next
+            Next<i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
       </div>
