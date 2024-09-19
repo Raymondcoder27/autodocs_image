@@ -21,6 +21,8 @@ const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
 const pdfPreview: Ref<boolean> = ref(false);
 const jsonPayloadPreview: Ref<boolean> = ref(false);
+const currentPage: Ref<number> = ref(1);
+const itemsPerPage: number = 10;
 
 onMounted(() => {
     fetch();
@@ -105,6 +107,24 @@ function downloadPdf() {
     // Revoke the object URL to free up memory
     URL.revokeObjectURL(url);
 }
+
+const paginatedRequests = computed(()=>{
+    const start = (currentPage.value  - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return store.documents.slice(start, end);
+})
+
+function nextPage(){
+    if (currentPage.value * itemsPerPage < store.documents.length) {
+        currentPage.value++;
+    }
+}
+
+function prevPage(){
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+}
 </script>
 
 <template>
@@ -147,8 +167,9 @@ function downloadPdf() {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(document, idx) in store.documents" :key="idx">
-                                <td class="text-black">{{ idx + 1 }}</td>
+                            <!-- <tr v-for="(document, idx) in store.documents" :key="idx"> -->
+                            <tr v-for="(document, idx) in paginatedRequests" :key="idx">
+                                <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                                 <td class="text-black-700">
                                     {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
