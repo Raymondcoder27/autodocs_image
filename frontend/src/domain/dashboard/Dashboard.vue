@@ -66,7 +66,7 @@ async function fetchChartData() {
 
 <template>
     <div class="p-0">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-5">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-3">
             <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
                 <p class="text-4xl text-blue-700">{{ totalTemplates }}</p>
                 <h3 class="text-lg font-semibold text-blue-500">Total Templates</h3>
@@ -80,7 +80,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-green-500">Successful Generations</h3>
             </div>
             <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-red-700">{{ failedGenerations }}</p>
+                <p class="text-4xl text-red-500">{{ failedGenerations }}</p>
                 <h3 class="text-lg font-semibold text-red-500">Failed Generations</h3>
             </div>
             <div class="bg-white border border-gray-400 p-5 rounded-lg shadow text-center">
@@ -88,7 +88,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
             <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
-                <p class="text-4xl text-red-400">{{ failureRate }}%</p>
+                <p class="text-4xl text-red-200">{{ failureRate }}%</p>
                 <h3 class="text-lg font-semibold text-red-200">Failure Rate</h3>
             </div>
         </div>

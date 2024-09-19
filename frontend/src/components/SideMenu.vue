@@ -46,7 +46,7 @@ function navigate(routeName:string){
 </script>
 
 <template>
-  <div class="flex m-2 bg-white rounded-lg shadow-lg shadow-gray-500">
+  <div class="flex mt-2 ml-2 mb-2 bg-white rounded-lg shadow-lg shadow-gray-600">
     <div class="w-full">
       <div :class="isRouteActive(item.name) ? 'menu-active' : 'menu'" v-for="(item, idx) in sideMenu" :key="idx" @click="navigate(item.name)">
         <i class="mx-2 my-auto" :class="item.icon"></i>
