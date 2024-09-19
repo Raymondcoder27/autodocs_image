@@ -188,7 +188,7 @@ function prevPage(){
                                 <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ document.status }}</td>
                                 <td class="text-black-700"><button
                                     @click="(selectedDocumentRef = document.refNumber), (jsonPayloadPreview = true)"
-                                    class="bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm p-1">
+                                    class="bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm px-1 py-0.3 text-xs">
                                     PREVIEW</button>
                                 </td>
                                 <td>
@@ -220,14 +220,14 @@ function prevPage(){
 
                 <div class="flex justify-between mt-4">
           <button
-            class="bg-gray-300 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
+            class="bg-gray-100 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
             @click="prevPage"
           >
           <i class="fa-solid fa-chevron-left"></i> Previous
           </button>
           <button
-            class="bg-gray-300 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
+            class="bg-gray-100 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage * itemsPerPage >= store.documents.length"
             @click="nextPage"
           >
