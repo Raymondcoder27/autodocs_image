@@ -16,12 +16,25 @@ import (
 	"github.com/google/uuid"
 )
 
-type DeleteResponse struct {
-	Status    string    `json:"responseStatus"`
-	Method    string    `json:"responseMethod"`
-	Code      string    `json:"code"`
-	Timestamp time.Time `json:"currentTimestamp"`
+
+// ID        string         `json:"id"`
+// Name      string         `json:"templateName"`
+// RefNumber string         `json:"refNumber"`
+// FileName  string         `json:"fileName"`
+// CreatedAt time.Time      `json:"created_at"`
+// DeletedAt gorm.DeletedAt `json:"deleted_at"`
+type TemplatePreviewResponse struct {
+	ID        string    `json:"id"`
+	Name      string    `json:"templateName"`
+	RefNumber string    `json:"refNumber"`
+	FileName  string    `json:"fileName"`
+	CreatedAt time.Time `json:"created_at"`
+	Method   string    `json:"requestMethod"`
+	Status   string    `json:"requestStatus"`
 }
+
+type GetTemplatesResponse struct {
+
 
 type PDFResponse struct {
 	ID           string    `json:"id"`
@@ -49,6 +62,28 @@ type GenerateRequest struct {
 	Description string                 `json:"description"`
 	Data        map[string]interface{} `json:"data"`
 }
+
+
+type DeleteResponse struct {
+	Status    string    `json:"responseStatus"`
+	Method    string    `json:"responseMethod"`
+	Code      string    `json:"code"`
+	Timestamp time.Time `json:"currentTimestamp"`
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // UploadTemplate handles uploading an HTML template to MinIO
 func UploadTemplate(c *gin.Context) {

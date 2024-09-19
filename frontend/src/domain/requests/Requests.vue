@@ -151,7 +151,9 @@ function downloadPdf() {
                                 <td class="text-black-700">
                                     {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
                                 </td>
-                                <td class="text-black-700"><span class="bg-warning-100 border border-warning-500 text-warning-600 font-semibold rounded-sm p-1">POST</span>{{ document.method }}</td>
+                                <td class="text-black-700">
+                                    <span class="bg-warning-100 border border-warning-500 text-warning-600 font-semibold rounded-sm p-1">POST</span>{{ document.responseMethod }}
+                                </td>
                                 <td class="text-black-700"><span class="bg-green-100 border border-green-300 text-green-500 font-semibold rounded-sm p-1">SUCCESS</span>{{ document.status }}</td>
                                 <td class="text-black-700"><button
                                     @click="(selectedDocumentRef = document.refNumber), (jsonPayloadPreview = true)"
