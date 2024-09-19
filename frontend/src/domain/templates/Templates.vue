@@ -91,7 +91,7 @@ function prevPage() {
             @click="fetch"
           ></i>
         </span>
-        <button class="button" @click="showTemplateModal = true">
+        <button class="button py-0" @click="showTemplateModal = true">
           <i class="fa-solid fa-plus"></i> Create Template
         </button>
       </div>
