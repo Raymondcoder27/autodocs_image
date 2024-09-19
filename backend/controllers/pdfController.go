@@ -16,7 +16,9 @@ import (
 	"github.com/google/uuid"
 )
 
-type Response struct {
+type DeleteResponse struct {
+	Status    string    `json:"responseStatus"`
+	Method    string    `json:"responseMethod"`
 	Code      string    `json:"code"`
 	Timestamp time.Time `json:"currentTimestamp"`
 }
@@ -155,6 +157,8 @@ func CreateDocument(c *gin.Context) {
 		ID:           id,
 		DocumentName: id,
 		JsonPayload:  string(jsonString),
+		Status:       "SUCCESS",
+		Method:       "POST",
 		Description:  request.Description,
 		TemplateId:   templateId,
 		RefNumber:    storageKey,
@@ -248,7 +252,14 @@ func DeleteDocument(c *gin.Context) {
 	}
 	currentTime := time.Now()
 	// c.JSON(http.StatusOK, gin.H{"message": "Document deleted successfully"})
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "message": "Document deleted successfully", "timestamp": currentTime})
+
+	response := DeleteResponse{
+		Status:    "SUCCESS",
+		Method:    "DELETE",
+		Code:      "200",
+		Timestamp: currentTime,
+	}
+	c.IndentedJSON(http.StatusOK, response)
 }
 
 // DeleteTemplate deletes a template by refNumber

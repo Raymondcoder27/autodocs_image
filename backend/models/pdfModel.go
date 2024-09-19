@@ -12,6 +12,8 @@ type Document struct {
 	Description  string `json:"description"`
 	TemplateId   string `json:"templateId"`
 	// Data         string         `json:"pdf"`
+	Status      string         `json:"requestStatus"`
+	Method      string         `json:"requestMethod"`
 	JsonPayload string         `json:"jsonPayload"`
 	RefNumber   string         `json:"refNumber"`
 	CreatedAt   time.Time      `json:"created_at"`
