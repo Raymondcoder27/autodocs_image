@@ -93,8 +93,8 @@ async function fetchChartData() {
             </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow max-w-[1035px] max-h-[380px]">
-            <!-- <line-chart :data="chartData" /> -->
-            <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
+            <line-chart :data="chartData" />
+            <!-- <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/> -->
         </div>
     </div>
 </template>

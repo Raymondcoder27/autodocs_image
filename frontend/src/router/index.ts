@@ -51,6 +51,12 @@ const appRoutes: RouteRecordRaw[] = [
                 name: "settings",
                 meta: {requiresAuth: false},
                 component: () => import("@/domain/settings/Settings.vue"),
+            },
+            {
+                path: "/line-chart",
+                name: "line-chart",
+                meta: {requiresAuth: false},
+                component: () => import("@/components/LineChart.vue"),
             }
         ]
     },
