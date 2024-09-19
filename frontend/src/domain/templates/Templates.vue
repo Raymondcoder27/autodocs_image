@@ -142,7 +142,7 @@ function prevPage() {
                       @click="
                         (selectedTemplateRef = template.refNumber),(templatePreview = true)">
                       <i
-                        class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm p-1 hover:bg-green-50 hover:text-green-600"
+                        class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-green-50 hover:text-green-600"
                       ></i>
                     </button>
                     <button
@@ -153,7 +153,7 @@ function prevPage() {
                       "
                     >
                       <i
-                        class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100  border border-gray-100 rounded-sm p-1 hover:bg-red-50 hover:text-red-500"
+                        class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100  border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-red-50 hover:text-red-500"
                       ></i>
                     </button>
                   </div>
