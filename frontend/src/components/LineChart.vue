@@ -24,13 +24,13 @@ const options = {
         type: "line",
         yValueFormatString: "# PDFs",
         dataPoints: [
-        { label: "MON", y: 2 },
-            { label: "TUE", y: 4 },
-            { label: "WED", y: 8 },
-            { label: "THUR", y: 4 },
-            { label: "FRI", y: 10 },
-            { label: "SAT", y: 0 },
-            { label: "SUN", y: 6 }
+        { label: "Monday", y: 2 },
+            { label: "Tuesday", y: 4 },
+            { label: "Wednesday", y: 8 },
+            { label: "Thursday", y: 4 },
+            { label: "Friday", y: 10 },
+            { label: "Saturday", y: 0 },
+            { label: "Sunday", y: 6 }
             // { label: "MON", y: 800093.07 },
             // { label: "TUE", y: 5702000.87 },
             // { label: "WED", y: 585710.45 },

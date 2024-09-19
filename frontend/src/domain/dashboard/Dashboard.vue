@@ -88,7 +88,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
             <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
-                <p class="text-3xl font-bold text-blue-100">{{ failureRate }}%</p>
+                <p class="text-3xl font-bold text-blue-300">{{ failureRate }}%</p>
                 <h3 class="text-lg font-semibold text-blue-200">Failure Rate</h3>
             </div>
         </div>
