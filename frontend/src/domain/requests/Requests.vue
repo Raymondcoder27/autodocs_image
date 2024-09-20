@@ -323,12 +323,11 @@ function downloadPdf() {
 const paginatedLogs = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-//   return requestLogs.value.slice(start, end);
     return logStore.logs.slice(start, end);
 });
 
 function nextPage() {
-  if (currentPage.value * itemsPerPage < requestLogs.value.length) {
+  if (currentPage.value * itemsPerPage < logStore.value.length) {
     currentPage.value++;
   }
 }
@@ -340,8 +339,6 @@ function prevPage() {
 }
 
 const failureRate = computed(() => {
-//   const totalRequests = requestLogs.value.length;
-//   const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
     const totalRequests = logStore.logs.length;
     const failedRequests = logStore.logs.filter(log => log.status === 'FAILURE').length;
   return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
