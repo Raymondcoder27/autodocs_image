@@ -358,9 +358,8 @@ func Templates(c *gin.Context) {
 // 		return
 // 	}
 
-// 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": history})
-// }
-
+//		c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": history})
+//	}
 func GetDocumentHistory(c *gin.Context) {
 	var history []struct {
 		Date  string `json:"date"`

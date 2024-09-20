@@ -97,13 +97,15 @@ async function fetchMetrics() {
 // }
 
 
+import axios from 'axios';
+
 async function fetchDocumentHistory() {
     try {
-        const response = await fetch('/document-history');
-        if (!response.ok) {
+        const response = await axios.get('/document-history');
+        if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
-        const data: { date: string, count: number }[] = await response.json();
+        const data: { date: string, count: number }[] = response.data;
         return data.map((entry: { date: string, count: number }) => ({
             date: entry.date,   // Use proper date formatting if necessary
             count: entry.count
