@@ -36,25 +36,58 @@ async function fetchMetrics() {
     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 }
 
-async function fetchChartData() {
-    const documentHistory = await documentStore.fetchDocumentHistory(); // Assuming this method exists
-    const templateHistory = await templateStore.fetchTemplateHistory(); // Assuming this method exists
+// async function fetchChartData() {
+//     const documentHistory = await documentStore.fetchDocumentHistory(); // Assuming this method exists
+//     const templateHistory = await templateStore.fetchTemplateHistory(); // Assuming this method exists
 
-    const labels = documentHistory.map(entry => entry.date);
-    const documentData = documentHistory.map(entry => entry.count);
-    const templateData = templateHistory.map(entry => entry.count);
+//     const labels = documentHistory.map(entry => entry.date);
+//     const documentData = documentHistory.map(entry => entry.count);
+//     const templateData = templateHistory.map(entry => entry.count);
+
+//     chartData.value = {
+//         labels,
+//         datasets: [
+//             {
+//                 label: 'Documents Generated',
+//                 data: documentData,
+//                 borderColor: 'blue',
+//                 fill: false,
+//             },
+//             {
+//                 label: 'Templates Uploaded',
+//                 data: templateData,
+//                 borderColor: 'green',
+//                 fill: false,
+//             },
+//         ],
+//     };
+// }
+
+
+async function fetchChartData() {
+    const labels = ['Total Documents', 'Successful Generations', 'Failed Generations', 'Total Templates'];
+    
+    const documentData = [
+        totalDocuments.value,
+        successfulGenerations.value,
+        failedGenerations.value,
+    ];
+    
+    const templateData = [
+        totalTemplates.value
+    ];
 
     chartData.value = {
         labels,
         datasets: [
             {
-                label: 'Documents Generated',
+                label: 'Documents & Generations',
                 data: documentData,
                 borderColor: 'blue',
                 fill: false,
             },
             {
-                label: 'Templates Uploaded',
+                label: 'Templates',
                 data: templateData,
                 borderColor: 'green',
                 fill: false,
@@ -63,14 +96,15 @@ async function fetchChartData() {
     };
 }
 
-//watch for updates in the tile and update the chart
-watch([totalTemplates, totalDocuments, successfulGenerations, failedGenerations], ()=>{
-    const labels = chartData.value.labels;
 
-    //updated the chart data with the updated metrics from the dashboard tiles
-    chartData.value.datasets[2].data = Array(labels.length).fill(totalTemplates.value)
-    chartData.value.datasets[3].data = Array(labels.length).fill(successfulGenerations.value)
-})
+//watch for updates in the tile and update the chart
+// watch([totalTemplates, totalDocuments, successfulGenerations, failedGenerations], ()=>{
+//     const labels = chartData.value.labels;
+
+//     //updated the chart data with the updated metrics from the dashboard tiles
+//     chartData.value.datasets[2].data = Array(labels.length).fill(totalTemplates.value)
+//     chartData.value.datasets[3].data = Array(labels.length).fill(successfulGenerations.value)
+// })
 </script>
 
 <template>
