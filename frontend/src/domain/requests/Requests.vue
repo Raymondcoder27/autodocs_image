@@ -159,18 +159,28 @@ const failureRate = computed(() => {
 
 
 <script setup lang="ts">
-import { ref, onMounted, computed, type Ref } from "vue";
+import AppModal from "@/components/AppModal.vue";
+import CreateGenerationRequest from "@/domain/documents/CreateGenerationRequest.vue";
+import { onMounted, computed, type Ref, ref } from "vue";
 import { useDocumentStore } from "@/domain/documents/stores";
-import { useNotificationsStore } from "@/stores/notifications";
 import type { AxiosError } from "axios";
 import type { ApiErrorResponse } from "@/types";
+import { useNotificationsStore } from "@/stores/notifications";
+import FileViewer from "@/components/FileViewer.vue";
+import { dateTimeFormat } from "../../composables/transformations";
+import { useTemplateStore } from "@/domain/templates/stores";
+import { Template } from "../templates/types";
 
 const loading: Ref<boolean> = ref(false);
 const showCreateRequestModal: Ref<boolean> = ref(false);
 const showDeleteModal: Ref<boolean> = ref(false);
 const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
+const templateStore = useTemplateStore();
+const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
+const pdfPreview: Ref<boolean> = ref(false);
+const jsonPayloadPreview: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
@@ -192,6 +202,18 @@ function fetch() {
             loading.value = false;
             requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error fetching documents");
+        });
+
+    templateStore
+        .fetchTemplates()
+        .then(() => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
+            notify.error(error.response?.data.message || "Error fetching templates");
         });
 }
 
@@ -224,23 +246,64 @@ function deleteDocument() {
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
             requestLogs.value.push({ method: 'DELETE', status: 'FAILURE' });
-            notify.error(error.response?.data.message || "Error deleting the document");
+            notify.error(
+                error.response?.data.message || "Error deleting the document"
+            );
         });
 }
 
-const paginatedRequests = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return store.documents.slice(start, end);
+//computed property to find selected pdf:
+const selectedPdf = computed(() => {
+    return store.documents.find(
+        (document) => document.refNumber === selectedDocumentRef.value
+    );
 });
 
-function nextPage() {
+function downloadPdf() {
+    // Convert Base64 to a Blob
+    const base64String = store.fileBase64;
+    const byteCharacters = atob(base64String);
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: "application/pdf" });
+
+    // Create a download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+     // Find the selected document using selectedDocumentRef
+     const selectedDoc = store.documents.find(
+        (doc) => doc.refNumber === selectedDocumentRef.value
+    );
+    const fileName = selectedDoc ? `${selectedDoc.refNumber}.pdf` : "document.pdf";
+
+    a.download = fileName
+
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+
+    // Revoke the object URL to free up memory
+    URL.revokeObjectURL(url);
+}
+
+const paginatedRequests = computed(()=>{
+    const start = (currentPage.value  - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return store.documents.slice(start, end);
+})
+
+function nextPage(){
     if (currentPage.value * itemsPerPage < store.documents.length) {
         currentPage.value++;
     }
 }
 
-function prevPage() {
+function prevPage(){
     if (currentPage.value > 1) {
         currentPage.value--;
     }
@@ -252,6 +315,8 @@ const failureRate = computed(() => {
     return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
 });
 </script>
+
+
 
 <template>
     <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
