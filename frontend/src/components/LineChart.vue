@@ -50,13 +50,13 @@ async function fetchMetrics() {
     await documentStore.fetchDocuments();
 
     const documentHistory = await fetchDocumentHistory();
-    console.log('Fetched document history:', documentHistory);
+    // console.log('Fetched document history:', documentHistory);
 
     const dataPoints = documentHistory.map(entry => ({
         label: entry.date,
         y: entry.count
     }));
-    console.log('Data points for chart:', dataPoints);
+    // console.log('Data points for chart:', dataPoints);
 
     options.value.data[0].dataPoints = dataPoints;
 }
