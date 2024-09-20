@@ -2,7 +2,6 @@ import {defineStore} from "pinia";
 import type {AxiosResponse} from "axios";
 import type {ApiResponse} from "@/types";
 import {ref, type Ref} from "vue";
-import type {Doc, GenerationRequest} from "@/domain/documents/types";
 import api from "@/config/api";
 
 export const useDocumentStore = defineStore("documents", () => {
