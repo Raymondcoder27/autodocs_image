@@ -228,8 +228,8 @@ func GetDocuments(c *gin.Context) {
 			DocumentName:  doc.DocumentName,
 			Description:   doc.Description,
 			TemplateID:    doc.TemplateId,
-			RequestStatus: "SUCCESS", // Set default or dynamic value
-			RequestMethod: "GET",     // Set default or dynamic value
+			RequestStatus: doc.Status, // Set default or dynamic value
+			RequestMethod: doc.Method, // Set default or dynamic value
 			JsonPayload:   doc.JsonPayload,
 			RefNumber:     doc.RefNumber,
 			CreatedAt:     doc.CreatedAt,
