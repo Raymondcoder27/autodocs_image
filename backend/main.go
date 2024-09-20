@@ -41,7 +41,7 @@ func main() {
 	r.POST("/generate", controllers.CreateDocument)
 	r.GET("/documents", controllers.GetDocuments)
 	r.GET("/templates", controllers.Templates)
-	r.GET("/api/document-history", controllers.GetDocumentHistory)
+	r.GET("/document-history", controllers.GetDocumentHistory)
 
 	r.GET("/templates/preview/:refNumber", controllers.PreviewTemplate)
 	r.GET("/documents/preview/:refNumber", controllers.PreviewDocument)
