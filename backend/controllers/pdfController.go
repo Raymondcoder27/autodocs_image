@@ -432,5 +432,11 @@ func GetDocumentHistory(c *gin.Context) {
 }
 
 func AutodocsLogs(c *gin.Context) {
-
+	var logs []models.Logs
+	if err := initializers.DB.Find(&logs).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching logs"})
+		return
+	}
+	currentTime := time.Now()
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": logs, "timestamp": currentTime})
 }
