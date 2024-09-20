@@ -105,7 +105,11 @@ async function fetchDocumentHistory() {
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
-        const data: { date: string, count: number }[] = response.data;
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const data: { date: string, count: number }[] = responseData.data;
         return data.map((entry: { date: string, count: number }) => ({
             date: entry.date,   // Use proper date formatting if necessary
             count: entry.count
