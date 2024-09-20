@@ -53,7 +53,7 @@ async function fetchChartData() {
             y: entry.count
         }));
 
-        // console.log('Chart data:', chartData.value);
+        console.log('Chart data:', chartData.value);
     } catch (error) {
         console.error('Error fetching document history:', error);
     }
