@@ -386,48 +386,6 @@ func GetDocumentHistory(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
 }
 
-// func GetDocumentHistory(c *gin.Context) {
-// 	var history []struct {
-// 		Date  string `json:"date"`
-// 		Count int    `json:"count"`
-// 	}
+func AutodocsLogs(c *gin.Context) {
 
-// 	// Group by creation date and count documents
-// 	err := initializers.DB.Table("documents").
-// 		Select("TO_CHAR(created_at, 'FMDay') as date, COUNT(*) as count").
-// 		Group("TO_CHAR(created_at, 'FMDay')").
-// 		Scan(&history).Error
-
-// 	if err != nil {
-// 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history: " + err.Error()})
-// 		return
-// 	}
-
-// 	// Create a map to hold the counts for each day of the week
-// 	dayCounts := map[string]int{
-// 		"Monday":    0,
-// 		"Tuesday":   0,
-// 		"Wednesday": 0,
-// 		"Thursday":  0,
-// 		"Friday":    0,
-// 		"Saturday":  0,
-// 		"Sunday":    0,
-// 	}
-
-// 	// Populate the map with the counts from the database
-// 	for _, record := range history {
-// 		dayCounts[record.Date] = record.Count
-// 	}
-
-// 	// Create the final response in the desired format
-// 	var response []map[string]interface{}
-// 	orderedDays := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
-// 	for _, day := range orderedDays {
-// 		response = append(response, map[string]interface{}{
-// 			"date":  day,
-// 			"count": dayCounts[day],
-// 		})
-// 	}
-
-// 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
-// }
+}
