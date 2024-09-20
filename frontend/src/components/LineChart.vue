@@ -89,7 +89,7 @@ async function fetchDocumentHistory() {
 
 
 <script setup lang="ts">
-import { defineProps, watch } from 'vue';
+import { defineProps, watch, onMounted,ref } from 'vue';
 import { Chart, registerables } from 'chart.js';
 
 Chart.register(...registerables);
