@@ -170,6 +170,7 @@ import FileViewer from "@/components/FileViewer.vue";
 import { dateTimeFormat } from "../../composables/transformations";
 import { useTemplateStore } from "@/domain/templates/stores";
 import { Template } from "../templates/types";
+import {useLogStore} from "@/domain/logs/stores";
 
 const loading: Ref<boolean> = ref(false);
 const showCreateRequestModal: Ref<boolean> = ref(false);
@@ -185,7 +186,6 @@ const jsonPayloadPreview: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
-// const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
 
 onMounted(() => {
     fetch();
@@ -209,11 +209,9 @@ function fetch() {
         .fetchTemplates()
         .then(() => {
             loading.value = false;
-            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
-            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error fetching templates");
         });
 }
@@ -224,12 +222,10 @@ function createDocument(payload) {
         .createDocument(payload)
         .then(() => {
             loading.value = false;
-            requestLogs.value.push({ method: 'POST', status: 'SUCCESS' });
             fetch();
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
-            requestLogs.value.push({ method: 'POST', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error creating document");
         });
 }
