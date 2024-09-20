@@ -214,6 +214,16 @@ function fetch() {
             loading.value = false;
             notify.error(error.response?.data.message || "Error fetching templates");
         });
+
+    logStore
+        .fetchLogs()
+        .then(() => {
+            loading.value = false;
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            notify.error(error.response?.data.message || "Error fetching logs");
+        });
 }
 
 function createDocument(payload) {
