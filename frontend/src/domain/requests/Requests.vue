@@ -57,6 +57,22 @@ function fetch() {
         });
 }
 
+function createDocument(payload) {
+    loading.value = true;
+    store
+        .createDocument(payload)
+        .then(() => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'POST', status: 'SUCCESS' });
+            fetch();
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'POST', status: 'FAILURE' });
+            notify.error(error.response?.data.message || "Error creating document");
+        });
+}
+
 function deleteDocument() {
     loading.value = true;
     store
@@ -150,9 +166,9 @@ const failureRate = computed(() => {
                         @click="fetch"
                     ></i>
                 </span>
-                <!-- <button class="button" @click="showCreateRequestModal = true">
+                <button class="button" @click="showCreateRequestModal = true">
                     <i class="fa-solid fa-plus"></i> Create Request
-                </button> -->
+                </button>
             </div>
 
             <div class="grid grid-cols-1 gap-2 py-2">
@@ -180,7 +196,6 @@ const failureRate = computed(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="(document, idx) in store.documents" :key="idx"> -->
                             <tr v-for="(document, idx) in paginatedRequests" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
@@ -252,7 +267,7 @@ const failureRate = computed(() => {
         
     </div>
     <AppModal v-model="showCreateRequestModal" xl>
-        <CreateGenerationRequest />
+        <CreateGenerationRequest @submit="createDocument" />
     </AppModal>
     <AppModal v-model="jsonPayloadPreview" class="flex flex-col py-2" xl>
         <template #title>
