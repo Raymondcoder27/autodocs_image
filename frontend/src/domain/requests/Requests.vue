@@ -175,6 +175,7 @@ import {useLogStore} from "@/domain/requests/stores";
 const loading: Ref<boolean> = ref(false);
 const showCreateRequestModal: Ref<boolean> = ref(false);
 const showDeleteModal: Ref<boolean> = ref(false);
+const showDeleteLogsRequest: Ref<boolean> = ref(false);
 const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
 const logStore = useLogStore();
@@ -333,7 +334,7 @@ function prevPage(){
                         @click="fetch"
                     ></i>
                 </span>
-                <button class="bg-red-500 text-white text-xs font-semibold rounded-md px-1 py-0" @click="showCreateRequestModal = true">
+                <button class="bg-red-500 text-white text-xs font-semibold rounded-md px-1 py-0" @click="showDeleteLogsRequest = true">
                     <i class="fa-solid fa-trash"></i> Clear logs
                 </button>
             </div>
@@ -433,8 +434,34 @@ function prevPage(){
         </div>
         
     </div>
-    <AppModal v-model="showCreateRequestModal" xl>
-        <CreateGenerationRequest @submit="createDocument" />
+    <AppModal v-model="showDeleteLogsRequest" xl>
+        <!-- <CreateGenerationRequest @submit="createDocument" /> -->
+        <div class="flex">
+            <div class="w-full">
+                <div class="flex">
+                    <span class="mx-auto text-center justify-center">
+                        <i
+                            class="mx-auto fa-solid fa-exclamation-circle text-3xl text-danger"
+                        ></i>
+                    </span>
+                </div>
+                <p class="py-5">
+                    Are you sure you want to delete the logs and lose them completely?
+                </p>
+                <div class="flex w-1/2 gap-2 justify-center mx-auto">
+                    <button class="bg-blue-400 hover:bg-blue-500 w-1/2 rounded text-white" @click="showDeleteModal = false">
+                        <i class="fa-solid fa-times-circle mx-1"></i> Cancel
+                    </button>
+
+                    <button
+                        class="bg-danger text-white p-1 w-1/2 rounded hover:bg-red-800"
+                        @click="deleteDocument"
+                    >
+                        <i class="fa-solid fa-check-circle mx-1"></i> Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
     </AppModal>
     <AppModal v-model="jsonPayloadPreview" class="flex flex-col py-2" xl>
         <template #title>
