@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import AppModal from "@/components/AppModal.vue";
 import CreateGenerationRequest from "@/domain/documents/CreateGenerationRequest.vue";
 import { onMounted, computed, type Ref, ref } from "vue";
@@ -144,6 +144,103 @@ function nextPage(){
 }
 
 function prevPage(){
+    if (currentPage.value > 1) {
+        currentPage.value--;
+    }
+}
+
+const failureRate = computed(() => {
+    const totalRequests = requestLogs.value.length;
+    const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+    return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+});
+</script> -->
+
+
+
+<script setup lang="ts">
+import { ref, onMounted, computed, type Ref } from "vue";
+import { useDocumentStore } from "@/domain/documents/stores";
+import { useNotificationsStore } from "@/stores/notifications";
+import type { AxiosError } from "axios";
+import type { ApiErrorResponse } from "@/types";
+
+const loading: Ref<boolean> = ref(false);
+const showCreateRequestModal: Ref<boolean> = ref(false);
+const showDeleteModal: Ref<boolean> = ref(false);
+const selectedDocumentRef: Ref<string> = ref("");
+const store = useDocumentStore();
+const notify = useNotificationsStore();
+const currentPage: Ref<number> = ref(1);
+const itemsPerPage: number = 10;
+
+const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
+
+onMounted(() => {
+    fetch();
+});
+
+function fetch() {
+    loading.value = true;
+    store
+        .fetchDocuments()
+        .then(() => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
+            notify.error(error.response?.data.message || "Error fetching documents");
+        });
+}
+
+function createDocument(payload) {
+    loading.value = true;
+    store
+        .createDocument(payload)
+        .then(() => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'POST', status: 'SUCCESS' });
+            fetch();
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'POST', status: 'FAILURE' });
+            notify.error(error.response?.data.message || "Error creating document");
+        });
+}
+
+function deleteDocument() {
+    loading.value = true;
+    store
+        .deleteDocument(selectedDocumentRef.value)
+        .then(() => {
+            loading.value = false;
+            showDeleteModal.value = false;
+            requestLogs.value.push({ method: 'DELETE', status: 'SUCCESS' });
+            fetch();
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            requestLogs.value.push({ method: 'DELETE', status: 'FAILURE' });
+            notify.error(error.response?.data.message || "Error deleting the document");
+        });
+}
+
+const paginatedRequests = computed(() => {
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return store.documents.slice(start, end);
+});
+
+function nextPage() {
+    if (currentPage.value * itemsPerPage < store.documents.length) {
+        currentPage.value++;
+    }
+}
+
+function prevPage() {
     if (currentPage.value > 1) {
         currentPage.value--;
     }
