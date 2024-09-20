@@ -368,8 +368,8 @@ func GetDocumentHistory(c *gin.Context) {
 
 	// Group by creation date and count documents
 	err := initializers.DB.Table("documents").
-		Select("DAYNAME(created_at) as date, COUNT(*) as count").
-		Group("DAYNAME(created_at)").
+		Select("TO_CHAR(created_at, 'Day') as date, COUNT(*) as count").
+		Group("TO_CHAR(created_at, 'Day')").
 		Scan(&history).Error
 
 	if err != nil {
