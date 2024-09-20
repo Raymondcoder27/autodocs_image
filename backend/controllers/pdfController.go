@@ -199,6 +199,7 @@ func CreateDocument(c *gin.Context) {
 		return
 	}
 
+	//inserting post request into logs table
 	if err := initializers.DB.Create(&models.Logs{
 		ID:           id,
 		DocumentName: id,
@@ -250,6 +251,22 @@ func GetDocuments(c *gin.Context) {
 			CreatedAt:     doc.CreatedAt,
 			// DeletedAt:     doc.DeletedAt,
 		})
+	}
+
+	//inserting get request into logs table
+	if err := initializers.DB.Create(&models.Logs{
+		ID:           uuid.New().String(),
+		DocumentName: "",
+		JsonPayload:  "",
+		Status:       "SUCCESS",
+		Method:       "GET",
+		Description:  "Get all documents",
+		TemplateId:   "",
+		RefNumber:    "",
+		CreatedAt:    currentTime,
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
 	}
 
 	// response := models.Document{
