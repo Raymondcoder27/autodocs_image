@@ -22,6 +22,8 @@ const pdfPreview: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
+const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
+
 onMounted(() => {
   fetch();
 });
@@ -32,9 +34,11 @@ function fetch() {
     .fetchDocuments()
     .then(() => {
       loading.value = false;
+      requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
     })
     .catch((error: AxiosError<ApiErrorResponse>) => {
       loading.value = false;
+      requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
       notify.error(error.response?.data.message || "Error fetching documents");
     });
 
@@ -42,9 +46,11 @@ function fetch() {
     .fetchTemplates()
     .then(() => {
       loading.value = false;
+      requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
     })
     .catch((error: AxiosError<ApiErrorResponse>) => {
       loading.value = false;
+      requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
       notify.error(error.response?.data.message || "Error fetching templates");
     });
 }
@@ -56,10 +62,12 @@ function deleteDocument() {
     .then(() => {
       loading.value = false;
       showDeleteModal.value = false;
+      requestLogs.value.push({ method: 'DELETE', status: 'SUCCESS' });
       fetch();
     })
     .catch((error: AxiosError<ApiErrorResponse>) => {
       loading.value = false;
+      requestLogs.value.push({ method: 'DELETE', status: 'FAILURE' });
       notify.error(
         error.response?.data.message || "Error deleting the document"
       );
@@ -117,7 +125,14 @@ function prevPage() {
     currentPage.value--;
   }
 }
+
+const failureRate = computed(() => {
+  const totalRequests = requestLogs.value.length;
+  const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+  return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+});
 </script>
+
 <template>
   <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
     <div class="w-full">
