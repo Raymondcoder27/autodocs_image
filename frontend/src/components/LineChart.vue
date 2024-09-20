@@ -63,7 +63,7 @@ async function fetchMetrics() {
 
 async function fetchDocumentHistory() {
     try {
-        const response = await api.get('/document-history');
+        const response = await axios.get('http://localhost:8080/document-history');
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
