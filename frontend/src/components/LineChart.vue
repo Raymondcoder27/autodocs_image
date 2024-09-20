@@ -72,28 +72,46 @@ async function fetchMetrics() {
 // }
 
 
-function fetchDocumentHistory() {
-    // loading.value = true;
+// function fetchDocumentHistory() {
+//     // loading.value = true;
 
-    return fetch('/document-history')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch document history');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // loading.value = false;
-            return data.map(entry => ({
-                date: entry.date,   // Use proper date formatting if necessary
-                count: entry.count
-            }));
-        })
-        .catch(error => {
-            // loading.value = false;
-            console.error('Error fetching document history:', error);
-            return [];
-        });
+//     return fetch('/document-history')
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('Failed to fetch document history');
+//             }
+//             return response.json();
+//         })
+//         .then(data => {
+//             // loading.value = false;
+//             return data.map(entry => ({
+//                 date: entry.date,   // Use proper date formatting if necessary
+//                 count: entry.count
+//             }));
+//         })
+//         .catch(error => {
+//             // loading.value = false;
+//             console.error('Error fetching document history:', error);
+//             return [];
+//         });
+// }
+
+
+async function fetchDocumentHistory() {
+    try {
+        const response = await fetch('/document-history');
+        if (!response.ok) {
+            throw new Error('Failed to fetch document history');
+        }
+        const data: { date: string, count: number }[] = await response.json();
+        return data.map((entry: { date: string, count: number }) => ({
+            date: entry.date,   // Use proper date formatting if necessary
+            count: entry.count
+        }));
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+        return [];
+    }
 }
 
 </script>
