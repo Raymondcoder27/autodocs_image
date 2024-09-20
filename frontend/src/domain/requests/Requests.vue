@@ -333,8 +333,8 @@ function prevPage(){
                         @click="fetch"
                     ></i>
                 </span>
-                <button class="bg-red-500 text-white font-semibold rounded-md px-2 py-1" @click="showCreateRequestModal = true">
-                    <i class="fa-solid fa-plus"></i> Clear logs
+                <button class="bg-red-500 text-white text-xs font-semibold rounded-md px-1 py-0" @click="showCreateRequestModal = true">
+                    <i class="fa-solid fa-trash"></i> Clear logs
                 </button>
             </div>
 
