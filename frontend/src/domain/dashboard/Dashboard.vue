@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { ref, watch, onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
 import LineChart from '@/components/LineChart.vue';
+import axios from 'axios';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
@@ -27,7 +28,6 @@ async function fetchMetrics() {
     totalTemplates.value = templateStore.templates.length;
     totalDocuments.value = documentStore.documents.length;
 
-    // successfulGenerations.value = documentStore.documents.filter(doc => doc.status === 'success').length;
     successfulGenerations.value = documentStore.documents.length;
     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
@@ -36,75 +36,38 @@ async function fetchMetrics() {
     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 }
 
-// async function fetchChartData() {
-//     const documentHistory = await documentStore.fetchDocumentHistory(); // Assuming this method exists
-//     const templateHistory = await templateStore.fetchTemplateHistory(); // Assuming this method exists
-
-//     const labels = documentHistory.map(entry => entry.date);
-//     const documentData = documentHistory.map(entry => entry.count);
-//     const templateData = templateHistory.map(entry => entry.count);
-
-//     chartData.value = {
-//         labels,
-//         datasets: [
-//             {
-//                 label: 'Documents Generated',
-//                 data: documentData,
-//                 borderColor: 'blue',
-//                 fill: false,
-//             },
-//             {
-//                 label: 'Templates Uploaded',
-//                 data: templateData,
-//                 borderColor: 'green',
-//                 fill: false,
-//             },
-//         ],
-//     };
-// }
-
-
 async function fetchChartData() {
-    const labels = ['Total Documents', 'Successful Generations', 'Failed Generations', 'Total Templates'];
-    
-    const documentData = [
-        totalDocuments.value,
-        successfulGenerations.value,
-        failedGenerations.value,
-    ];
-    
-    const templateData = [
-        totalTemplates.value
-    ];
+    try {
+        const response = await axios.get('http://localhost:8080/document-history');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const documentHistory = responseData.data;
 
-    chartData.value = {
-        labels,
-        datasets: [
-            {
-                label: 'Documents & Generations',
-                data: documentData,
-                borderColor: 'blue',
-                fill: false,
-            },
-            {
-                label: 'Templates',
-                data: templateData,
-                borderColor: 'green',
-                fill: false,
-            },
-        ],
-    };
+        const labels = documentHistory.map(entry => entry.date.trim());
+        const documentData = documentHistory.map(entry => entry.count);
+
+        chartData.value = {
+            labels,
+            datasets: [
+                {
+                    label: 'Documents Generated',
+                    data: documentData,
+                    borderColor: 'blue',
+                    fill: false,
+                }
+            ],
+        };
+
+        console.log('Chart data:', chartData.value);
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+    }
 }
-
-
-//watch for updates in the tile and update the chart
-// watch([totalTemplates, totalDocuments, successfulGenerations, failedGenerations], ()=>{
-//     const labels = chartData.value.labels;
-
-//     //updated the chart data with the updated metrics from the dashboard tiles
-//     chartData.value.datasets[2].data = Array(labels.length).fill(totalTemplates.value)
-//     chartData.value.datasets[3].data = Array(labels.length).fill(successfulGenerations.value)
-// })
 </script>
 
 <template>
@@ -136,8 +99,7 @@ async function fetchChartData() {
             </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow w-full h-full">
-            <line-chart :data="chartData"  />
+            <line-chart :data="chartData" />
         </div>
     </div>
 </template>
-
