@@ -1,14 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import { useTemplateStore } from '@/domain/templates/stores';
+import { useDocumentStore } from '@/domain/documents/stores';
 
 const chart = ref(null);
+const templateStore = useTemplateStore();
+const documentStore = useDocumentStore();
 
-const options = {
+const options = ref({
     animationEnabled: true,
     exportEnabled: true,
     theme: "light2",
     title: {
-        text: "Weekly Document generation report"
+        text: "Weekly Document Generation Report"
     },
     axisX: {
         title: "Day of Week",
@@ -23,24 +27,9 @@ const options = {
     data: [{
         type: "line",
         yValueFormatString: "# PDFs",
-        dataPoints: [
-        { label: "Monday", y: 2 },
-            { label: "Tuesday", y: 4 },
-            { label: "Wednesday", y: 8 },
-            { label: "Thursday", y: 4 },
-            { label: "Friday", y: 10 },
-            { label: "Saturday", y: 0 },
-            { label: "Sunday", y: 6 }
-            // { label: "MON", y: 800093.07 },
-            // { label: "TUE", y: 5702000.87 },
-            // { label: "WED", y: 585710.45 },
-            // { label: "THUR", y: 10836638.18 },
-            // { label: "FRI", y: 3387744.72 },
-            // { label: "SAT", y: 7159285.80 },
-            // { label: "SUN", y: 8000010.33 }
-        ]
+        dataPoints: []
     }]
-};
+});
 
 const styleOptions = {
     width: "100%",
@@ -50,8 +39,39 @@ const styleOptions = {
 const chartInstance = (chartInstance: any) => {
     chart.value = chartInstance;
 };
+
+onMounted(async () => {
+    await fetchMetrics();
+});
+
+async function fetchMetrics() {
+    await templateStore.fetchTemplates();
+    await documentStore.fetchDocuments();
+
+    const documentHistory = await fetchDocumentHistory();
+
+    const dataPoints = documentHistory.map(entry => ({
+        label: entry.date,
+        y: entry.count
+    }));
+
+    options.value.data[0].dataPoints = dataPoints;
+}
+
+async function fetchDocumentHistory() {
+    // Mock implementation, replace with actual API call or logic
+    return [
+        { date: "Monday", count: 2 },
+        { date: "Tuesday", count: 4 },
+        { date: "Wednesday", count: 8 },
+        { date: "Thursday", count: 4 },
+        { date: "Friday", count: 10 },
+        { date: "Saturday", count: 0 },
+        { date: "Sunday", count: 6 }
+    ];
+}
 </script>
 
 <template>
     <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
-</template>
+</template> 
