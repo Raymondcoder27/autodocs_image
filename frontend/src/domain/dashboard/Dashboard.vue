@@ -32,8 +32,33 @@ async function fetchMetrics() {
     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
-    generationRate.value = totalGenerations / 7; // Assuming weekly data
+    // Fetch document history to determine the number of days
+    const documentHistory = await fetchDocumentHistory();
+    const numberOfDays = documentHistory.length;
+
+    generationRate.value = totalGenerations / numberOfDays;
     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+}
+
+async function fetchDocumentHistory() {
+    try {
+        const response = await axios.get('http://localhost:8080/document-history');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const data: { date: string, count: number }[] = responseData.data;
+        return data.map((entry: { date: string, count: number }) => ({
+            date: entry.date.trim(),
+            count: entry.count
+        }));
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+        return [];
+    }
 }
 
 async function fetchChartData() {
