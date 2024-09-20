@@ -176,6 +176,7 @@ const showCreateRequestModal: Ref<boolean> = ref(false);
 const showDeleteModal: Ref<boolean> = ref(false);
 const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
+const logStore = useLogStore();
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
@@ -184,7 +185,7 @@ const jsonPayloadPreview: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
-const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
+// const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
 
 onMounted(() => {
     fetch();
@@ -196,11 +197,11 @@ function fetch() {
         .fetchDocuments()
         .then(() => {
             loading.value = false;
-            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
+            // requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
-            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
+            // requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error fetching documents");
         });
 
