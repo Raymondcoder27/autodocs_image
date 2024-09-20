@@ -188,6 +188,7 @@ const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
 
+
 onMounted(() => {
     fetch();
 });
@@ -315,12 +316,15 @@ function downloadPdf() {
 //     }
 // }
 
+// const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
+
 
 //paginating logs using the same logic as documents
 const paginatedLogs = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return requestLogs.value.slice(start, end);
+//   return requestLogs.value.slice(start, end);
+    return logStore.logs.slice(start, end);
 });
 
 function nextPage() {
@@ -336,8 +340,10 @@ function prevPage() {
 }
 
 const failureRate = computed(() => {
-  const totalRequests = requestLogs.value.length;
-  const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+//   const totalRequests = requestLogs.value.length;
+//   const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+    const totalRequests = logStore.logs.length;
+    const failedRequests = logStore.logs.filter(log => log.status === 'FAILURE').length;
   return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
 });
 
@@ -390,7 +396,7 @@ const failureRate = computed(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(document, idx) in paginatedRequests" :key="idx">
+                            <!-- <tr v-for="(document, idx) in paginatedRequests" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                                 <td class="text-black-700">
@@ -435,7 +441,12 @@ const failureRate = computed(() => {
                                         </button>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> -->
+                            <tr v-for="(log, idx) in paginatedLogs" :key="idx">
+                <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1 }}</td>
+                <td class="font-bold text-black-700">{{ log.string }}</td>
+                <td class="italic text-black-700">{{ log.status }}</td>
+              </tr>
                         </tbody>
                     </table>
                 </span>
