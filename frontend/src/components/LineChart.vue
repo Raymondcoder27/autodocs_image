@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
+import axios from 'axios';
 
 const chart = ref(null);
 const templateStore = useTemplateStore();
@@ -49,55 +50,16 @@ async function fetchMetrics() {
     await documentStore.fetchDocuments();
 
     const documentHistory = await fetchDocumentHistory();
+    console.log('Fetched document history:', documentHistory);
 
     const dataPoints = documentHistory.map(entry => ({
         label: entry.date,
         y: entry.count
     }));
+    console.log('Data points for chart:', dataPoints);
 
     options.value.data[0].dataPoints = dataPoints;
 }
-
-// async function fetchDocumentHistory() {
-//     // Mock implementation, replace with actual API call or logic
-//     return [
-//         { date: "Monday", count: 2 },
-//         { date: "Tuesday", count: 4 },
-//         { date: "Wednesday", count: 8 },
-//         { date: "Thursday", count: 4 },
-//         { date: "Friday", count: 10 },
-//         { date: "Saturday", count: 0 },
-//         { date: "Sunday", count: 6 }
-//     ];
-// }
-
-
-// function fetchDocumentHistory() {
-//     // loading.value = true;
-
-//     return fetch('/document-history')
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('Failed to fetch document history');
-//             }
-//             return response.json();
-//         })
-//         .then(data => {
-//             // loading.value = false;
-//             return data.map(entry => ({
-//                 date: entry.date,   // Use proper date formatting if necessary
-//                 count: entry.count
-//             }));
-//         })
-//         .catch(error => {
-//             // loading.value = false;
-//             console.error('Error fetching document history:', error);
-//             return [];
-//         });
-// }
-
-
-import axios from 'axios';
 
 async function fetchDocumentHistory() {
     try {
@@ -119,9 +81,8 @@ async function fetchDocumentHistory() {
         return [];
     }
 }
-
 </script>
 
 <template>
     <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
-</template> 
+</template>
