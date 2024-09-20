@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, watch, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
 import LineChart from '@/components/LineChart.vue';
@@ -62,6 +62,15 @@ async function fetchChartData() {
         ],
     };
 }
+
+//watch for updates in the tile and update the chart
+watch([totalTemplates, totalDocuments, successfulGenerations, failedGenerations], ()=>{
+    const labels = chartData.value.labels;
+
+    //updated the chart data with the updated metrics from the dashboard tiles
+    chartData.value.datasets[2].data = Array(labels.length).fill(totalTemplates.value)
+    chartData.value.datasets[3].data = Array(labels.length).fill(successfulGenerations.value)
+})
 </script>
 
 <template>
@@ -93,7 +102,8 @@ async function fetchChartData() {
             </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow w-full h-full">
-            <line-chart :data="chartData" />
+            <line-chart :data="chartData"  />
+            <!-- <line-chart :data="chartData" :options="{ title: { text: 'Dynamic Report' } }" /> -->
             <!-- <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/> -->
             <!-- <line-chart :data="chartData" :options="options" :style="styleOptions" @chart-ref="chartInstance"/> -->
 
