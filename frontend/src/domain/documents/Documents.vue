@@ -126,11 +126,7 @@ function prevPage() {
   }
 }
 
-const failureRate = computed(() => {
-  const totalRequests = requestLogs.value.length;
-  const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
-  return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
-});
+
 </script>
 
 <template>
@@ -202,6 +198,16 @@ const failureRate = computed(() => {
                   </div>
                 </td>
               </tr>
+
+             <!-- displaying from logs table -->
+              <!-- <tr v-for="(log, idx) in paginatedLogs" :key="idx">
+                <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1 }}</td>
+                <td class="font-bold text-black-700">{{ log.description }}</td>
+                <td class="italic text-black-700">{{ log.status }}</td>
+              </tr> -->
+
+
+
             </tbody>
           </table>
         </span>

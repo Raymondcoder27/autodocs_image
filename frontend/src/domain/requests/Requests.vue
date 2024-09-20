@@ -297,23 +297,49 @@ function downloadPdf() {
     URL.revokeObjectURL(url);
 }
 
-const paginatedRequests = computed(()=>{
-    const start = (currentPage.value  - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return store.documents.slice(start, end);
-})
+// const paginatedRequests = computed(()=>{
+//     const start = (currentPage.value  - 1) * itemsPerPage;
+//     const end = start + itemsPerPage;
+//     return store.documents.slice(start, end);
+// })
 
-function nextPage(){
-    if (currentPage.value * itemsPerPage < store.documents.length) {
-        currentPage.value++;
-    }
+// function nextPage(){
+//     if (currentPage.value * itemsPerPage < store.documents.length) {
+//         currentPage.value++;
+//     }
+// }
+
+// function prevPage(){
+//     if (currentPage.value > 1) {
+//         currentPage.value--;
+//     }
+// }
+
+
+//paginating logs using the same logic as documents
+const paginatedLogs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  return requestLogs.value.slice(start, end);
+});
+
+function nextPage() {
+  if (currentPage.value * itemsPerPage < requestLogs.value.length) {
+    currentPage.value++;
+  }
 }
 
-function prevPage(){
-    if (currentPage.value > 1) {
-        currentPage.value--;
-    }
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
 }
+
+const failureRate = computed(() => {
+  const totalRequests = requestLogs.value.length;
+  const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+  return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+});
 
 // const failureRate = computed(() => {
 //     const totalRequests = requestLogs.value.length;        

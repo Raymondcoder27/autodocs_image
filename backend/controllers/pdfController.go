@@ -457,3 +457,13 @@ func AutodocsLogs(c *gin.Context) {
 	currentTime := time.Now()
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": logs, "timestamp": currentTime})
 }
+
+func DeleteAllLogs(c *gin.Context) {
+	err := initializers.DB.Exec("DELETE FROM logs").Error
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error deleting logs"})
+		return
+	}
+	currentTime := time.Now()
+	c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Logs deleted successfully", "timestamp": currentTime})
+}
