@@ -14,7 +14,7 @@ const generationRate = ref(0);
 const failureRate = ref(0);
 const successfulGenerations = ref(0);
 const failedGenerations = ref(0);
-const chartData = ref({ labels: [], datasets: [] });
+const chartData = ref([]);
 
 onMounted(async () => {
     await fetchMetrics();
@@ -48,20 +48,10 @@ async function fetchChartData() {
         }
         const documentHistory = responseData.data;
 
-        const labels = documentHistory.map(entry => entry.date.trim());
-        const documentData = documentHistory.map(entry => entry.count);
-
-        chartData.value = {
-            labels,
-            datasets: [
-                {
-                    label: 'Documents Generated',
-                    data: documentData,
-                    borderColor: 'blue',
-                    fill: false,
-                }
-            ],
-        };
+        chartData.value = documentHistory.map(entry => ({
+            label: entry.date.trim(),
+            y: entry.count
+        }));
 
         console.log('Chart data:', chartData.value);
     } catch (error) {
@@ -99,7 +89,7 @@ async function fetchChartData() {
             </div>
         </div>
         <div class="bg-white p-4 rounded-lg shadow w-full h-full">
-            <line-chart :data="chartData" />
+            <line-chart :chartData="chartData" />
         </div>
     </div>
 </template>
