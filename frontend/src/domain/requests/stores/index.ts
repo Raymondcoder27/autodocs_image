@@ -15,8 +15,6 @@ export const useDocumentStore = defineStore("documents", () => {
                 logs.value = response.data.data
             })
     }
-
-
     return {
         fetchLogs,
     }
