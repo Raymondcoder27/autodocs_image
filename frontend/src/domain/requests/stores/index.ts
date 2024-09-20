@@ -4,7 +4,7 @@ import type {ApiResponse} from "@/types";
 import {ref, type Ref} from "vue";
 import api from "@/config/api";
 
-export const useDocumentStore = defineStore("documents", () => {
+export const useLogStore = defineStore("logs", () => {
 
     const logs: Ref<Doc[] | undefined> = ref()
 
