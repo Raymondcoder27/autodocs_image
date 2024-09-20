@@ -341,6 +341,26 @@ func Templates(c *gin.Context) {
 }
 
 // GetDocumentHistory retrieves the document creation history
+// func GetDocumentHistory(c *gin.Context) {
+// 	var history []struct {
+// 		Date  string `json:"date"`
+// 		Count int    `json:"count"`
+// 	}
+
+// 	// Group by creation date and count documents
+// 	err := initializers.DB.Table("documents").
+// 		Select("DATE(created_at) as date, COUNT(*) as count").
+// 		Group("DATE(created_at)").
+// 		Scan(&history).Error
+
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history: " + err.Error()})
+// 		return
+// 	}
+
+// 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": history})
+// }
+
 func GetDocumentHistory(c *gin.Context) {
 	var history []struct {
 		Date  string `json:"date"`
@@ -349,8 +369,8 @@ func GetDocumentHistory(c *gin.Context) {
 
 	// Group by creation date and count documents
 	err := initializers.DB.Table("documents").
-		Select("DATE(created_at) as date, COUNT(*) as count").
-		Group("DATE(created_at)").
+		Select("DAYNAME(created_at) as date, COUNT(*) as count").
+		Group("DAYNAME(created_at)").
 		Scan(&history).Error
 
 	if err != nil {
@@ -358,5 +378,30 @@ func GetDocumentHistory(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": history})
+	// Create a map to hold the counts for each day of the week
+	dayCounts := map[string]int{
+		"Monday":    0,
+		"Tuesday":   0,
+		"Wednesday": 0,
+		"Thursday":  0,
+		"Friday":    0,
+		"Saturday":  0,
+		"Sunday":    0,
+	}
+
+	// Populate the map with the counts from the database
+	for _, record := range history {
+		dayCounts[record.Date] = record.Count
+	}
+
+	// Create the final response in the desired format
+	var response []map[string]interface{}
+	for day, count := range dayCounts {
+		response = append(response, map[string]interface{}{
+			"date":  day,
+			"count": count,
+		})
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
 }
