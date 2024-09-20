@@ -339,3 +339,24 @@ func Templates(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "timestamp": currentTime})
 }
+
+// GetDocumentHistory retrieves the document creation history
+func GetDocumentHistory(c *gin.Context) {
+	var history []struct {
+		Date  string `json:"date"`
+		Count int    `json:"count"`
+	}
+
+	// Group by creation date and count documents
+	err := initializers.DB.Table("documents").
+		Select("DATE(created_at) as date, COUNT(*) as count").
+		Group("DATE(created_at)").
+		Scan(&history).Error
+
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history: " + err.Error()})
+		return
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": history})
+}
