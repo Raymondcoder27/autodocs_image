@@ -1,4 +1,4 @@
-<!-- <script setup lang="ts">
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
@@ -85,52 +85,5 @@ async function fetchDocumentHistory() {
 
 <template>
     <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
-</template> -->
-
-
-<script setup lang="ts">
-import { defineProps, watch, onMounted,ref } from 'vue';
-import { Chart, registerables } from 'chart.js';
-
-Chart.register(...registerables);
-
-const props = defineProps({
-    data: {
-        type: Object,
-        required: true
-    }
-});
-
-const chartRef = ref(null);
-
-watch(() => props.data, (newData) => {
-    if (chartRef.value) {
-        chartRef.value.data = newData;
-        chartRef.value.update();
-    }
-}, { deep: true });
-
-onMounted(() => {
-    const ctx = document.getElementById('line-chart').getContext('2d');
-    chartRef.value = new Chart(ctx, {
-        type: 'line',
-        data: props.data,
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'top',
-                },
-                title: {
-                    display: true,
-                    text: 'Chart.js Line Chart'
-                }
-            }
-        }
-    });
-});
-</script>
-
-<template>
-    <canvas id="line-chart"></canvas>
 </template>
+
