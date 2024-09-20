@@ -72,28 +72,28 @@ async function fetchMetrics() {
 // }
 
 
-async function fetchDocumentHistory() {
-    try {
-        // Assuming you have an API endpoint like '/api/document-history' that returns the data
-        const response = await fetch('/api/document-history'); // Replace with your actual API endpoint
+function fetchDocumentHistory() {
+    // loading.value = true;
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch document history');
-        }
-
-        const data = await response.json();
-
-        // Assuming the response looks something like this:
-        // [{ date: "2023-09-18", count: 5 }, { date: "2023-09-19", count: 8 }, ...]
-
-        return data.map(entry => ({
-            date: entry.date,   // Use proper date formatting if necessary
-            count: entry.count
-        }));
-    } catch (error) {
-        console.error('Error fetching document history:', error);
-        return [];
-    }
+    return fetch('/api/document-history')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch document history');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // loading.value = false;
+            return data.map(entry => ({
+                date: entry.date,   // Use proper date formatting if necessary
+                count: entry.count
+            }));
+        })
+        .catch(error => {
+            // loading.value = false;
+            console.error('Error fetching document history:', error);
+            return [];
+        });
 }
 
 </script>
