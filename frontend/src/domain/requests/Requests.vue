@@ -170,7 +170,7 @@ import FileViewer from "@/components/FileViewer.vue";
 import { dateTimeFormat } from "../../composables/transformations";
 import { useTemplateStore } from "@/domain/templates/stores";
 import { Template } from "../templates/types";
-import {useLogStore} from "@/domain/logs/stores";
+import {useLogStore} from "@/domain/requests/stores";
 
 const loading: Ref<boolean> = ref(false);
 const showCreateRequestModal: Ref<boolean> = ref(false);
