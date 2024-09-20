@@ -368,8 +368,8 @@ func GetDocumentHistory(c *gin.Context) {
 
 	// Group by creation date and count documents
 	err := initializers.DB.Table("documents").
-		Select("TO_CHAR(created_at, 'Day') as date, COUNT(*) as count").
-		Group("TO_CHAR(created_at, 'Day')").
+		Select("TO_CHAR(created_at, 'FMDay') as date, COUNT(*) as count").
+		Group("TO_CHAR(created_at, 'FMDay')").
 		Scan(&history).Error
 
 	if err != nil {
@@ -395,10 +395,11 @@ func GetDocumentHistory(c *gin.Context) {
 
 	// Create the final response in the desired format
 	var response []map[string]interface{}
-	for day, count := range dayCounts {
+	orderedDays := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+	for _, day := range orderedDays {
 		response = append(response, map[string]interface{}{
 			"date":  day,
-			"count": count,
+			"count": dayCounts[day],
 		})
 	}
 
