@@ -48,6 +48,11 @@ func MigrateDB() {
 	if err2 != nil {
 		log.Printf("Error migrating database: %v", err)
 	}
+
+	err3 := DB.AutoMigrate(&models.Logs{})
+	if err3 != nil {
+		log.Printf("Error migrating database: %v", err)
+	}
 }
 
 // func ConnectToDB() {
