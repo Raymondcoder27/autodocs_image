@@ -237,12 +237,10 @@ function deleteDocument() {
         .then(() => {
             loading.value = false;
             showDeleteModal.value = false;
-            requestLogs.value.push({ method: 'DELETE', status: 'SUCCESS' });
             fetch();
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
-            requestLogs.value.push({ method: 'DELETE', status: 'FAILURE' });
             notify.error(
                 error.response?.data.message || "Error deleting the document"
             );
@@ -306,11 +304,11 @@ function prevPage(){
     }
 }
 
-const failureRate = computed(() => {
-    const totalRequests = requestLogs.value.length;
-    const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
-    return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
-});
+// const failureRate = computed(() => {
+//     const totalRequests = requestLogs.value.length;        
+//     const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+//     return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+// });
 </script>
 
 
