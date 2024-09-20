@@ -75,7 +75,7 @@ async function fetchMetrics() {
 function fetchDocumentHistory() {
     // loading.value = true;
 
-    return fetch('/api/document-history')
+    return fetch('/document-history')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch document history');
