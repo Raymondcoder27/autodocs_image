@@ -319,16 +319,31 @@ func DeleteDocument(c *gin.Context) {
 	currentTime := time.Now()
 	// c.JSON(http.StatusOK, gin.H{"message": "Document deleted successfully"})
 
+	// if err := initializers.DB.Create(&models.Logs{
+	// 	ID:           id,
+	// 	DocumentName: id,
+	// 	JsonPayload:  string(jsonString),
+	// 	Status:       "SUCCESS",
+	// 	Method:       "POST",
+	// 	Description:  request.Description,
+	// 	TemplateId:   templateId,
+	// 	RefNumber:    storageKey,
+	// 	CreatedAt:    time.Now(),
+	// }).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+	// 	return
+	// }
+
 	if err := initializers.DB.Create(&models.Logs{
-		ID:           id,
-		DocumentName: id,
-		JsonPayload:  string(jsonString),
+		ID:           uuid.New().String(),
+		DocumentName: refNumber,
+		JsonPayload:  "",
 		Status:       "SUCCESS",
-		Method:       "POST",
-		Description:  request.Description,
-		TemplateId:   templateId,
-		RefNumber:    storageKey,
-		CreatedAt:    time.Now(),
+		Method:       "DELETE",
+		Description:  "Document deleted successfully",
+		TemplateId:   "",
+		RefNumber:    refNumber,
+		CreatedAt:    currentTime,
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		return
