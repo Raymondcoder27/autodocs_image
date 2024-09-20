@@ -199,6 +199,21 @@ func CreateDocument(c *gin.Context) {
 		return
 	}
 
+	if err := initializers.DB.Create(&models.Logs{
+		ID:           id,
+		DocumentName: id,
+		JsonPayload:  string(jsonString),
+		Status:       "SUCCESS",
+		Method:       "POST",
+		Description:  request.Description,
+		TemplateId:   templateId,
+		RefNumber:    storageKey,
+		CreatedAt:    time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+
 	pdfGenerationResponse := PDFGenerationResponse{
 		// ID:           document.ID,
 		// DocumentName: document.DocumentName,
@@ -303,6 +318,21 @@ func DeleteDocument(c *gin.Context) {
 	}
 	currentTime := time.Now()
 	// c.JSON(http.StatusOK, gin.H{"message": "Document deleted successfully"})
+
+	if err := initializers.DB.Create(&models.Logs{
+		ID:           id,
+		DocumentName: id,
+		JsonPayload:  string(jsonString),
+		Status:       "SUCCESS",
+		Method:       "POST",
+		Description:  request.Description,
+		TemplateId:   templateId,
+		RefNumber:    storageKey,
+		CreatedAt:    time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
 
 	response := DeleteResponse{
 		Status:    "SUCCESS",

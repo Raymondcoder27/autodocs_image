@@ -38,7 +38,7 @@ func main() {
 	// r.POST("/generate/:id", controllers.CreateDocument)
 
 	r.POST("/upload-template", controllers.UploadTemplate)
-	r.POST("/generate", controllers.CreateDocument)
+	r.POST("/generate", controllers.CreateDocument, controllers.AutodocsLogs)
 	r.GET("/documents", controllers.GetDocuments)
 	r.GET("/templates", controllers.Templates)
 	r.GET("/document-history", controllers.GetDocumentHistory)
