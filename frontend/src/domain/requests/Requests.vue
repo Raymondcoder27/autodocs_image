@@ -24,6 +24,8 @@ const jsonPayloadPreview: Ref<boolean> = ref(false);
 const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
+const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
+
 onMounted(() => {
     fetch();
 });
@@ -34,9 +36,11 @@ function fetch() {
         .fetchDocuments()
         .then(() => {
             loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error fetching documents");
         });
 
@@ -44,9 +48,11 @@ function fetch() {
         .fetchTemplates()
         .then(() => {
             loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'SUCCESS' });
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
+            requestLogs.value.push({ method: 'GET', status: 'FAILURE' });
             notify.error(error.response?.data.message || "Error fetching templates");
         });
 }
@@ -58,10 +64,12 @@ function deleteDocument() {
         .then(() => {
             loading.value = false;
             showDeleteModal.value = false;
+            requestLogs.value.push({ method: 'DELETE', status: 'SUCCESS' });
             fetch();
         })
         .catch((error: AxiosError<ApiErrorResponse>) => {
             loading.value = false;
+            requestLogs.value.push({ method: 'DELETE', status: 'FAILURE' });
             notify.error(
                 error.response?.data.message || "Error deleting the document"
             );
@@ -74,7 +82,6 @@ const selectedPdf = computed(() => {
         (document) => document.refNumber === selectedDocumentRef.value
     );
 });
-
 
 function downloadPdf() {
     // Convert Base64 to a Blob
@@ -125,6 +132,12 @@ function prevPage(){
         currentPage.value--;
     }
 }
+
+const failureRate = computed(() => {
+    const totalRequests = requestLogs.value.length;
+    const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
+    return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+});
 </script>
 
 <template>
@@ -248,7 +261,6 @@ function prevPage(){
             </h2>
         </template>
         <pre class="text-wrap bg-gray-100 text-[10px] p-2 h-auto overflow-auto max-h-[500px] flex-grow">
-            <!-- {{ store.documents.find((doc) => doc.refNumber === selectedDocumentRef)?.jsonPayload }} -->
             {{ store.documents.find((doc) => doc.refNumber === selectedDocumentRef)?.jsonPayload 
             ? JSON.stringify(JSON.parse(store.documents.find((doc) => doc.refNumber === selectedDocumentRef)?.jsonPayload), null, 2) 
             : 'No JSON Payload available' }}
@@ -307,4 +319,4 @@ function prevPage(){
 @import "@/assets/styles/buttons.css";
 @import "@/assets/styles/table.css";
 </style>
-<!-- </AppModal> -->
+</AppModal>
