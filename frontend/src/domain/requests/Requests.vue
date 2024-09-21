@@ -320,11 +320,11 @@ function downloadPdf() {
 
 
 //paginating logs using the same logic as documents
-// const paginatedLogs = computed(() => {
-//   const start = (currentPage.value - 1) * itemsPerPage;
-//   const end = start + itemsPerPage;
-//     return logStore.logs.slice(start, end);
-// });
+const paginatedLogs = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+    return logStore.logs.slice(start, end);
+});
 
 // function nextPage() {
 //   if (currentPage.value * itemsPerPage < logStore.value.length) {
