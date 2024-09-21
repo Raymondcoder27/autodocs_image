@@ -441,7 +441,7 @@ const paginatedLogs = computed(() => {
                                             class=""
                                             @click="
                                                 showDeleteModal = true;
-                                                selectedDocumentRef = document.refNumber;
+                                                selectedDocumentRef = log.refNumber;
                                             "
                                         >
                                             <i class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100  border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-red-50 hover:text-red-500"></i>
