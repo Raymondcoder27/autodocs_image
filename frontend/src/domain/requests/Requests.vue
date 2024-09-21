@@ -459,7 +459,7 @@ function prevPage() {
                     </table>
                 </span>
 
-                <!-- <div class="flex justify-between mt-4">
+                <div class="flex justify-between mt-4">
           <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
@@ -474,7 +474,7 @@ function prevPage() {
           >
             Next<i class="fa-solid fa-chevron-right"></i>
           </button>
-        </div> -->
+        </div>
             </div>
         </div>
         
