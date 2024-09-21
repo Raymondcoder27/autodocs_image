@@ -16,6 +16,7 @@ export const useLogStore = defineStore("logs", () => {
             })
     }
     return {
+        logs,
         fetchLogs,
     }
 })
