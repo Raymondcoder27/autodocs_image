@@ -320,29 +320,29 @@ function downloadPdf() {
 
 
 //paginating logs using the same logic as documents
-const paginatedLogs = computed(() => {
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-    return logStore.logs.slice(start, end);
-});
+// const paginatedLogs = computed(() => {
+//   const start = (currentPage.value - 1) * itemsPerPage;
+//   const end = start + itemsPerPage;
+//     return logStore.logs.slice(start, end);
+// });
 
-function nextPage() {
-  if (currentPage.value * itemsPerPage < logStore.value.length) {
-    currentPage.value++;
-  }
-}
+// function nextPage() {
+//   if (currentPage.value * itemsPerPage < logStore.value.length) {
+//     currentPage.value++;
+//   }
+// }
 
-function prevPage() {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-}
+// function prevPage() {
+//   if (currentPage.value > 1) {
+//     currentPage.value--;
+//   }
+// }
 
-const failureRate = computed(() => {
-    const totalRequests = logStore.logs.length;
-    const failedRequests = logStore.logs.filter(log => log.status === 'FAILURE').length;
-  return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
-});
+// const failureRate = computed(() => {
+//     const totalRequests = logStore.logs.length;
+//     const failedRequests = logStore.logs.filter(log => log.status === 'FAILURE').length;
+//   return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
+// });
 
 // const failureRate = computed(() => {
 //     const totalRequests = requestLogs.value.length;        
@@ -393,7 +393,7 @@ const failureRate = computed(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- <tr v-for="(document, idx) in paginatedRequests" :key="idx">
+                            <tr v-for="(document, idx) in paginatedRequests" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                                 <td class="text-black-700">
@@ -438,17 +438,17 @@ const failureRate = computed(() => {
                                         </button>
                                     </div>
                                 </td>
-                            </tr> -->
-                            <tr v-for="(log, idx) in paginatedLogs" :key="idx">
+                            </tr>
+                            <!-- <tr v-for="(log, idx) in paginatedLogs" :key="idx">
                 <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1 }}</td>
                 <td class="font-bold text-black-700">{{ log.string }}</td>
                 <td class="italic text-black-700">{{ log.status }}</td>
-              </tr>
+              </tr> -->
                         </tbody>
                     </table>
                 </span>
 
-                <div class="flex justify-between mt-4">
+                <!-- <div class="flex justify-between mt-4">
           <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
@@ -463,7 +463,7 @@ const failureRate = computed(() => {
           >
             Next<i class="fa-solid fa-chevron-right"></i>
           </button>
-        </div>
+        </div> -->
             </div>
         </div>
         
