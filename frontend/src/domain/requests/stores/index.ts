@@ -11,7 +11,7 @@ export const useLogStore = defineStore("logs", () => {
 
     const fetchLogs = async () => {
         return api.get("/logs")
-            .then((response: AxiosResponse<ApiResponse<Doc[]>>) => {
+            .then((response: AxiosResponse<ApiResponse<Log[]>>) => {
                 logs.value = response.data.data
             })
     }
