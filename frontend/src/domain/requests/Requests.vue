@@ -393,7 +393,8 @@ const paginatedLogs = computed(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(document, idx) in paginatedRequests" :key="idx">
+                            <!-- <tr v-for="(document, idx) in paginatedRequests" :key="idx"> -->
+                            <tr v-for="(document, idx) in paginatedLogs" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <td class="italic text-black-700">{{ document.refNumber }}</td>
                                 <td class="text-black-700">
