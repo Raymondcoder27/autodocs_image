@@ -319,12 +319,11 @@ function downloadPdf() {
 
 // const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
 
-
 //paginating logs using the same logic as documents
 const paginatedLogs = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-    return logStore.logs.slice(start, end);
+  return logStore.logs.slice(start, end);
 });
 
 function nextPage() {
