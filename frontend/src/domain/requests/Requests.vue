@@ -336,7 +336,7 @@ const paginatedLogs = computed(() => {
 });
 
 function nextPage() {
-  if (currentPage.value * itemsPerPage < logStore.value.length) {
+  if (logStore.logs && currentPage.value * itemsPerPage < logStore.logs.length) {
     currentPage.value++;
   }
 }
