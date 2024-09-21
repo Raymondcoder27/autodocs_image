@@ -411,14 +411,17 @@ const paginatedLogs = computed(() => {
                                 <td class="text-black-700">
                                     <span
                                     :class="{
-                                        'bg-warning-100 border border-warning-400 text-warning-600 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'POST',
-                                        'bg-blue-50 border border-blue-300 text-blue-400 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'GET',
-                                        'bg-red-100 border border-red-500 text-red-600 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'DELETE',
-                                    }">{{ document.requestMethod }}</span>
+                                        // 'bg-warning-100 border border-warning-400 text-warning-600 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'POST',
+                                        // 'bg-blue-50 border border-blue-300 text-blue-400 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'GET',
+                                        // 'bg-red-100 border border-red-500 text-red-600 font-semibold rounded-sm px-1 py-0.3': document.requestMethod === 'DELETE',
+                                        'bg-warning-100 border border-warning-400 text-warning-600 font-semibold rounded-sm px-1 py-0.3': log.requestMethod === 'POST',
+                                        'bg-blue-50 border border-blue-300 text-blue-400 font-semibold rounded-sm px-1 py-0.3': log.requestMethod === 'GET',
+                                        'bg-red-100 border border-red-500 text-red-600 font-semibold rounded-sm px-1 py-0.3': log.requestMethod === 'DELETE',
+                                    }">{{ log.requestMethod }}</span>
                                 </td>
                                 <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ document.status }}</td>
                                 <td class="text-black-700"><button
-                                    @click="(selectedDocumentRef = document.refNumber), (jsonPayloadPreview = true)"
+                                    @click="(selectedDocumentRef = log.refNumber), (jsonPayloadPreview = true)"
                                     class="bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm px-1 py-0.3 text-xs">
                                     PREVIEW</button>
                                 </td>
@@ -427,7 +430,8 @@ const paginatedLogs = computed(() => {
                                         <button
                                             class=""
                                             @click="
-                                                (selectedDocumentRef = document.refNumber),
+                                                // (selectedDocumentRef = document.refNumber),
+                                                (selectedDocumentRef = log.refNumber),
                                                     (pdfPreview = true)
                                             "
                                         >
