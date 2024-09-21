@@ -327,17 +327,17 @@ const paginatedLogs = computed(() => {
     return logStore.logs.slice(start, end);
 });
 
-// function nextPage() {
-//   if (currentPage.value * itemsPerPage < logStore.value.length) {
-//     currentPage.value++;
-//   }
-// }
+function nextPage() {
+  if (currentPage.value * itemsPerPage < logStore.value.length) {
+    currentPage.value++;
+  }
+}
 
-// function prevPage() {
-//   if (currentPage.value > 1) {
-//     currentPage.value--;
-//   }
-// }
+function prevPage() {
+  if (currentPage.value > 1) {
+    currentPage.value--;
+  }
+}
 
 // const failureRate = computed(() => {
 //     const totalRequests = logStore.logs.length;
