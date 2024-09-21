@@ -170,6 +170,7 @@ import FileViewer from "@/components/FileViewer.vue";
 import { dateTimeFormat } from "../../composables/transformations";
 import { useTemplateStore } from "@/domain/templates/stores";
 import { Template } from "../templates/types";
+import {Log} from "@/domain/requests/types";
 import {useLogStore} from "@/domain/requests/stores";
 
 const loading: Ref<boolean> = ref(false);
@@ -405,7 +406,7 @@ const paginatedLogs = computed(() => {
                                 </td>
                                 <td class="text-black-700">
                                     <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ documentStore.documents?.find((d: Document) => d.refNumber == log.refNumber)?.description || 'Unknown Document' }}
+                                    {{ documentStore.documents?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
