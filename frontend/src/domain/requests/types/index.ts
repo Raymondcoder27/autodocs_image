@@ -6,6 +6,6 @@ export interface Log {
     method:string
     jsonPayload:string
     refNumber:string
-    fileName:string
+    // fileName:string
     created_at:string
 }
