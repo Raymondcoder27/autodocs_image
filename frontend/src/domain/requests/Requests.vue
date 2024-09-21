@@ -394,14 +394,18 @@ const paginatedLogs = computed(() => {
                         </thead>
                         <tbody>
                             <!-- <tr v-for="(document, idx) in paginatedRequests" :key="idx"> -->
-                            <tr v-for="(document, idx) in paginatedLogs" :key="idx">
+                            <tr v-for="(log, idx) in paginatedLogs" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
-                                <td class="italic text-black-700">{{ document.refNumber }}</td>
+                                <!-- <td class="italic text-black-700">{{ document.refNumber }}</td> -->
+                                <td class="italic text-black-700">{{ log.refNumber }}</td>
+
                                 <td class="text-black-700">
-                                    {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }}
+                                    <!-- {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }} -->
+                                    {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
                                 </td>
                                 <td class="text-black-700">
-                                    {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }}
+                                    <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
+                                    {{ documentStore.documents?.find((d: Document) => d.refNumber == log.refNumber)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
