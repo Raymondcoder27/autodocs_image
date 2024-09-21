@@ -402,11 +402,11 @@ const paginatedLogs = computed(() => {
 
                                 <td class="text-black-700">
                                     <!-- {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }} -->
-                                    {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
+                                    {{ logStore.logs?.find((t: Log) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
                                 </td>
                                 <td class="text-black-700">
                                     <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ documentStore.documents?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
+                                    {{ log.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
@@ -419,7 +419,9 @@ const paginatedLogs = computed(() => {
                                         'bg-red-100 border border-red-500 text-red-600 font-semibold rounded-sm px-1 py-0.3': log.requestMethod === 'DELETE',
                                     }">{{ log.requestMethod }}</span>
                                 </td>
-                                <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ document.status }}</td>
+                                <!-- <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ document.status }}</td> -->
+                                <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ log.status }}</td>
+
                                 <td class="text-black-700"><button
                                     @click="(selectedDocumentRef = log.refNumber), (jsonPayloadPreview = true)"
                                     class="bg-gray-50 border border-gray-200 text-gray-500 hover:bg-gray-200 hover:text-gray-600 font-semibold rounded-sm px-1 py-0.3 text-xs">
