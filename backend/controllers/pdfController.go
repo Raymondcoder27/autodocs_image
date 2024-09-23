@@ -201,15 +201,15 @@ func CreateDocument(c *gin.Context) {
 
 	//inserting post request into logs table
 	if err := initializers.DB.Create(&models.Logs{
-		ID:           id,
-		DocumentName: id,
-		JsonPayload:  string(jsonString),
-		Status:       "SUCCESS",
-		Method:       "POST",
-		Description:  request.Description,
-		TemplateId:   templateId,
-		RefNumber:    storageKey,
-		CreatedAt:    time.Now(),
+		ID:             id,
+		DocumentName:   id,
+		JsonPayload:    string(jsonString),
+		Status:         "SUCCESS",
+		Method:         "POST",
+		LogDescription: request.Description,
+		TemplateId:     templateId,
+		RefNumber:      storageKey,
+		CreatedAt:      time.Now(),
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		return
@@ -237,33 +237,33 @@ func GetDocuments(c *gin.Context) {
 	currentTime := time.Now()
 	// c.IndentedJSON(http.StatusOK, documents)
 
-	// var result []DocumentWithExtraFields
-	// for _, doc := range documents {
-	// 	result = append(result, DocumentWithExtraFields{
-	// 		ID:            doc.ID,
-	// 		DocumentName:  doc.DocumentName,
-	// 		Description:   doc.Description,
-	// 		TemplateID:    doc.TemplateId,
-	// 		RequestStatus: doc.Status, // Set default or dynamic value
-	// 		RequestMethod: doc.Method, // Set default or dynamic value
-	// 		JsonPayload:   doc.JsonPayload,
-	// 		RefNumber:     doc.RefNumber,
-	// 		CreatedAt:     doc.CreatedAt,
-	// 		// DeletedAt:     doc.DeletedAt,
-	// 	})
-	// }
+	var result []DocumentWithExtraFields
+	for _, doc := range documents {
+		result = append(result, DocumentWithExtraFields{
+			ID:            doc.ID,
+			DocumentName:  doc.DocumentName,
+			Description:   doc.Description,
+			TemplateID:    doc.TemplateId,
+			RequestStatus: doc.Status, // Set default or dynamic value
+			RequestMethod: doc.Method, // Set default or dynamic value
+			JsonPayload:   doc.JsonPayload,
+			RefNumber:     doc.RefNumber,
+			CreatedAt:     doc.CreatedAt,
+			// DeletedAt:     doc.DeletedAt,
+		})
+	}
 
 	//inserting get request into logs table
 	if err := initializers.DB.Create(&models.Logs{
-		ID:           uuid.New().String(),
-		DocumentName: "",
-		JsonPayload:  "",
-		Status:       "SUCCESS",
-		Method:       "GET",
-		Description:  "Get all documents",
-		TemplateId:   "",
-		RefNumber:    "",
-		CreatedAt:    currentTime,
+		ID:             uuid.New().String(),
+		DocumentName:   "",
+		JsonPayload:    "",
+		Status:         "SUCCESS",
+		Method:         "GET",
+		LogDescription: "Get all documents",
+		TemplateId:     "",
+		RefNumber:      "",
+		CreatedAt:      currentTime,
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		return
@@ -359,7 +359,7 @@ func DeleteDocument(c *gin.Context) {
 	}
 
 	if err := initializers.DB.Create(&models.Logs{
-		ID:             uuid.New().String(),
+		ID:             document.ID,
 		DocumentName:   document.Description,
 		JsonPayload:    "",
 		Status:         "SUCCESS",
