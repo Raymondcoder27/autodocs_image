@@ -351,7 +351,7 @@ function prevPage() {
           </button>
         </div> -->
 
-        <div class="flex justify-between mt-4" v-if="store.templates.length > itemsPerPage">
+        <div class="flex justify-between mt-4" v-if="logStore.logs.length > itemsPerPage">
     <button
       :disabled="currentPage === 1"
       @click="prevPage"
@@ -359,7 +359,7 @@ function prevPage() {
       <i class="fa-solid fa-chevron-left"></i> Previous
     </button>
     <button
-      :disabled="currentPage * itemsPerPage >= store.templates.length"
+      :disabled="currentPage * itemsPerPage >= logStore.logs.length"
       @click="nextPage"
       class="bg-gray-100 border border-gray-200 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold">
       Next<i class="fa-solid fa-chevron-right"></i> 
