@@ -246,7 +246,7 @@ function prevPage() {
                             <tr v-for="(log, idx) in paginatedLogs" :key="idx">
                                 <td class="text-black">{{ (currentPage - 1)* itemsPerPage + idx + 1 }}</td>
                                 <!-- <td class="italic text-black-700">{{ document.refNumber }}</td> -->
-                                <td class="italic text-black-700">{{ log.refNumber }}</td>
+                                <td class="italic text-black-700">{{ log.refNumber || "NAN"}}</td>
 
                                 <td class="text-black-700">
                                     <!-- {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }} -->
