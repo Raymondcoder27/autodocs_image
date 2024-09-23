@@ -10,6 +10,7 @@ import FileViewer from "@/components/FileViewer.vue";
 import { dateTimeFormat } from "../../composables/transformations";
 import { useTemplateStore } from "@/domain/templates/stores";
 import { Template } from "../templates/types";
+import {Doc} from "@/domain/documents/types";
 import {Log} from "@/domain/requests/types";
 import {useLogStore} from "@/domain/requests/stores";
 
@@ -243,7 +244,7 @@ function prevPage() {
                                 </td>
                                 <td class="text-black-700">
                                     <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ documentStore.documents?.find((d: Document) => d.id == log.id)?.description || 'Unknown Document' }}
+                                    {{ documentStore.documents?.find((d: Doc) => d.id == log.id)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
@@ -296,7 +297,7 @@ function prevPage() {
                 </span>
 
                 <div class="flex justify-between mt-4">
-          <button
+          <!-- <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
             @click="prevPage"
@@ -305,11 +306,11 @@ function prevPage() {
           </button>
           <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
-            :disabled="currentPage * itemsPerPage >= store.documents.length"
+            :disabled="currentPage * itemsPerPage >= store.logs.length"
             @click="nextPage"
           >
             Next<i class="fa-solid fa-chevron-right"></i>
-          </button>
+          </button> -->
         </div>
             </div>
         </div>
