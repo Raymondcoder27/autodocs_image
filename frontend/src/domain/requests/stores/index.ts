@@ -15,6 +15,14 @@ export const useLogStore = defineStore("logs", () => {
                 logs.value = response.data.data
             })
     }
+
+    const clearLogs = async (ref:string) => {
+        return api.delete("/clear-logs")
+            .then((response: AxiosResponse<ApiResponse<any>>) => {
+                uploadResponse.value = response.data.data
+            })
+    }
+
     return {
         logs,
         fetchLogs,
