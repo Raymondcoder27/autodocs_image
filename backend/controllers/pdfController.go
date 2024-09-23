@@ -177,6 +177,23 @@ func CreateDocument(c *gin.Context) {
 	fileReader := bytes.NewReader(pdfBytes)
 
 	if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
+
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error uploading PDF: " + err.Error()})
 		return
 	}
@@ -348,7 +365,7 @@ func DeleteDocument(c *gin.Context) {
 		DocumentDescription: document.Description,
 		TemplateId:          document.TemplateId,
 		JsonPayload:         "",
-		Status:              "SUCCESSss",
+		Status:              "SUCCESS",
 		Method:              "DELETE",
 		LogDescription:      "Document deleted successfully",
 		RefNumber:           refNumber,

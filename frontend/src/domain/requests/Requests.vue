@@ -21,6 +21,8 @@ const showDeleteLogsRequest: Ref<boolean> = ref(false);
 const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
 const logStore = useLogStore();
+// const logStore = useLogStore();
+logStore.logs = logStore.logs || [];
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
@@ -57,15 +59,28 @@ function fetch() {
       notify.error(error.response?.data.message || "Error fetching templates");
     });
 
-  logStore
-    .fetchLogs()
-    .then(() => {
-      loading.value = false;
-    })
-    .catch((error: AxiosError<ApiErrorResponse>) => {
-      loading.value = false;
-      notify.error(error.response?.data.message || "Error fetching logs");
-    });
+//   logStore
+//     .fetchLogs()
+//     .then(() => {
+//       loading.value = false;
+//     })
+//     .catch((error: AxiosError<ApiErrorResponse>) => {
+//       loading.value = false;
+//       notify.error(error.response?.data.message || "Error fetching logs");
+//     });
+
+logStore
+  .fetchLogs()
+  .then(() => {
+    loading.value = false;
+    if (!logStore.logs) logStore.logs = []; // Fallback to empty array if undefined
+  })
+  .catch((error: AxiosError<ApiErrorResponse>) => {
+    loading.value = false;
+    notify.error(error.response?.data.message || "Error fetching logs");
+    logStore.logs = []; // Fallback to empty array on error
+  });
+
 }
 
 // function createDocument(payload) {
@@ -223,7 +238,7 @@ function prevPage() {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody v-if="paginatedLogs && paginatedLogs.length">
               <!-- <tr v-for="(document, idx) in paginatedRequests" :key="idx"> -->
               <tr v-for="(log, idx) in paginatedLogs" :key="idx">
                 <td class="text-black">
