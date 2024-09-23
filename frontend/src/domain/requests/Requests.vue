@@ -272,7 +272,7 @@ function prevPage() {
                                 </td>
                                 <td class="text-black-700">
                                     <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ documentStore.documents?.find((d: Document) => d.id == log.id)?.documentName || 'Unknown Document' }}
+                                    {{ documentStore.documents?.find((d: Document) => d.id == log.id)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
