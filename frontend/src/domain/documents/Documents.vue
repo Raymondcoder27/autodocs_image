@@ -108,14 +108,21 @@ function downloadPdf() {
   URL.revokeObjectURL(url);
 }
 
+// const paginatedDocuments = computed(() => {
+//   const start = (currentPage.value - 1) * itemsPerPage;
+//   const end = start + itemsPerPage;
+//   return store.documents.slice(start, end);
+// });
+
 const paginatedDocuments = computed(() => {
+  const documents = store.documents || []; // Ensure `documents` is an array
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return store.documents.slice(start, end);
+  return documents.slice(start, end);
 });
 
 function nextPage() {
-  if (currentPage.value * itemsPerPage < store.logs.length) {
+  if (currentPage.value * itemsPerPage < store.documents.length) {
     currentPage.value++;
   }
 }
