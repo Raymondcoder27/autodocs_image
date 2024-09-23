@@ -49,6 +49,7 @@ func main() {
 
 	r.DELETE("/templates/:refNumber", controllers.DeleteTemplate)
 	r.DELETE("/documents/:refNumber", controllers.DeleteDocument)
+	r.DELETE("/clear-logs", controllers.DeleteAllLogs)
 	r.Run()
 
 }
