@@ -181,8 +181,6 @@ function prevPage() {
 }
 </script>
 
-
-
 <template>
   <div class="flex p-2 bg-white shadow-md shadow-black-200 rounded-xl">
     <div class="w-full">
