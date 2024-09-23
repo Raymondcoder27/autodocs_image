@@ -157,24 +157,6 @@ function downloadPdf() {
     URL.revokeObjectURL(url);
 }
 
-// const paginatedRequests = computed(()=>{
-//     const start = (currentPage.value  - 1) * itemsPerPage;
-//     const end = start + itemsPerPage;
-//     return store.documents.slice(start, end);
-// })
-
-// function nextPage(){
-//     if (currentPage.value * itemsPerPage < store.documents.length) {
-//         currentPage.value++;
-//     }
-// }
-
-// function prevPage(){
-//     if (currentPage.value > 1) {
-//         currentPage.value--;
-//     }
-// }
-
 // const requestLogs: Ref<{ method: string, status: string }[]> = ref([]);
 
 //paginating logs using the same logic as documents
@@ -205,17 +187,6 @@ function prevPage() {
   }
 }
 
-// const failureRate = computed(() => {
-//     const totalRequests = logStore.logs.length;
-//     const failedRequests = logStore.logs.filter(log => log.status === 'FAILURE').length;
-//   return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
-// });
-
-// const failureRate = computed(() => {
-//     const totalRequests = requestLogs.value.length;        
-//     const failedRequests = requestLogs.value.filter(log => log.status === 'FAILURE').length;
-//     return totalRequests > 0 ? (failedRequests / totalRequests) * 100 : 0;
-// });
 </script>
 
 
