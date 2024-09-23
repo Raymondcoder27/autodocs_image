@@ -334,19 +334,19 @@ func DeleteDocument(c *gin.Context) {
 	currentTime := time.Now()
 
 	//find this document in the database
-	var document models.Document
-	if err := initializers.DB.Where("ref_number = ?", refNumber).First(&document).Error; err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"message": "Document not found"})
-		return
-	}
+	// var document models.Document
+	// if err := initializers.DB.Where("ref_number = ?", refNumber).First(&document).Error; err != nil {
+	// 	c.JSON(http.StatusNotFound, gin.H{"message": "Document not found"})
+	// 	return
+	// }
 
 	//inserting delete request into logs table
 	if err := initializers.DB.Create(&models.Logs{
+		ID: uuid.New().String(),
 		// ID:                  document.ID,
 		// DocumentName:        document.ID,
 		// DocumentDescription: document.Description,
 		// TemplateId:          document.TemplateId,
-		ID:             uuid.New().String(),
 		JsonPayload:    "",
 		Status:         "SUCCESSss",
 		Method:         "DELETE",
