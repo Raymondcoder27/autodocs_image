@@ -527,7 +527,7 @@ function prevPage() {
 
                     <button
                         class="bg-danger text-white p-1 w-1/2 rounded hover:bg-red-800"
-                        @click="deleteDocument"
+                        @click="clearLogs"
                     >
                         <i class="fa-solid fa-check-circle mx-1"></i> Confirm
                     </button>
