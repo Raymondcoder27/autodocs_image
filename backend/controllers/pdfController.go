@@ -346,6 +346,7 @@ func DeleteDocument(c *gin.Context) {
 		// DocumentName:        document.ID,
 		// DocumentDescription: document.Description,
 		// TemplateId:          document.TemplateId,
+		ID:             uuid.New().String(),
 		JsonPayload:    "",
 		Status:         "SUCCESSss",
 		Method:         "DELETE",
