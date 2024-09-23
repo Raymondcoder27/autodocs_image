@@ -114,6 +114,13 @@ function downloadPdf() {
 //   return store.documents.slice(start, end);
 // });
 
+// const paginatedDocuments = computed(() => {
+//   const documents = store.documents || []; // Ensure `documents` is an array
+//   const start = (currentPage.value - 1) * itemsPerPage;
+//   const end = start + itemsPerPage;
+//   return documents.slice(start, end);
+// });
+
 const paginatedDocuments = computed(() => {
   const documents = store.documents || []; // Ensure `documents` is an array
   const start = (currentPage.value - 1) * itemsPerPage;
