@@ -22,7 +22,7 @@ const selectedDocumentRef: Ref<string> = ref("");
 const store = useDocumentStore();
 const logStore = useLogStore();
 // const logStore = useLogStore();
-logStore.logs = logStore.logs || [];
+// logStore.logs = logStore.logs || [];
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
@@ -278,17 +278,17 @@ function prevPage() {
                   >{{ log.status }}
                 </td> -->
                 <!-- Making the status dynamic -->
-                <td class="text-black"
+                <td class="text-black">
+                    <span
                     :class="{
                         'bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3':
                         log.requestStatus === 'SUCCESS',
                         'bg-red-100 text-xs border border-red-300 text-red-500 font-semibold rounded-sm px-1 py-0.3':
-                        log.requestStatus === 'FAILURE',
-                        'bg-yellow-100 text-xs border border-yellow-300 text-yellow-500 font-semibold rounded-sm px-1 py-0.3':
-                        log.requestStatus === 'PENDING',
+                        log.requestStatus === 'FAILED',
                     }"  
                 >
-                    {{ log.status }}
+                    {{ log.requestStatus }}
+                </span>
                 </td>
 
                 <td class="text-black-700">
