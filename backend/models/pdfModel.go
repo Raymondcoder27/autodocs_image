@@ -35,10 +35,11 @@ type Template struct {
 }
 
 type Logs struct {
-	ID           string `json:"id"`
-	DocumentName string `json:"documentName"`
-	Description  string `json:"description"`
-	TemplateId   string `json:"templateId"`
+	ID                  string `json:"id"`
+	DocumentName        string `json:"documentName"`
+	DocumentDescription string `json:"documentDescription"`
+	LogDescription      string `json:"logDescription"`
+	TemplateId          string `json:"templateId"`
 	// Data         string         `json:"pdf"`
 	Status      string         `json:"requestStatus"`
 	Method      string         `json:"requestMethod"`
