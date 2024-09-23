@@ -167,14 +167,24 @@ function downloadPdf() {
 //   return logStore.logs.slice(start, end);
 // });
 
+// const paginatedLogs = computed(() => {
+//   if (!logStore.logs) {
+//     return [];
+//   }
+//   const start = (currentPage.value - 1) * itemsPerPage;
+//   const end = start + itemsPerPage;
+//   return logStore.logs.slice(start, end);
+// });
+
 const paginatedLogs = computed(() => {
-  if (!logStore.logs) {
-    return [];
-  }
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return logStore.logs.slice(start, end);
+    if (!logStore.logs || !logStore.logs.length) {
+        return [];
+    }
+    const start = (currentPage.value - 1) * itemsPerPage;
+    const end = start + itemsPerPage;
+    return logStore.logs.slice(start, end);
 });
+
 
 function nextPage() {
   if (logStore.logs && currentPage.value * itemsPerPage < logStore.logs.length) {
@@ -243,8 +253,8 @@ function prevPage() {
                                     {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
                                 </td>
                                 <td class="text-black-700">
-                                    <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ documentStore.documents?.find((d: Doc) => d.id == log.id)?.description || 'Unknown Document' }}
+                                    {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
+                                    <!-- {{ documentStore.documents?.find((d: Doc) => d.refNumber == log.refNumber)?.description || 'Unknown Document' }} -->
                                 </td>
                                 <td class="text-black-700">
                                     <span
@@ -297,20 +307,28 @@ function prevPage() {
                 </span>
 
                 <div class="flex justify-between mt-4">
-          <!-- <button
+          <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
             @click="prevPage"
           >
           <i class="fa-solid fa-chevron-left"></i> Previous
           </button>
-          <button
+          <!-- <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage * itemsPerPage >= store.logs.length"
             @click="nextPage"
           >
             Next<i class="fa-solid fa-chevron-right"></i>
           </button> -->
+          <button
+          class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
+    :disabled="!logStore.logs || currentPage * itemsPerPage >= logStore.logs.length"
+    @click="nextPage"
+>
+    Next<i class="fa-solid fa-chevron-right"></i>
+</button>
+
         </div>
             </div>
         </div>
