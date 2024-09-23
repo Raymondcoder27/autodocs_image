@@ -8,6 +8,11 @@ import axios from 'axios';
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
 
+
+const startDate = ref(new Date().toISOString().split('T')[0]);
+const endDate = ref(new Date().toISOString().split('T')[0]);
+
+
 const totalTemplates = ref(0);
 const totalDocuments = ref(0);
 const generationRate = ref(0);
@@ -63,7 +68,13 @@ async function fetchDocumentHistory() {
 
 async function fetchChartData() {
     try {
-        const response = await axios.get('http://localhost:8080/document-history');
+        // const response = await axios.get('http://localhost:8080/document-history');
+        const response = await axios.get('http://localhost:8080/document-history', {
+            params: {
+                startDate: startDate.value,
+                endDate: endDate.value
+            }
+        });
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
