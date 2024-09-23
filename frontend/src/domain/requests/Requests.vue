@@ -271,11 +271,24 @@ function prevPage() {
                   >
                 </td>
                 <!-- <td class="text-black-700"><span class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3">SUCCESS</span>{{ document.status }}</td> -->
-                <td class="text-black-700">
+                <!-- <td class="text-black-700">
                   <span
                     class="bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3"
                     >SUCCESS</span
                   >{{ log.status }}
+                </td> -->
+                <!-- Making the status dynamic -->
+                <td class="text-black"
+                    :class="{
+                        'bg-green-100 text-xs border border-green-300 text-green-500 font-semibold rounded-sm px-1 py-0.3':
+                        log.status === 'SUCCESS',
+                        'bg-red-100 text-xs border border-red-300 text-red-500 font-semibold rounded-sm px-1 py-0.3':
+                        log.status === 'FAILURE',
+                        'bg-yellow-100 text-xs border border-yellow-300 text-yellow-500 font-semibold rounded-sm px-1 py-0.3':
+                        log.status === 'PENDING',
+                    }"  
+                >
+                    {{ log.status }}
                 </td>
 
                 <td class="text-black-700">
