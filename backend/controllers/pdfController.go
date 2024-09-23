@@ -348,7 +348,7 @@ func DeleteDocument(c *gin.Context) {
 		JsonPayload:         "",
 		Status:              "SUCCESS",
 		Method:              "DELETE",
-		LogDescription:      "Document deleted successfully",
+		LogDescription:      "Document deleted successfullyy",
 		RefNumber:           refNumber,
 		CreatedAt:           currentTime,
 	}).Error; err != nil {
