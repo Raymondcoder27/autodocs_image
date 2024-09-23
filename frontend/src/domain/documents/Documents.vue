@@ -121,24 +121,24 @@ function downloadPdf() {
 //   return documents.slice(start, end);
 // });
 
-const paginatedDocuments = computed(() => {
-  const documents = store.documents || []; // Ensure `documents` is an array
-  const start = (currentPage.value - 1) * itemsPerPage;
-  const end = start + itemsPerPage;
-  return documents.slice(start, end);
-});
+// const paginatedDocuments = computed(() => {
+//   const documents = store.documents || []; // Ensure `documents` is an array
+//   const start = (currentPage.value - 1) * itemsPerPage;
+//   const end = start + itemsPerPage;
+//   return documents.slice(start, end);
+// });
 
-function nextPage() {
-  if (currentPage.value * itemsPerPage < store.documents.length) {
-    currentPage.value++;
-  }
-}
+// function nextPage() {
+//   if (currentPage.value * itemsPerPage < store.documents.length) {
+//     currentPage.value++;
+//   }
+// }
 
-function prevPage() {
-  if (currentPage.value > 1) {
-    currentPage.value--;
-  }
-}
+// function prevPage() {
+//   if (currentPage.value > 1) {
+//     currentPage.value--;
+//   }
+// }
 
 
 </script>
@@ -226,7 +226,7 @@ function prevPage() {
           </table>
         </span>
         <div class="flex justify-between mt-4">
-          <button
+          <!-- <button
             class="bg-gray-100 border border-gray-200 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
             @click="prevPage"
@@ -239,7 +239,7 @@ function prevPage() {
             @click="nextPage"
           >
             Next<i class="fa-solid fa-chevron-right"></i>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
