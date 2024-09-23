@@ -199,15 +199,15 @@ func CreateDocument(c *gin.Context) {
 
 	//inserting post request into logs table
 	if err := initializers.DB.Create(&models.Logs{
-		ID:             id,
-		DocumentName:   id,
-		JsonPayload:    string(jsonString),
-		Status:         "SUCCESS",
-		Method:         "POST",
-		LogDescription: request.Description,
-		TemplateId:     templateId,
-		RefNumber:      storageKey,
-		CreatedAt:      time.Now(),
+		ID:                  id,
+		DocumentName:        id,
+		JsonPayload:         string(jsonString),
+		Status:              "SUCCESS",
+		Method:              "POST",
+		DocumentDescription: request.Description,
+		TemplateId:          templateId,
+		RefNumber:           storageKey,
+		CreatedAt:           time.Now(),
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		return
