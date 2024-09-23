@@ -260,6 +260,24 @@ function deleteDocument() {
         });
 }
 
+//clear logs
+function clearLogs() {
+    loading.value = true;
+    logStore
+        .clearLogs()
+        .then(() => {
+            loading.value = false;
+            showDeleteLogsRequest.value = false;
+            fetch();
+        })
+        .catch((error: AxiosError<ApiErrorResponse>) => {
+            loading.value = false;
+            notify.error(
+                error.response?.data.message || "Error deleting the logs"
+            );
+        });
+}
+
 //computed property to find selected pdf:
 const selectedPdf = computed(() => {
     return store.documents.find(
