@@ -428,11 +428,11 @@ function prevPage() {
 
                                 <td class="text-black-700">
                                     <!-- {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }} -->
-                                    {{ logStore.logs?.find((t: Log) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
+                                    {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
                                 </td>
                                 <td class="text-black-700">
                                     <!-- {{ documentStore.documents?.find((d: Document) => d.refNumber == document.refNumber)?.description || 'Unknown Document' }} -->
-                                    {{ log.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
+                                    {{ documentStore.documents?.find((d: Document) => d.id == log.templateId)?.description || 'Unknown Document' }}
                                 </td>
                                 <td class="text-black-700">
                                     <span
