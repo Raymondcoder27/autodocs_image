@@ -306,7 +306,7 @@ function prevPage() {
                     </table>
                 </span>
 
-                <div class="flex justify-between mt-4">
+                <!-- <div class="flex justify-between mt-4">
           <button
             class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
             :disabled="currentPage === 1"
@@ -314,13 +314,6 @@ function prevPage() {
           >
           <i class="fa-solid fa-chevron-left"></i> Previous
           </button>
-          <!-- <button
-            class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
-            :disabled="currentPage * itemsPerPage >= store.logs.length"
-            @click="nextPage"
-          >
-            Next<i class="fa-solid fa-chevron-right"></i>
-          </button> -->
           <button
           class="bg-gray-100 border border-gray-200 text-sm px-2 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold"
     :disabled="!logStore.logs || currentPage * itemsPerPage >= logStore.logs.length"
@@ -329,7 +322,23 @@ function prevPage() {
     Next<i class="fa-solid fa-chevron-right"></i>
 </button>
 
-        </div>
+        </div> -->
+
+
+        <div class="flex justify-between mt-4" v-if="logStore.logs.length > itemsPerPage">
+    <button
+      :disabled="currentPage === 1"
+      @click="prevPage"
+      class="bg-gray-100 border border-gray-200 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold">
+      <i class="fa-solid fa-chevron-left"></i> Previous
+    </button>
+    <button
+      :disabled="currentPage * itemsPerPage >= logStore.logs.length"
+      @click="nextPage"
+      class="bg-gray-100 border border-gray-200 text-sm px-1 rounded-md text-gray-800 hover:bg-black-900 hover:text-white font-semibold">
+      Next<i class="fa-solid fa-chevron-right"></i> 
+    </button>
+  </div>
             </div>
         </div>
         
