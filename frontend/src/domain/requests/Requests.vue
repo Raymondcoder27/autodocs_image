@@ -250,10 +250,10 @@ function prevPage() {
 
                                 <td class="text-black-700">
                                     <!-- {{ templateStore.templates?.find((t: Template) => t.id == document.templateId)?.templateName || 'Unknown Template' }} -->
-                                    {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'Unknown Template' }}
+                                    {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'All Templates' }}
                                 </td>
                                 <td class="text-black-700">
-                                    {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'Unknown Document' }}
+                                    {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'All Documents' }}
                                     <!-- {{ documentStore.documents?.find((d: Doc) => d.refNumber == log.refNumber)?.description || 'Unknown Document' }} -->
                                 </td>
                                 <td class="text-black-700">
