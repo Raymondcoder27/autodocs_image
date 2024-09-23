@@ -115,7 +115,7 @@ const paginatedDocuments = computed(() => {
 });
 
 function nextPage() {
-  if (currentPage.value * itemsPerPage < store.documents.length) {
+  if (currentPage.value * itemsPerPage < store.logs.length) {
     currentPage.value++;
   }
 }
