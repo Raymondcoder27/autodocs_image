@@ -37,7 +37,7 @@ type Template struct {
 type Logs struct {
 	ID                  string `json:"id"`
 	DocumentName        string `json:"documentName"`
-	DocumentDescription string `json:"documentDescription"`
+	DocumentDescription string `json:"description"`
 	LogDescription      string `json:"logDescription"`
 	TemplateId          string `json:"templateId"`
 	// Data         string         `json:"pdf"`
