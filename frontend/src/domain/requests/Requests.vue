@@ -68,19 +68,19 @@ function fetch() {
     });
 }
 
-function createDocument(payload) {
-  loading.value = true;
-  store
-    .createDocument(payload)
-    .then(() => {
-      loading.value = false;
-      fetch();
-    })
-    .catch((error: AxiosError<ApiErrorResponse>) => {
-      loading.value = false;
-      notify.error(error.response?.data.message || "Error creating document");
-    });
-}
+// function createDocument(payload) {
+//   loading.value = true;
+//   store
+//     .createDocument(payload)
+//     .then(() => {
+//       loading.value = false;
+//       fetch();
+//     })
+//     .catch((error: AxiosError<ApiErrorResponse>) => {
+//       loading.value = false;
+//       notify.error(error.response?.data.message || "Error creating document");
+//     });
+// }
 
 function deleteDocument() {
   loading.value = true;
@@ -350,8 +350,6 @@ function prevPage() {
             Next<i class="fa-solid fa-chevron-right"></i>
           </button>
         </div>
-
-        
       </div>
     </div>
   </div>
