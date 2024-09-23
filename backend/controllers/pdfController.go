@@ -186,8 +186,6 @@ func CreateDocument(c *gin.Context) {
 		ID:           id,
 		DocumentName: id,
 		JsonPayload:  string(jsonString),
-		Status:       "SUCCESS",
-		Method:       "POST",
 		Description:  request.Description,
 		TemplateId:   templateId,
 		RefNumber:    storageKey,
