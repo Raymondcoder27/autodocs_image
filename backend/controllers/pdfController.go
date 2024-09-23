@@ -351,16 +351,22 @@ func DeleteDocument(c *gin.Context) {
 	// 	return
 	// }
 
+	//find this document in the database
+	var document models.Document
+	if err := initializers.DB.Where("ref_number = ?", refNumber).First(&document).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Document not found"})
+		return
+	}
+
 	if err := initializers.DB.Create(&models.Logs{
-		ID:           uuid.New().String(),
-		DocumentName: refNumber,
-		JsonPayload:  "",
-		Status:       "SUCCESS",
-		Method:       "DELETE",
-		Description:  "Document deleted successfully",
-		TemplateId:   "",
-		RefNumber:    refNumber,
-		CreatedAt:    currentTime,
+		ID:             uuid.New().String(),
+		DocumentName:   document.Description,
+		JsonPayload:    "",
+		Status:         "SUCCESS",
+		Method:         "DELETE",
+		LogDescription: "Document deleted successfully",
+		RefNumber:      refNumber,
+		CreatedAt:      currentTime,
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		return
