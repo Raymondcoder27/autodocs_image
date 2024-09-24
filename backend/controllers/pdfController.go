@@ -231,9 +231,6 @@ func CreateDocument(c *gin.Context) {
 	}
 
 	pdfGenerationResponse := PDFGenerationResponse{
-		// ID:           document.ID,
-		// DocumentName: document.DocumentName,
-		// TemplateId:   document.TemplateId,
 		RefNumber: document.RefNumber,
 		CreatedAt: document.CreatedAt,
 	}
