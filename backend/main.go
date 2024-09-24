@@ -26,7 +26,6 @@ func main() {
 		AllowHeaders:     []string{"Authorization", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
-		// MaxAge:           12 * time.Hour,
 	}
 	r.Use(cors.New(config))
 
