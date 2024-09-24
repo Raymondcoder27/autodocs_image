@@ -16,12 +16,6 @@ import (
 	"github.com/google/uuid"
 )
 
-// ID        string         `json:"id"`
-// Name      string         `json:"templateName"`
-// RefNumber string         `json:"refNumber"`
-// FileName  string         `json:"fileName"`
-// CreatedAt time.Time      `json:"created_at"`
-// DeletedAt gorm.DeletedAt `json:"deleted_at"`
 type DocumentPreviewResponse struct {
 	ID        string    `json:"id"`
 	Name      string    `json:"templateName"`
