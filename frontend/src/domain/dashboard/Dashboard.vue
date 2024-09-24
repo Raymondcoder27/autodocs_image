@@ -101,9 +101,9 @@ async function fetchChartData() {
     <div class="p-0">
         <div class="mb-3 bg-white font-semibold text-gray-500 rounded-md max-w-[350px] p-1 mx-auto">
             <div class="text-semibold text-black-900 text-xs text-center">CHOOSE DATES TO VIEW REPORT.</div>
-            <div class="flex text-xs ml-[35px]">
-                <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="" />
-            <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="" />
+            <div class="flex text-xs ml-[35px] p-l">
+                <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="1" />
+            <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="p-1" />
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-3">
