@@ -69,13 +69,13 @@ async function fetchDocumentHistory() {
 
 async function fetchChartData() {
     try {
-        const response = await axios.get('http://localhost:8080/document-history');
-        // const response = await axios.get('http://localhost:8080/document-history', {
-        //     params: {
-        //         startDate: startDate.value,
-        //         endDate: endDate.value
-        //     }
-        // });
+        // const response = await axios.get('http://localhost:8080/document-history');
+        const response = await axios.get('http://localhost:8080/document-history', {
+            params: {
+                startDate: startDate.value,
+                endDate: endDate.value
+            }
+        });
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
