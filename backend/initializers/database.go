@@ -6,8 +6,6 @@ import (
 	"log"
 	"os"
 
-	// "gorm.io/driver/mysql"
-	// _ "github.com/lib/pq"
 	"gorm.io/driver/postgres"
 
 	"gorm.io/gorm"
