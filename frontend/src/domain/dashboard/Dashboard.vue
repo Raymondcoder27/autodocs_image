@@ -134,6 +134,3 @@ async function fetchChartData() {
         </div>
     </div>
 </template>
-
-
-<!--  -->
