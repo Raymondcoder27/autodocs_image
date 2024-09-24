@@ -59,7 +59,7 @@ function fetch() {
       loading.value = false;
       notify.error(error.response?.data.message || "Error fetching templates");
     });
-    
+
 logStore
   .fetchLogs()
   .then(() => {
@@ -265,10 +265,9 @@ function prevPage() {
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <button
+                    <!-- <button
                       class=""
                       @click="
-                        // (selectedDocumentRef = document.refNumber),
                         (selectedDocumentRef = log.refNumber),
                           (pdfPreview = true)
                       "
@@ -276,7 +275,7 @@ function prevPage() {
                       <i
                         class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-green-50 hover:text-green-600"
                       ></i>
-                    </button>
+                    </button> -->
                     <button
                       class=""
                       @click="
