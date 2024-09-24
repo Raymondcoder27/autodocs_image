@@ -132,7 +132,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-blue-200">Failure Rate</h3>
             </div>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow w-full max-h-[170px]">
+        <div class="bg-white p-4 rounded-lg shadow w-full">
             <line-chart :chartData="chartData" />
         </div>
     </div>
