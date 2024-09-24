@@ -18,9 +18,6 @@ type Document struct {
 	RefNumber   string         `json:"refNumber"`
 	CreatedAt   time.Time      `json:"created_at"`
 	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
-	// MinioPdfObjectName      string `json:"minioPdfObjectName"`
-	// OriginalFileName        string `json:"originalTemplateName"`
-	// URL                     string `json:"pdfFileUrl"`
 }
 
 type Template struct {
