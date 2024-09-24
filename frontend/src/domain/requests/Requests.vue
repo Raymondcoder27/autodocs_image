@@ -23,6 +23,7 @@ const store = useDocumentStore();
 const logStore = useLogStore();
 // const logStore = useLogStore();
 // logStore.logs = logStore.logs || [];
+
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
 const notify = useNotificationsStore();
