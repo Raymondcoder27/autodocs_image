@@ -84,22 +84,6 @@ logStore
 
 }
 
-// function deleteDocument() {
-//   loading.value = true;
-//   store
-//     .deleteDocument(selectedDocumentRef.value)
-//     .then(() => {
-//       loading.value = false;
-//       showDeleteModal.value = false;
-//       fetch();
-//     })
-//     .catch((error: AxiosError<ApiErrorResponse>) => {
-//       loading.value = false;
-//       notify.error(
-//         error.response?.data.message || "Error deleting the document"
-//       );
-//     });
-// }
 
 //clear logs
 function clearLogs() {
