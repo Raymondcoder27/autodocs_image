@@ -101,10 +101,6 @@ function prevPage() {
             <thead>
               <tr>
                 <th class="header">#</th>
-                <!-- <th class="header">Template Name</th>
-                <th class="header">Reference</th>
-                <th class="header">Date</th>
-                <th class="header">Actions</th> -->
                 <th class="header">TEMPLATE NAME</th>
                 <th class="header">REFERENCE</th>
                 <th class="header">DATE</th>
