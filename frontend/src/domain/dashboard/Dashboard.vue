@@ -46,26 +46,26 @@ async function fetchMetrics() {
     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 }
 
-async function fetchDocumentHistory() {
-    try {
-        const response = await axios.get('http://localhost:8080/document-history');
-        if (response.status !== 200) {
-            throw new Error('Failed to fetch document history');
-        }
-        const responseData = response.data;
-        if (responseData.code !== 200) {
-            throw new Error('Failed to fetch document history');
-        }
-        const data: { date: string, count: number }[] = responseData.data;
-        return data.map((entry: { date: string, count: number }) => ({
-            date: entry.date.trim(),
-            count: entry.count
-        }));
-    } catch (error) {
-        console.error('Error fetching document history:', error);
-        return [];
-    }
-}
+// async function fetchDocumentHistory() {
+//     try {
+//         const response = await axios.get('http://localhost:8080/document-history');
+//         if (response.status !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const responseData = response.data;
+//         if (responseData.code !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const data: { date: string, count: number }[] = responseData.data;
+//         return data.map((entry: { date: string, count: number }) => ({
+//             date: entry.date.trim(),
+//             count: entry.count
+//         }));
+//     } catch (error) {
+//         console.error('Error fetching document history:', error);
+//         return [];
+//     }
+// }
 
 async function fetchChartData() {
     try {
@@ -100,7 +100,7 @@ async function fetchChartData() {
 <template>
     <div class="p-0">
         <div class="mb-2 bg-white font-semibold text-gray-500 rounded-md max-w-[350px] mx-auto shadow shadow-gray-400">
-            <div class="text-semibold text-gray-700 text-xs text-center pt-1">CHOOSE DATES TO VIEW REPORT.</div>
+            <div class="text-semibold text-gray-500 text-xs text-center pt-1">CHOOSE DATES TO VIEW REPORT.</div>
             <div class="flex text-xs ml-[35px]">
                 <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="pt-1 pb-2" />
             <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="pt-1 pb-2" />
