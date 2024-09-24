@@ -99,7 +99,7 @@ async function fetchChartData() {
 
 <template>
     <div class="p-0">
-        <div class="mb-2 bg-white font-semibold text-gray-500 rounded-md max-w-[350px] mx-auto border border-gray-600">
+        <div class="mb-2 bg-white font-semibold text-gray-500 rounded-md max-w-[350px] mx-auto shadow shadow-gray-500">
             <div class="text-semibold text-black-900 text-xs text-center pt-1">CHOOSE DATES TO VIEW REPORT.</div>
             <div class="flex text-xs ml-[35px]">
                 <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="pt-1 pb-2" />
