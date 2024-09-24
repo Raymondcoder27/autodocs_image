@@ -1,7 +1,7 @@
 <template>
     <div>
       <label :for="id">{{ label }}</label>
-      <input :id="id" type="date" v-model="dateValue" @input="updateDate" />
+      <input :id="id" type="date" v-model="dateValue" @input="updateDate" class="ring-2 ring-gray-100 bg-gray-50 rounded-sm" />
     </div>
   </template>
   
