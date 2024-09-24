@@ -5,6 +5,7 @@ import { useDocumentStore } from '@/domain/documents/stores';
 import DatePicker from '@/components/DatePicker.vue';
 import LineChart from '@/components/LineChart.vue';
 import axios from 'axios';
+import api from '@/config/api';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
@@ -46,26 +47,26 @@ async function fetchMetrics() {
     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 }
 
-// async function fetchDocumentHistory() {
-//     try {
-//         const response = await axios.get('http://localhost:8080/document-history');
-//         if (response.status !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-//         const responseData = response.data;
-//         if (responseData.code !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-//         const data: { date: string, count: number }[] = responseData.data;
-//         return data.map((entry: { date: string, count: number }) => ({
-//             date: entry.date.trim(),
-//             count: entry.count
-//         }));
-//     } catch (error) {
-//         console.error('Error fetching document history:', error);
-//         return [];
-//     }
-// }
+async function fetchDocumentHistory() {
+    try {
+        const response = await api.get('/document-history');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const data: { date: string, count: number }[] = responseData.data;
+        return data.map((entry: { date: string, count: number }) => ({
+            date: entry.date.trim(),
+            count: entry.count
+        }));
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+        return [];
+    }
+}
 
 async function fetchChartData() {
     try {
