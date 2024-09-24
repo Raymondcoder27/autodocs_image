@@ -171,8 +171,6 @@ func CreateDocument(c *gin.Context) {
 		return
 	}
 
-	// originalFileName := template.Name
-	// documentName := services.PDFFileName(originalFileName)
 	objectName := id
 	fileReader := bytes.NewReader(pdfBytes)
 
