@@ -284,11 +284,6 @@ func GetDocuments(c *gin.Context) {
 		return
 	}
 
-	// response := models.Document{
-	// 	Method: "GET",
-	// 	Status: "SUCCESS",
-	// }
-
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": result, "timestamp": currentTime})
 }
 
