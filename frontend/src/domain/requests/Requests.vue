@@ -265,7 +265,7 @@ function prevPage() {
                 </td>
                 <td>
                   <div class="flex gap-2">
-                    <!-- <button
+                    <button
                       class=""
                       @click="
                         (selectedDocumentRef = log.refNumber),
@@ -275,8 +275,8 @@ function prevPage() {
                       <i
                         class="fa-solid fa-eye mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-green-50 hover:text-green-600"
                       ></i>
-                    </button> -->
-                    <button
+                    </button>
+                    <!-- <button
                       class=""
                       @click="
                         showDeleteModal = true;
@@ -286,7 +286,7 @@ function prevPage() {
                       <i
                         class="fa-solid fa-trash mx-1 text-xs text-gray-600 bg-gray-100 border border-gray-100 rounded-sm py-0.5 px-2 hover:bg-red-50 hover:text-red-500"
                       ></i>
-                    </button>
+                    </button> -->
                   </div>
                 </td>
               </tr>
