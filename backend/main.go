@@ -30,13 +30,6 @@ func main() {
 	}
 	r.Use(cors.New(config))
 
-	// r.POST("/generate", controllers.CreateOutput)
-	// r.POST("/generate", controllers.CreateOutput)
-	// r.GET("/generated-file", controllers.GeneratedOutput)
-	// r.DELETE("/documents/:id", controllers.DeleteDocument)
-	// r.GET("/documents/:id", controllers.GetDocumentById)
-	// r.POST("/generate/:id", controllers.CreateDocument)
-
 	r.POST("/upload-template", controllers.UploadTemplate)
 	r.POST("/generate", controllers.CreateDocument, controllers.AutodocsLogs)
 	r.GET("/documents", controllers.GetDocuments)
