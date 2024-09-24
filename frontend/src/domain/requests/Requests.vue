@@ -301,11 +301,6 @@ function prevPage() {
                   </div>
                 </td>
               </tr>
-              <!-- <tr v-for="(log, idx) in paginatedLogs" :key="idx">
-                <td class="text-black">{{ (currentPage - 1) * itemsPerPage + idx + 1 }}</td>
-                <td class="font-bold text-black-700">{{ log.string }}</td>
-                <td class="italic text-black-700">{{ log.status }}</td>
-              </tr> -->
             </tbody>
           </table>
         </span>
