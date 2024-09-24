@@ -327,11 +327,6 @@ func PreviewTemplate(c *gin.Context) {
 func DeleteDocument(c *gin.Context) {
 	refNumber := c.Param("refNumber")
 
-	// err := services.DeleteDocumentByRefNumber(refNumber)
-	// if err != nil {
-	// 	c.JSON(http.StatusNotFound, gin.H{"error": "Document not found"})
-	// 	return
-	// }
 	currentTime := time.Now()
 
 	//find this document in the database
