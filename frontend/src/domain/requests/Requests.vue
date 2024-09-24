@@ -84,20 +84,6 @@ logStore
 
 }
 
-// function createDocument(payload) {
-//   loading.value = true;
-//   store
-//     .createDocument(payload)
-//     .then(() => {
-//       loading.value = false;
-//       fetch();
-//     })
-//     .catch((error: AxiosError<ApiErrorResponse>) => {
-//       loading.value = false;
-//       notify.error(error.response?.data.message || "Error creating document");
-//     });
-// }
-
 // function deleteDocument() {
 //   loading.value = true;
 //   store
