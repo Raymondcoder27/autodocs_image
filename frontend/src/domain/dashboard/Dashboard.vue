@@ -106,28 +106,28 @@ async function fetchChartData() {
             <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="pt-1 pb-2" />
             </div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-2">
-            <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 mb-2">
+            <div class="bg-white border border-blue-100 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-blue-700">{{ totalTemplates }}</p>
                 <h3 class="text-lg font-semibold text-blue-500">Total Templates</h3>
             </div>
-            <div class="bg-white border border-warning-500 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-warning-500 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-warning-600">{{ totalDocuments }}</p>
                 <h3 class="text-lg font-semibold text-warning-600">Total Documents</h3>
             </div>
-            <div class="bg-white border border-green-300 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-green-300 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-green-700">{{ successfulGenerations }}</p>
                 <h3 class="text-lg font-semibold text-green-500">Successful Generations</h3>
             </div>
-            <div class="bg-white border border-red-100 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-red-100 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-red-500">{{ failedGenerations }}</p>
                 <h3 class="text-lg font-semibold text-red-300">Failed Generations</h3>
             </div>
-            <div class="bg-white border border-gray-400 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-gray-400 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-gray-600">{{ generationRate.toFixed(2) }}%</p>
                 <h3 class="text-lg font-semibold text-gray-500">Generation Rate (daily)</h3>
             </div>
-            <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
+            <div class="bg-white border border-blue-100 p-1 rounded-lg shadow text-center">
                 <p class="text-3xl font-bold text-blue-300">{{ failureRate.toFixed(2) }}%</p>
                 <h3 class="text-lg font-semibold text-blue-200">Failure Rate</h3>
             </div>
