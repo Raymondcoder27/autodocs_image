@@ -7,17 +7,16 @@ import (
 )
 
 type Document struct {
-	ID           string `json:"id" gorm:"primaryKey"`
-	DocumentName string `json:"documentName"`
-	Description  string `json:"description"`
-	TemplateId   string `json:"templateId"`
-	// Data         string         `json:"pdf"`
-	Status      string         `json:"requestStatus"`
-	Method      string         `json:"requestMethod"`
-	JsonPayload string         `json:"jsonPayload"`
-	RefNumber   string         `json:"refNumber"`
-	CreatedAt   time.Time      `json:"created_at"`
-	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
+	ID           string         `json:"id" gorm:"primaryKey"`
+	DocumentName string         `json:"documentName"`
+	Description  string         `json:"description"`
+	TemplateId   string         `json:"templateId"`
+	Status       string         `json:"requestStatus"`
+	Method       string         `json:"requestMethod"`
+	JsonPayload  string         `json:"jsonPayload"`
+	RefNumber    string         `json:"refNumber"`
+	CreatedAt    time.Time      `json:"created_at"`
+	DeletedAt    gorm.DeletedAt `json:"deleted_at"`
 }
 
 type Template struct {
