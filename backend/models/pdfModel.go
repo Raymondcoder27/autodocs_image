@@ -35,16 +35,15 @@ type Template struct {
 }
 
 type Logs struct {
-	ID                  string `json:"id"`
-	DocumentName        string `json:"documentName"`
-	DocumentDescription string `json:"description"`
-	LogDescription      string `json:"logDescription"`
-	TemplateId          string `json:"templateId"`
-	// Data         string         `json:"pdf"`
-	Status      string         `json:"requestStatus"`
-	Method      string         `json:"requestMethod"`
-	JsonPayload string         `json:"jsonPayload"`
-	RefNumber   string         `json:"refNumber"`
-	CreatedAt   time.Time      `json:"created_at"`
-	DeletedAt   gorm.DeletedAt `json:"deleted_at"`
+	ID                  string         `json:"id"`
+	DocumentName        string         `json:"documentName"`
+	DocumentDescription string         `json:"description"`
+	LogDescription      string         `json:"logDescription"`
+	TemplateId          string         `json:"templateId"`
+	Status              string         `json:"requestStatus"`
+	Method              string         `json:"requestMethod"`
+	JsonPayload         string         `json:"jsonPayload"`
+	RefNumber           string         `json:"refNumber"`
+	CreatedAt           time.Time      `json:"created_at"`
+	DeletedAt           gorm.DeletedAt `json:"deleted_at"`
 }
