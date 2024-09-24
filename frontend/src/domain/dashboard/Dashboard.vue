@@ -102,8 +102,8 @@ async function fetchChartData() {
         <div class="mb-3 bg-white font-semibold text-gray-500 rounded-md max-w-[350px] mx-auto">
             <div class="text-semibold text-black-900 text-xs text-center">CHOOSE DATES TO VIEW REPORT.</div>
             <div class="flex text-xs ml-[35px]">
-                <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="p-1" />
-            <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="p-1" />
+                <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="pt-1 pb-2" />
+            <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="pt-1 pb-2" />
             </div>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-3">
@@ -132,7 +132,7 @@ async function fetchChartData() {
                 <h3 class="text-lg font-semibold text-blue-200">Failure Rate</h3>
             </div>
         </div>
-        <div class="bg-white p-4 rounded-lg shadow w-full h-full">
+        <div class="bg-white p-4 rounded-lg shadow w-full max-h-[170px]">
             <line-chart :chartData="chartData" />
         </div>
     </div>
