@@ -100,8 +100,8 @@ async function fetchChartData() {
 <template>
     <div class="p-0">
         <div class="mb-3 bg-white font-semibold text-gray-600 rounded-md max-w-[250px] p-1 pl-4">
-            <DatePicker v-model="startDate" label="Start Date  " id="start-date" />
-            <DatePicker v-model="endDate" label="End Date  " id="end-date" />
+            <DatePicker v-model="startDate" label="Start Date:  " id="start-date" />
+            <DatePicker v-model="endDate" label="End Date:  " id="end-date" />
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-3 mb-3">
             <div class="bg-white border border-blue-100 p-5 rounded-lg shadow text-center">
