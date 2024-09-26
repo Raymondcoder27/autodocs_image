@@ -142,9 +142,9 @@ func CreateDocument(c *gin.Context) {
 			ID:             uuid.New().String(),
 			DocumentName:   "",
 			JsonPayload:    "",
-			Status:         "SUCCESS",
-			Method:         "GET",
-			LogDescription: "Get all documents",
+			Status:         "FAILED",
+			Method:         "POST",
+			LogDescription: "Invalid Request",
 			TemplateId:     "",
 			RefNumber:      "",
 			CreatedAt:      currentTime,
@@ -158,6 +158,23 @@ func CreateDocument(c *gin.Context) {
 	var template models.Template
 	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
+		if err := c.BindJSON(&request); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+			//inserting get request into logs table
+			if err := initializers.DB.Create(&models.Logs{
+				ID:             uuid.New().String(),
+				DocumentName:   "",
+				JsonPayload:    "",
+				Status:         "FAILED",
+				Method:         "POST",
+				LogDescription: "Template not found for specified ref number.",
+				TemplateId:     "",
+				RefNumber:      "",
+				CreatedAt:      currentTime,
+			}).Error; err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+				return
+			}
 		return
 	}
 
