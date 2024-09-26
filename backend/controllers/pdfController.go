@@ -185,6 +185,21 @@ func CreateDocument(c *gin.Context) {
 	pdfBytes, err := services.GeneratePDF(templateBytes, data)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error generating PDF: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		return
 	}
 
