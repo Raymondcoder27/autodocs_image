@@ -28,24 +28,53 @@ onMounted(async () => {
     await fetchChartData();
 });
 
+// async function fetchMetrics() {
+//     await templateStore.fetchTemplates();
+//     await documentStore.fetchDocuments();
+
+//     totalTemplates.value = templateStore.templates.length;
+//     totalDocuments.value = documentStore.documents.length;
+
+//     successfulGenerations.value = documentStore.documents.length;
+//     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
+//     const totalGenerations = successfulGenerations.value + failedGenerations.value;
+
+//     // Fetch document history to determine the number of days
+//     const documentHistory = await fetchDocumentHistory();
+//     const numberOfDays = documentHistory.length;
+
+//     generationRate.value = totalGenerations / numberOfDays;
+//     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+// }
+
 async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
 
-    totalTemplates.value = templateStore.templates.length;
-    totalDocuments.value = documentStore.documents.length;
-
-    successfulGenerations.value = documentStore.documents.length;
-    failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
-    const totalGenerations = successfulGenerations.value + failedGenerations.value;
-
-    // Fetch document history to determine the number of days
     const documentHistory = await fetchDocumentHistory();
-    const numberOfDays = documentHistory.length;
 
-    generationRate.value = totalGenerations / numberOfDays;
-    failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+    // Determine the current day
+    const currentDate = new Date();
+    const options = { weekday: 'long' };
+    const currentDay = currentDate.toLocaleDateString('en-US', options);
+
+    // Map the fetched data
+    const dataPoints = documentHistory.map(entry => ({
+        label: entry.date,
+        y: entry.count
+    }));
+
+    // Move the current day to the end
+    const rearrangedDataPoints = dataPoints.filter(dp => dp.label !== currentDay);
+    const currentDayDataPoint = dataPoints.find(dp => dp.label === currentDay);
+
+    if (currentDayDataPoint) {
+        rearrangedDataPoints.push(currentDayDataPoint); // Append current day to the end
+    }
+
+    options.value.data[0].dataPoints = rearrangedDataPoints;
 }
+
 
 async function fetchDocumentHistory() {
     try {
