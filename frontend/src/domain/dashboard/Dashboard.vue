@@ -154,8 +154,7 @@ async function fetchChartData() {
             <div class="flex text-xs ml-[35px]">
                 <DatePicker v-model="startDate" label="START DATE:  " id="start-date" class="pt-1 pb-2" />
             <DatePicker v-model="endDate" label="END DATE:  " id="end-date" class="pt-1 pb-2" />
-            <button class="font-semibold text-xs text-black bg-gray-100 rounded-md mb-0">Send Request</button>
-
+            <!-- <button class="font-semibold text-xs text-black bg-gray-100 rounded-md mb-0">Send Request</button> -->
             </div>
 
         </div>
