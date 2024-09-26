@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
@@ -87,4 +87,110 @@ async function fetchDocumentHistory() {
 <template>
     <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
 </template>
+ -->
 
+
+
+
+
+
+ <script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { useTemplateStore } from '@/domain/templates/stores';
+import { useDocumentStore } from '@/domain/documents/stores';
+import axios from 'axios';
+import api from '@/config/api';
+
+const chart = ref(null);
+const templateStore = useTemplateStore();
+const documentStore = useDocumentStore();
+
+const options = ref({
+    animationEnabled: true,
+    exportEnabled: true,
+    theme: "light2",
+    title: {
+        text: "Weekly Document Generation Report"
+    },
+    axisX: {
+        title: "Days of the Week",
+        labelTextAlign: "center",
+        labelAngle: 0
+    },
+    axisY: {
+        title: "No. of PDFs Generated",
+        valueFormatString: "#"
+    },
+    data: [{
+        type: "line",
+        yValueFormatString: "# PDFs",
+        dataPoints: []
+    }]
+});
+
+const styleOptions = {
+    width: "100%",
+    height: "360px"
+};
+
+const chartInstance = (chartInstance: any) => {
+    chart.value = chartInstance;
+};
+
+onMounted(async () => {
+    await fetchMetrics();
+});
+
+async function fetchMetrics() {
+    await templateStore.fetchTemplates();
+    await documentStore.fetchDocuments();
+
+    const documentHistory = await fetchDocumentHistory();
+
+    // Determine the current day
+    const currentDate = new Date();
+    const options = { weekday: 'long' };
+    const currentDay = currentDate.toLocaleDateString('en-US', options);
+
+    // Map the fetched data
+    const dataPoints = documentHistory.map(entry => ({
+        label: entry.date,
+        y: entry.count
+    }));
+
+    // Move the current day to the end
+    const rearrangedDataPoints = dataPoints.filter(dp => dp.label !== currentDay);
+    const currentDayDataPoint = dataPoints.find(dp => dp.label === currentDay);
+
+    if (currentDayDataPoint) {
+        rearrangedDataPoints.push(currentDayDataPoint); // Append current day to the end
+    }
+
+    options.value.data[0].dataPoints = rearrangedDataPoints;
+}
+
+async function fetchDocumentHistory() {
+    try {
+        const response = await api.get('/document-history');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const data: { date: string, count: number }[] = responseData.data;
+        return data.map((entry: { date: string, count: number }) => ({
+            date: entry.date,   
+            count: entry.count
+        }));
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+        return [];
+    }
+}
+</script>
+
+<template>
+    <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
+</template>
