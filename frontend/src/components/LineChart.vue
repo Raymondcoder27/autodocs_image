@@ -108,14 +108,15 @@ const documentStore = useDocumentStore();
 const options = ref({
     animationEnabled: true,
     exportEnabled: true,
-    theme: "light2",
+    theme: "light",
     title: {
         text: "Weekly Document Generation Report"
     },
     axisX: {
         title: "Days of the Week",
         labelTextAlign: "center",
-        labelAngle: 0
+        labelAngle: 0,
+        interval: 1 
     },
     axisY: {
         title: "No. of PDFs Generated",
@@ -161,6 +162,8 @@ onMounted(async () => {
 //     }
 // }
 
+
+// Function to fetch metrics and reorganize data
 async function fetchMetrics() {
     try {
         const response = await api.get('/document-history');
@@ -171,16 +174,37 @@ async function fetchMetrics() {
             throw new Error('Invalid response format');
         }
 
-        // Map response data to chart dataPoints
-        const dataPoints = responseData.data.map(entry => ({
-            label: entry.date, // Use the day name as the label
-            y: entry.count     // Use the count as the y-value
+        // Current day (0=Sunday, 1=Monday, ..., 6=Saturday)
+        const currentDate = new Date();
+        const currentDayIndex = currentDate.getDay(); // 0-6 for Sun-Sat
+
+        // Define the ordered array of days, moving current day to the end
+        const orderedDays = [
+            "Thursday", // Day before current day
+            "Friday", 
+            "Saturday",
+            "Sunday",
+            "Monday",
+            "Tuesday",
+            "Wednesday"
+        ];
+
+        // Create a map for easy data access
+        const dayDataMap = {};
+        responseData.data.forEach(entry => {
+            dayDataMap[entry.date] = entry.count;
+        });
+
+        // Create the dataPoints in the desired order
+        const dataPoints = orderedDays.map(day => ({
+            label: day,
+            y: dayDataMap[day] || 0 // Default to 0 if no data available
         }));
 
-        // Set the dataPoints for your chart
+        // Assign the organized dataPoints to the chart options
         options.value.data[0].dataPoints = dataPoints;
 
-        // Log the mapped data for debugging
+        // Log for debugging
         console.log('Data Points:', dataPoints);
     } catch (error) {
         console.error('Error fetching document history:', error);
