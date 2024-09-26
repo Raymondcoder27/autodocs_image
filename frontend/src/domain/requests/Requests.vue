@@ -223,7 +223,7 @@ function prevPage() {
                         log.requestMethod === 'POST',
                       'bg-blue-50 border border-blue-300 text-blue-400 font-semibold rounded-sm px-1 py-0.3':
                         log.requestMethod === 'GET',
-                      'bg-red-100 border border-red-400 text-red-500 font-semibold rounded-sm px-1 py-0.3':
+                      'bg-red-100 border border-red-300 text-red-500 font-semibold rounded-sm px-1 py-0.3':
                         log.requestMethod === 'DELETE',
                     }"
                     >{{ log.requestMethod }}</span
