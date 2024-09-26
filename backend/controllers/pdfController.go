@@ -378,6 +378,22 @@ func DeleteDocument(c *gin.Context) {
 
 	err := services.DeleteDocumentByRefNumber(refNumber)
 	if err != nil {
+		if err := initializers.DB.Create(&models.Logs{
+			// ID: uuid.New().String(),
+			ID:                  document.ID,
+			DocumentName:        document.ID,
+			DocumentDescription: document.Description,
+			TemplateId:          document.TemplateId,
+			JsonPayload:         "",
+			Status:              "FAILED",
+			Method:              "DELETE",
+			LogDescription:      "Failed to delete document",
+			RefNumber:           refNumber,
+			CreatedAt:           currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		c.JSON(http.StatusNotFound, gin.H{"error": "Document not found"})
 		return
 	}
