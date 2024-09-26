@@ -135,6 +135,21 @@ func CreateDocument(c *gin.Context) {
 	// Bind the JSON request to the struct
 	if err := c.BindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+		//inserting get request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "SUCCESS",
+			Method:         "GET",
+			LogDescription: "Get all documents",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		return
 	}
 
