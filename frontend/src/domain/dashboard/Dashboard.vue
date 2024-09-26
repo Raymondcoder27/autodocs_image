@@ -55,7 +55,7 @@ async function fetchMetrics() {
     totalDocuments.value = documentStore.documents.length;
 
     successfulGenerations.value = documentStore.documents.length;
-    failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
+    failedGenerations.value = documentStore.documents.filter(doc => doc.requestStatus === 'FAILED').length;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
     // Fetch document history
