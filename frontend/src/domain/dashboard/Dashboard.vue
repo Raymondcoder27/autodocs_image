@@ -69,7 +69,7 @@ onMounted(async () => {
 
 
 
-async fetchMetrics() {
+async function fetchMetrics() {
     try {
         const response = await api.get('/document-history');
         const responseData = response.data;
