@@ -174,19 +174,17 @@ async function fetchMetrics() {
             throw new Error('Invalid response format');
         }
 
-        // Current day (0=Sunday, 1=Monday, ..., 6=Saturday)
+        // Get the current day index (0=Sunday, 1=Monday, ..., 6=Saturday)
         const currentDate = new Date();
         const currentDayIndex = currentDate.getDay(); // 0-6 for Sun-Sat
 
-        // Define the ordered array of days, moving current day to the end
+        // Define the ordered array of days
+        const allDays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+        // Reorder the days so the current day is last
         const orderedDays = [
-            "Thursday", // Day before current day
-            "Friday", 
-            "Saturday",
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday"
+            ...allDays.slice(currentDayIndex + 1), // Days after the current day
+            ...allDays.slice(0, currentDayIndex + 1) // Days before and including the current day
         ];
 
         // Create a map for easy data access
@@ -210,6 +208,7 @@ async function fetchMetrics() {
         console.error('Error fetching document history:', error);
     }
 }
+
 
 
 
