@@ -141,25 +141,43 @@ onMounted(async () => {
     await fetchMetrics();
 });
 
-async function fetchMetrics() {
-    await templateStore.fetchTemplates();
-    await documentStore.fetchDocuments();
+// async function fetchMetrics() {
+//     await templateStore.fetchTemplates();
+//     await documentStore.fetchDocuments();
 
-    const documentHistory = await fetchDocumentHistory();
+//     const documentHistory = await fetchDocumentHistory();
     
-    if (documentHistory && Array.isArray(documentHistory)) {
-        // Map data to fit the chart's data format
-        options.value.data[0].dataPoints = documentHistory.map(entry => ({
-            label: entry.date,
-            y: entry.count
-        }));
+//     if (documentHistory && Array.isArray(documentHistory)) {
+//         // Map data to fit the chart's data format
+//         options.value.data[0].dataPoints = documentHistory.map(entry => ({
+//             label: entry.date,
+//             y: entry.count
+//         }));
 
-        // Log chart data for debugging
-        console.log('Chart Data:', options.value.data[0].dataPoints);
-    } else {
-        console.error('Document history is empty or not in expected format.');
+//         // Log chart data for debugging
+//         console.log('Chart Data:', options.value.data[0].dataPoints);
+//     } else {
+//         console.error('Document history is empty or not in expected format.');
+//     }
+// }
+
+async function fetchMetrics() {
+    try {
+        const response = await api.get('/document-history');
+        const responseData = response.data;
+
+        // Check for successful response
+        if (responseData.code !== 200 || !Array.isArray(responseData.data)) {
+            throw new Error('Invalid response format');
+        }
+
+        // Assuming you want to set the dataPoints for your chart
+        options.value.data[0].dataPoints = responseData.data;
+    } catch (error) {
+        console.error('Error fetching document history:', error);
     }
 }
+
 
 // async function fetchDocumentHistory() {
 //     try {
