@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
-import axios from 'axios';
 import api from '@/config/api';
+
+const props = defineProps({
+    startDate: String,
+    endDate: String
+});
 
 const chart = ref(null);
 const templateStore = useTemplateStore();
@@ -38,7 +42,7 @@ const styleOptions = {
     height: "360px"
 };
 
-const chartInstance = (chartInstance: any) => {
+const chartInstance = (chartInstance) => {
     chart.value = chartInstance;
 };
 
@@ -50,21 +54,19 @@ async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
 
-    const documentHistory = await fetchDocumentHistory();
-    // console.log('Fetched document history:', documentHistory);
-
+    const documentHistory = await fetchDocumentHistory(props.startDate, props.endDate);
     const dataPoints = documentHistory.map(entry => ({
         label: entry.date,
         y: entry.count
     }));
-    // console.log('Data points for chart:', dataPoints);
-
     options.value.data[0].dataPoints = dataPoints;
 }
 
-async function fetchDocumentHistory() {
+async function fetchDocumentHistory(startDate, endDate) {
     try {
-        const response = await api.get('/document-history');
+        const response = await api.get('/document-history', {
+            params: { startDate, endDate }
+        });
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
@@ -72,11 +74,7 @@ async function fetchDocumentHistory() {
         if (responseData.code !== 200) {
             throw new Error('Failed to fetch document history');
         }
-        const data: { date: string, count: number }[] = responseData.data;
-        return data.map((entry: { date: string, count: number }) => ({
-            date: entry.date,   // Use proper date formatting if necessary
-            count: entry.count
-        }));
+        return responseData.data || [];
     } catch (error) {
         console.error('Error fetching document history:', error);
         return [];
@@ -87,4 +85,3 @@ async function fetchDocumentHistory() {
 <template>
     <CanvasJSChart :options="options" :style="styleOptions" @chart-ref="chartInstance"/>
 </template>
-
