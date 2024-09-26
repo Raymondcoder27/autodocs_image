@@ -207,7 +207,7 @@ function prevPage() {
                 </td>
                 <!-- <td class="italic text-black-700">{{ document.refNumber }}</td> -->
                 <td class="italic text-black-700">
-                  {{ log.refNumber || "NAN" }}
+                  {{ log.refNumber || "--" }}
                 </td>
 
                 <td class="text-black-700">

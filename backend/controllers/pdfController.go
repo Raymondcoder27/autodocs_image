@@ -396,16 +396,73 @@ func Templates(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": templates, "timestamp": currentTime})
 }
 
+// func GetDocumentHistory(c *gin.Context) {
+// 	var history []struct {
+// 		Date  string `json:"date"`
+// 		Count int    `json:"count"`
+// 	}
+
+// 	// Group by creation date and count documents
+// 	err := initializers.DB.Table("documents").
+// 		Select("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay') as date, COUNT(*) as count").
+// 		Group("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay')").
+// 		Scan(&history).Error
+
+// 	if err != nil {
+// 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history: " + err.Error()})
+// 		return
+// 	}
+
+// 	// Create a map to hold the counts for each day of the week
+// 	dayCounts := map[string]int{
+// 		"Monday":    0,
+// 		"Tuesday":   0,
+// 		"Wednesday": 0,
+// 		"Thursday":  0,
+// 		"Friday":    0,
+// 		"Saturday":  0,
+// 		"Sunday":    0,
+// 	}
+
+// 	// Populate the map with the counts from the database
+// 	for _, record := range history {
+// 		dayCounts[record.Date] = record.Count
+// 	}
+
+// 	// Create the final response in the desired format
+// 	var response []map[string]interface{}
+// 	orderedDays := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
+// 	for _, day := range orderedDays {
+// 		response = append(response, map[string]interface{}{
+// 			"date":  day,
+// 			"count": dayCounts[day],
+// 		})
+// 	}
+
+// 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
+// }
+
 func GetDocumentHistory(c *gin.Context) {
 	var history []struct {
-		Date  string `json:"date"`
-		Count int    `json:"count"`
+		Date   string `json:"date"`
+		Count  int    `json:"count"`
+		Status string `json:"status"` // Add status field
 	}
 
-	// Group by creation date and count documents
+	// Get startDate and endDate from query parameters
+	startDate := c.Query("startDate")
+	endDate := c.Query("endDate")
+
+	if startDate == "" || endDate == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Missing startDate or endDate"})
+		return
+	}
+
+	// Query to filter by date range and group by creation date and status
 	err := initializers.DB.Table("documents").
-		Select("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay') as date, COUNT(*) as count").
-		Group("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay')").
+		Select("TO_CHAR(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD') as date, COUNT(*) as count, status").
+		Where("created_at BETWEEN ? AND ?", startDate, endDate).
+		Group("TO_CHAR(created_at AT TIME ZONE 'UTC', 'YYYY-MM-DD'), status").
 		Scan(&history).Error
 
 	if err != nil {
@@ -413,33 +470,17 @@ func GetDocumentHistory(c *gin.Context) {
 		return
 	}
 
-	// Create a map to hold the counts for each day of the week
-	dayCounts := map[string]int{
-		"Monday":    0,
-		"Tuesday":   0,
-		"Wednesday": 0,
-		"Thursday":  0,
-		"Friday":    0,
-		"Saturday":  0,
-		"Sunday":    0,
-	}
-
-	// Populate the map with the counts from the database
-	for _, record := range history {
-		dayCounts[record.Date] = record.Count
-	}
-
-	// Create the final response in the desired format
+	// Process the history data into the desired response format
 	var response []map[string]interface{}
-	orderedDays := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
-	for _, day := range orderedDays {
+	for _, record := range history {
 		response = append(response, map[string]interface{}{
-			"date":  day,
-			"count": dayCounts[day],
+			"date":   record.Date,
+			"count":  record.Count,
+			"status": record.Status, // Include status in the response
 		})
 	}
 
-	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
+	c.JSON(http.StatusOK, gin.H{"code": 200, "data": response})
 }
 
 func AutodocsLogs(c *gin.Context) {
