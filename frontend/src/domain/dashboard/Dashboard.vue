@@ -163,10 +163,11 @@ async function fetchChartData() {
           id="end-date"
           class="pt-1 pb-2"
         />
-      </div>
-      <button class="font-semibold text-xs mt-0 text-white bg-black-900 hover:bg-blue-400 hover:text-white rounded-sm p-0.5 mb-0.5 text-center ml-[135px]">
+        <button class="font-semibold text-xs mt-0 text-white bg-black-900 hover:bg-blue-400 hover:text-white rounded-sm p-0.5 mb-0.5 text-center ml-[135px]">
         Send Request
       </button>
+      </div>
+      
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 mb-2">
       <div
