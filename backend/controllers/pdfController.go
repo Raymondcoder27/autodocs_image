@@ -158,7 +158,6 @@ func CreateDocument(c *gin.Context) {
 	var template models.Template
 	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
-
 		return
 	}
 
