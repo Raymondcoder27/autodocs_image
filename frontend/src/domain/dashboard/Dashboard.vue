@@ -51,29 +51,29 @@ async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
 
+    totalTemplates.value = templateStore.templates.length;
+    totalDocuments.value = documentStore.documents.length;
+
+    successfulGenerations.value = documentStore.documents.length;
+    failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
+    const totalGenerations = successfulGenerations.value + failedGenerations.value;
+
+    // Fetch document history
     const documentHistory = await fetchDocumentHistory();
+    
+    if (documentHistory && Array.isArray(documentHistory)) {
+        const numberOfDays = documentHistory.length;
 
-    // Determine the current day
-    const currentDate = new Date();
-    const options = { weekday: 'long' };
-    const currentDay = currentDate.toLocaleDateString('en-US', options);
+        generationRate.value = totalGenerations / numberOfDays;
+        failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 
-    // Map the fetched data
-    const dataPoints = documentHistory.map(entry => ({
-        label: entry.date,
-        y: entry.count
-    }));
-
-    // Move the current day to the end
-    const rearrangedDataPoints = dataPoints.filter(dp => dp.label !== currentDay);
-    const currentDayDataPoint = dataPoints.find(dp => dp.label === currentDay);
-
-    if (currentDayDataPoint) {
-        rearrangedDataPoints.push(currentDayDataPoint); // Append current day to the end
+        // Log document history for debugging
+        console.log('Document History:', documentHistory);
+    } else {
+        console.error('Document history is empty or not in expected format.');
     }
-
-    options.value.data[0].dataPoints = rearrangedDataPoints;
 }
+
 
 
 async function fetchDocumentHistory() {

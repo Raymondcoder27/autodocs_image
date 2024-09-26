@@ -146,27 +146,19 @@ async function fetchMetrics() {
     await documentStore.fetchDocuments();
 
     const documentHistory = await fetchDocumentHistory();
+    
+    if (documentHistory && Array.isArray(documentHistory)) {
+        // Map data to fit the chart's data format
+        options.value.data[0].dataPoints = documentHistory.map(entry => ({
+            label: entry.date,
+            y: entry.count
+        }));
 
-    // Determine the current day
-    const currentDate = new Date();
-    const options = { weekday: 'long' };
-    const currentDay = currentDate.toLocaleDateString('en-US', options);
-
-    // Map the fetched data
-    const dataPoints = documentHistory.map(entry => ({
-        label: entry.date,
-        y: entry.count
-    }));
-
-    // Move the current day to the end
-    const rearrangedDataPoints = dataPoints.filter(dp => dp.label !== currentDay);
-    const currentDayDataPoint = dataPoints.find(dp => dp.label === currentDay);
-
-    if (currentDayDataPoint) {
-        rearrangedDataPoints.push(currentDayDataPoint); // Append current day to the end
+        // Log chart data for debugging
+        console.log('Chart Data:', options.value.data[0].dataPoints);
+    } else {
+        console.error('Document history is empty or not in expected format.');
     }
-
-    options.value.data[0].dataPoints = rearrangedDataPoints;
 }
 
 async function fetchDocumentHistory() {
