@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
 import DatePicker from '@/components/DatePicker.vue';
@@ -96,120 +96,6 @@ async function fetchChartData() {
         console.error('Error fetching document history:', error);
     }
 }
-
-
-
-// async function fetchChartData() {
-//     try {
-//         const response = await api.get('/document-history', {
-//             params: {
-//                 startDate: startDate.value,
-//                 endDate: endDate.value
-//             }
-//         });
-//         if (response.status !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-//         const responseData = response.data;
-//         if (responseData.code !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-
-//         const documentHistory = responseData.data;
-
-//         if (!documentHistory || !Array.isArray(documentHistory)) {
-//             console.error('Invalid chart data format:', documentHistory);
-//             return;
-//         }
-
-//         chartData.value = documentHistory.map(entry => ({
-//             label: entry.date.trim(),
-//             y: entry.count
-//         }));
-
-//         console.log('Chart data:', chartData.value);
-//     } catch (error) {
-//         console.error('Error fetching document history:', error);
-//     }
-// }
-
-
-
-
-// async function fetchMetrics() {
-//     await templateStore.fetchTemplates();
-//     await documentStore.fetchDocuments();
-
-//     totalTemplates.value = templateStore.templates.length;
-
-//     // Fetch document history for selected date range
-//     const documentHistory = await fetchDocumentHistory();
-
-//     // Check if documentHistory is valid and has data
-//     if (documentHistory && Array.isArray(documentHistory)) {
-//         totalDocuments.value = documentHistory.reduce((acc, entry) => acc + entry.count, 0);
-
-//         successfulGenerations.value = documentHistory.reduce(
-//             (acc, entry) => acc + (entry.status !== 'failure' ? entry.count : 0),
-//             0
-//         );
-//         failedGenerations.value = documentHistory.reduce(
-//             (acc, entry) => acc + (entry.status === 'failure' ? entry.count : 0),
-//             0
-//         );
-
-//         const totalGenerations = successfulGenerations.value + failedGenerations.value;
-//         const numberOfDays = documentHistory.length;
-
-//         generationRate.value = numberOfDays > 0 ? (totalGenerations / numberOfDays) : 0;
-//         failureRate.value = totalGenerations > 0 ? (failedGenerations.value / totalGenerations) * 100 : 0;
-//     } else {
-//         // Handle case where no data is returned
-//         totalDocuments.value = 0;
-//         successfulGenerations.value = 0;
-//         failedGenerations.value = 0;
-//         generationRate.value = 0;
-//         failureRate.value = 0;
-//     }
-// }
-
-
-// async function fetchDocumentHistory() {
-//     try {
-//         const response = await api.get('/document-history', {
-//             params: {
-//                 startDate: startDate.value,
-//                 endDate: endDate.value
-//             }
-//         });
-//         if (response.status !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-//         const responseData = response.data;
-//         if (responseData.code !== 200) {
-//             throw new Error('Failed to fetch document history');
-//         }
-//         // Ensure the response data is defined and is an array
-//         if (!responseData.data || !Array.isArray(responseData.data)) {
-//             console.error('Invalid data format:', responseData.data);
-//             return [];
-//         }
-//         return responseData.data;
-//     } catch (error) {
-//         console.error('Error fetching document history:', error);
-//         return [];
-//     }
-// }
-
-
-watch([startDate, endDate], async () => {
-    await fetchMetrics();
-});
-
-console.log('Fetching document history with parameters:', {
-    startDate: startDate.value,
-    endDate: endDate.value
-});
 
 </script>
 
