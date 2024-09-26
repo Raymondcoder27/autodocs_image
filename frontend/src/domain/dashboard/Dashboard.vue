@@ -6,9 +6,11 @@ import DatePicker from '@/components/DatePicker.vue';
 import LineChart from '@/components/LineChart.vue';
 import axios from 'axios';
 import api from '@/config/api';
+import { useLogStore } from '../requests/stores';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
+const logStore = useLogStore(); 
 
 
 const startDate = ref(new Date().toISOString().split('T')[0]);
