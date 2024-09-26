@@ -276,6 +276,22 @@ func GetDocuments(c *gin.Context) {
 	var documents []models.Document
 	if err := initializers.DB.Find(&documents).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching documents"})
+		//inserting post request into logs table
+	if err := initializers.DB.Create(&models.Logs{
+		ID:                  id,
+		DocumentName:        id,
+		JsonPayload:         string(jsonString),
+		Status:              "FAILED",
+		Method:              "GET",
+		DocumentDescription: "Error fetching documents",
+		TemplateId:          templateId,
+		RefNumber:           storageKey,
+		CreatedAt:           time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+		
 		return
 	}
 	currentTime := time.Now()
