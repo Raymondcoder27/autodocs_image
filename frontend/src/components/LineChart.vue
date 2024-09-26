@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
 import axios from 'axios';
+import api from '@/config/api';
 
 const chart = ref(null);
 const templateStore = useTemplateStore();
@@ -63,7 +64,7 @@ async function fetchMetrics() {
 
 async function fetchDocumentHistory() {
     try {
-        const response = await axios.get('http://localhost:8080/document-history');
+        const response = await api.get('/document-history');
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
