@@ -6,11 +6,11 @@ import DatePicker from '@/components/DatePicker.vue';
 import LineChart from '@/components/LineChart.vue';
 import axios from 'axios';
 import api from '@/config/api';
-import { useLogStore } from '../requests/stores';
+import { useLogStore } from '@/domain/logs/stores';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
-const logStore = useLogStore();
+const logStore = useLogStore(); 
 
 
 const startDate = ref(new Date().toISOString().split('T')[0]);
@@ -29,6 +29,19 @@ onMounted(async () => {
     await fetchMetrics();
     await fetchChartData();
 });
+
+
+async function fetchLogs() {
+    try {
+        const response = await api.get('/logs');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch logs');
+        }
+        logStore.logs = response.data.logs;
+    } catch (error) {
+        console.error('Error fetching logs:', error);
+    }
+}
 
 // async function fetchMetrics() {
 //     await templateStore.fetchTemplates();
@@ -52,12 +65,14 @@ onMounted(async () => {
 async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
+    await fetchLogs();
 
     totalTemplates.value = templateStore.templates.length;
     totalDocuments.value = documentStore.documents.length;
 
     successfulGenerations.value = documentStore.documents.length;
-    failedGenerations.value = logStore.logs.filter(l => l.requestStatus === 'FAILED').length;
+    // failedGenerations.value = logStore.logs.filter(l => l.requestStatus === 'FAILED').length;
+    failedGenerations.value = logStore.logs?.filter(l => l.requestStatus === 'FAILED').length || 0;
     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
     // Fetch document history
