@@ -164,7 +164,7 @@ async function fetchChartData() {
           class="pt-1 pb-2"
         />
       </div>
-      <button class="font-semibold text-xs text-black bg-gray-100 rounded-md text-center w-[90px] mx-auto text-center">
+      <button class="font-semibold text-xs text-black bg-gray-100 rounded-md w-[90px] mx-auto text-center">
         Send Request
       </button>
     </div>
