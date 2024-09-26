@@ -158,23 +158,7 @@ func CreateDocument(c *gin.Context) {
 	var template models.Template
 	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
-		if err := c.BindJSON(&request); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
-			//inserting get request into logs table
-			if err := initializers.DB.Create(&models.Logs{
-				ID:             uuid.New().String(),
-				DocumentName:   "",
-				JsonPayload:    "",
-				Status:         "FAILED",
-				Method:         "POST",
-				LogDescription: "Template not found for specified ref number.",
-				TemplateId:     "",
-				RefNumber:      "",
-				CreatedAt:      currentTime,
-			}).Error; err != nil {
-				c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
-				return
-			}
+
 		return
 	}
 
@@ -276,22 +260,6 @@ func GetDocuments(c *gin.Context) {
 	var documents []models.Document
 	if err := initializers.DB.Find(&documents).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching documents"})
-		//inserting post request into logs table
-	if err := initializers.DB.Create(&models.Logs{
-		ID:                  id,
-		DocumentName:        id,
-		JsonPayload:         string(jsonString),
-		Status:              "FAILED",
-		Method:              "GET",
-		DocumentDescription: "Error fetching documents",
-		TemplateId:          templateId,
-		RefNumber:           storageKey,
-		CreatedAt:           time.Now(),
-	}).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
-		return
-	}
-		
 		return
 	}
 	currentTime := time.Now()
