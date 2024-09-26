@@ -74,6 +74,11 @@ type DeleteResponse struct {
 	Timestamp time.Time `json:"currentTimestamp"`
 }
 
+type DocumentHistory struct {
+	Date  string `json:"date"`
+	Count int    `json:"count"`
+}
+
 // UploadTemplate handles uploading an HTML template to MinIO
 func UploadTemplate(c *gin.Context) {
 	refNumber := services.GenerateReferenceNumber()
