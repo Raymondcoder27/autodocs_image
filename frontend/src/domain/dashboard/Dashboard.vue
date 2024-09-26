@@ -6,7 +6,7 @@ import DatePicker from '@/components/DatePicker.vue';
 import LineChart from '@/components/LineChart.vue';
 import axios from 'axios';
 import api from '@/config/api';
-import { useLogStore } from '@/domain/logs/stores';
+import { useLogStore } from '@/domain/requests/stores';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
@@ -28,6 +28,7 @@ const chartData = ref([]);
 onMounted(async () => {
     await fetchMetrics();
     await fetchChartData();
+    await fetchLogs();
 });
 
 
