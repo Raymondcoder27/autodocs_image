@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useTemplateStore } from '@/domain/templates/stores';
 import { useDocumentStore } from '@/domain/documents/stores';
 import DatePicker from '@/components/DatePicker.vue';
 import LineChart from '@/components/LineChart.vue';
 import axios from 'axios';
 import api from '@/config/api';
-import { watch } from 'fs';
 
 const templateStore = useTemplateStore();
 const documentStore = useDocumentStore();
@@ -69,9 +68,39 @@ onMounted(async () => {
 //     }
 // }
 
+// async function fetchChartData() {
+//     try {
+//         // const response = await axios.get('http://localhost:8080/document-history');
+//         const response = await api.get('/document-history', {
+//             params: {
+//                 startDate: startDate.value,
+//                 endDate: endDate.value
+//             }
+//         });
+//         if (response.status !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const responseData = response.data;
+//         if (responseData.code !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const documentHistory = responseData.data;
+
+//         chartData.value = documentHistory.map(entry => ({
+//             label: entry.date.trim(),
+//             y: entry.count
+//         }));
+
+//         console.log('Chart data:', chartData.value);
+//     } catch (error) {
+//         console.error('Error fetching document history:', error);
+//     }
+// }
+
+
+
 async function fetchChartData() {
     try {
-        // const response = await axios.get('http://localhost:8080/document-history');
         const response = await api.get('/document-history', {
             params: {
                 startDate: startDate.value,
@@ -85,7 +114,13 @@ async function fetchChartData() {
         if (responseData.code !== 200) {
             throw new Error('Failed to fetch document history');
         }
+
         const documentHistory = responseData.data;
+
+        if (!documentHistory || !Array.isArray(documentHistory)) {
+            console.error('Invalid chart data format:', documentHistory);
+            return;
+        }
 
         chartData.value = documentHistory.map(entry => ({
             label: entry.date.trim(),
@@ -100,6 +135,7 @@ async function fetchChartData() {
 
 
 
+
 async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
@@ -108,23 +144,35 @@ async function fetchMetrics() {
 
     // Fetch document history for selected date range
     const documentHistory = await fetchDocumentHistory();
-    totalDocuments.value = documentHistory.reduce((acc, entry) => acc + entry.count, 0);
-    
-    successfulGenerations.value = documentHistory.reduce(
-        (acc, entry) => acc + (entry.status !== 'failure' ? entry.count : 0),
-        0
-    );
-    failedGenerations.value = documentHistory.reduce(
-        (acc, entry) => acc + (entry.status === 'failure' ? entry.count : 0),
-        0
-    );
 
-    const totalGenerations = successfulGenerations.value + failedGenerations.value;
-    const numberOfDays = documentHistory.length;
+    // Check if documentHistory is valid and has data
+    if (documentHistory && Array.isArray(documentHistory)) {
+        totalDocuments.value = documentHistory.reduce((acc, entry) => acc + entry.count, 0);
 
-    generationRate.value = totalGenerations / numberOfDays;
-    failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+        successfulGenerations.value = documentHistory.reduce(
+            (acc, entry) => acc + (entry.status !== 'failure' ? entry.count : 0),
+            0
+        );
+        failedGenerations.value = documentHistory.reduce(
+            (acc, entry) => acc + (entry.status === 'failure' ? entry.count : 0),
+            0
+        );
+
+        const totalGenerations = successfulGenerations.value + failedGenerations.value;
+        const numberOfDays = documentHistory.length;
+
+        generationRate.value = numberOfDays > 0 ? (totalGenerations / numberOfDays) : 0;
+        failureRate.value = totalGenerations > 0 ? (failedGenerations.value / totalGenerations) * 100 : 0;
+    } else {
+        // Handle case where no data is returned
+        totalDocuments.value = 0;
+        successfulGenerations.value = 0;
+        failedGenerations.value = 0;
+        generationRate.value = 0;
+        failureRate.value = 0;
+    }
 }
+
 
 async function fetchDocumentHistory() {
     try {
@@ -141,7 +189,12 @@ async function fetchDocumentHistory() {
         if (responseData.code !== 200) {
             throw new Error('Failed to fetch document history');
         }
-        return responseData.data; // Modify the response to return status for each document
+        // Ensure the response data is defined and is an array
+        if (!responseData.data || !Array.isArray(responseData.data)) {
+            console.error('Invalid data format:', responseData.data);
+            return [];
+        }
+        return responseData.data;
     } catch (error) {
         console.error('Error fetching document history:', error);
         return [];
@@ -150,8 +203,14 @@ async function fetchDocumentHistory() {
 
 
 watch([startDate, endDate], async () => {
-    await fetchChartData();
+    await fetchMetrics();
 });
+
+console.log('Fetching document history with parameters:', {
+    startDate: startDate.value,
+    endDate: endDate.value
+});
+
 </script>
 
 <template>
