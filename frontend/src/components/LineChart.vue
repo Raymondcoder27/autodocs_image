@@ -171,12 +171,22 @@ async function fetchMetrics() {
             throw new Error('Invalid response format');
         }
 
-        // Assuming you want to set the dataPoints for your chart
-        options.value.data[0].dataPoints = responseData.data;
+        // Map response data to chart dataPoints
+        const dataPoints = responseData.data.map(entry => ({
+            label: entry.date, // Use the day name as the label
+            y: entry.count     // Use the count as the y-value
+        }));
+
+        // Set the dataPoints for your chart
+        options.value.data[0].dataPoints = dataPoints;
+
+        // Log the mapped data for debugging
+        console.log('Data Points:', dataPoints);
     } catch (error) {
         console.error('Error fetching document history:', error);
     }
 }
+
 
 
 // async function fetchDocumentHistory() {
