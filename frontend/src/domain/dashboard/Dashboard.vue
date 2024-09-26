@@ -28,21 +28,21 @@ const chartData = ref([]);
 onMounted(async () => {
     await fetchMetrics();
     await fetchChartData();
-    await fetchLogs();
+    // await fetchLogs();
 });
 
 
-async function fetchLogs() {
-    try {
-        const response = await api.get('/logs');
-        if (response.status !== 200) {
-            throw new Error('Failed to fetch logs');
-        }
-        logStore.logs = response.data.logs;
-    } catch (error) {
-        console.error('Error fetching logs:', error);
-    }
-}
+// async function fetchLogs() {
+//     try {
+//         const response = await api.get('/logs');
+//         if (response.status !== 200) {
+//             throw new Error('Failed to fetch logs');
+//         }
+//         logStore.logs = response.data.logs;
+//     } catch (error) {
+//         console.error('Error fetching logs:', error);
+//     }
+// }
 
 // async function fetchMetrics() {
 //     await templateStore.fetchTemplates();
@@ -66,7 +66,7 @@ async function fetchLogs() {
 async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
-    await fetchLogs();
+    // await fetchLogs();
 
     totalTemplates.value = templateStore.templates.length;
     totalDocuments.value = documentStore.documents.length;
@@ -114,6 +114,7 @@ async function fetchDocumentHistory() {
         return [];
     }
 }
+
 
 async function fetchChartData() {
     try {
