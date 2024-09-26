@@ -161,26 +161,51 @@ async function fetchMetrics() {
     }
 }
 
+// async function fetchDocumentHistory() {
+//     try {
+//         const response = await api.get('/document-history');
+//         if (response.status !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const responseData = response.data;
+//         if (responseData.code !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const data: { date: string, count: number }[] = responseData.data;
+//         return data.map((entry: { date: string, count: number }) => ({
+//             date: entry.date,   
+//             count: entry.count
+//         }));
+//     } catch (error) {
+//         console.error('Error fetching document history:', error);
+//         return [];
+//     }
+// }
+
 async function fetchDocumentHistory() {
     try {
         const response = await api.get('/document-history');
+
+        // Check for successful response
         if (response.status !== 200) {
             throw new Error('Failed to fetch document history');
         }
+
         const responseData = response.data;
-        if (responseData.code !== 200) {
-            throw new Error('Failed to fetch document history');
+
+        // Validate the response structure
+        if (responseData.code !== 200 || !Array.isArray(responseData.data)) {
+            throw new Error('Invalid response format');
         }
-        const data: { date: string, count: number }[] = responseData.data;
-        return data.map((entry: { date: string, count: number }) => ({
-            date: entry.date,   
-            count: entry.count
-        }));
+
+        // Return the data directly
+        return responseData.data;
     } catch (error) {
         console.error('Error fetching document history:', error);
-        return [];
+        return []; // Return an empty array in case of error
     }
 }
+
 </script>
 
 <template>
