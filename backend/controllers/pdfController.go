@@ -130,6 +130,8 @@ func CreateDocument(c *gin.Context) {
 	// refNumber := c.PostForm("refNumber")
 	// jsonData := c.PostForm("data")
 
+	currentTime := time.Now()
+
 	var request GenerateRequest
 
 	// Bind the JSON request to the struct
