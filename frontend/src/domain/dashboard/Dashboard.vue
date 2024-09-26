@@ -47,32 +47,71 @@ onMounted(async () => {
 //     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 // }
 
-async function fetchMetrics() {
-    await templateStore.fetchTemplates();
-    await documentStore.fetchDocuments();
 
-    totalTemplates.value = templateStore.templates.length;
-    totalDocuments.value = documentStore.documents.length;
 
-    successfulGenerations.value = documentStore.documents.length;
-    failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
-    const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
-    // Fetch document history
-    const documentHistory = await fetchDocumentHistory();
-    
-    if (documentHistory && Array.isArray(documentHistory)) {
-        const numberOfDays = documentHistory.length;
 
-        generationRate.value = totalGenerations / numberOfDays;
-        failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 
-        // Log document history for debugging
-        console.log('Document History:', documentHistory);
-    } else {
-        console.error('Document history is empty or not in expected format.');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+async fetchMetrics() {
+    try {
+        const response = await api.get('/document-history');
+        const responseData = response.data;
+
+        // Check for successful response
+        if (responseData.code !== 200 || !Array.isArray(responseData.data)) {
+            throw new Error('Invalid response format');
+        }
+
+        // Assuming you want to set the dataPoints for your chart
+        options.value.data[0].dataPoints = responseData.data;
+    } catch (error) {
+        console.error('Error fetching document history:', error);
     }
 }
+
+// async function fetchMetrics() {
+//     await templateStore.fetchTemplates();
+//     await documentStore.fetchDocuments();
+
+//     totalTemplates.value = templateStore.templates.length;
+//     totalDocuments.value = documentStore.documents.length;
+
+//     successfulGenerations.value = documentStore.documents.length;
+//     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
+//     const totalGenerations = successfulGenerations.value + failedGenerations.value;
+
+//     // Fetch document history
+//     const documentHistory = await fetchDocumentHistory();
+    
+//     if (documentHistory && Array.isArray(documentHistory)) {
+//         const numberOfDays = documentHistory.length;
+
+//         generationRate.value = totalGenerations / numberOfDays;
+//         failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+
+//         // Log document history for debugging
+//         console.log('Document History:', documentHistory);
+//     } else {
+//         console.error('Document history is empty or not in expected format.');
+//     }
+// }
 
 
 
