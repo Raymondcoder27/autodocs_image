@@ -29,45 +29,45 @@ onMounted(async () => {
     await fetchChartData();
 });
 
-async function fetchMetrics() {
-    await templateStore.fetchTemplates();
-    await documentStore.fetchDocuments();
+// async function fetchMetrics() {
+//     await templateStore.fetchTemplates();
+//     await documentStore.fetchDocuments();
 
-    totalTemplates.value = templateStore.templates.length;
-    totalDocuments.value = documentStore.documents.length;
+//     totalTemplates.value = templateStore.templates.length;
+//     totalDocuments.value = documentStore.documents.length;
 
-    successfulGenerations.value = documentStore.documents.length;
-    failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
-    const totalGenerations = successfulGenerations.value + failedGenerations.value;
+//     successfulGenerations.value = documentStore.documents.length;
+//     failedGenerations.value = documentStore.documents.filter(doc => doc.status === 'failure').length;
+//     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
-    // Fetch document history to determine the number of days
-    const documentHistory = await fetchDocumentHistory();
-    const numberOfDays = documentHistory.length;
+//     // Fetch document history to determine the number of days
+//     const documentHistory = await fetchDocumentHistory();
+//     const numberOfDays = documentHistory.length;
 
-    generationRate.value = totalGenerations / numberOfDays;
-    failureRate.value = (failedGenerations.value / totalGenerations) * 100;
-}
+//     generationRate.value = totalGenerations / numberOfDays;
+//     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+// }
 
-async function fetchDocumentHistory() {
-    try {
-        const response = await api.get('/document-history');
-        if (response.status !== 200) {
-            throw new Error('Failed to fetch document history');
-        }
-        const responseData = response.data;
-        if (responseData.code !== 200) {
-            throw new Error('Failed to fetch document history');
-        }
-        const data: { date: string, count: number }[] = responseData.data;
-        return data.map((entry: { date: string, count: number }) => ({
-            date: entry.date.trim(),
-            count: entry.count
-        }));
-    } catch (error) {
-        console.error('Error fetching document history:', error);
-        return [];
-    }
-}
+// async function fetchDocumentHistory() {
+//     try {
+//         const response = await api.get('/document-history');
+//         if (response.status !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const responseData = response.data;
+//         if (responseData.code !== 200) {
+//             throw new Error('Failed to fetch document history');
+//         }
+//         const data: { date: string, count: number }[] = responseData.data;
+//         return data.map((entry: { date: string, count: number }) => ({
+//             date: entry.date.trim(),
+//             count: entry.count
+//         }));
+//     } catch (error) {
+//         console.error('Error fetching document history:', error);
+//         return [];
+//     }
+// }
 
 async function fetchChartData() {
     try {
@@ -97,6 +97,57 @@ async function fetchChartData() {
         console.error('Error fetching document history:', error);
     }
 }
+
+
+
+async function fetchMetrics() {
+    await templateStore.fetchTemplates();
+    await documentStore.fetchDocuments();
+
+    totalTemplates.value = templateStore.templates.length;
+
+    // Fetch document history for selected date range
+    const documentHistory = await fetchDocumentHistory();
+    totalDocuments.value = documentHistory.reduce((acc, entry) => acc + entry.count, 0);
+    
+    successfulGenerations.value = documentHistory.reduce(
+        (acc, entry) => acc + (entry.status !== 'failure' ? entry.count : 0),
+        0
+    );
+    failedGenerations.value = documentHistory.reduce(
+        (acc, entry) => acc + (entry.status === 'failure' ? entry.count : 0),
+        0
+    );
+
+    const totalGenerations = successfulGenerations.value + failedGenerations.value;
+    const numberOfDays = documentHistory.length;
+
+    generationRate.value = totalGenerations / numberOfDays;
+    failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+}
+
+async function fetchDocumentHistory() {
+    try {
+        const response = await api.get('/document-history', {
+            params: {
+                startDate: startDate.value,
+                endDate: endDate.value
+            }
+        });
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        const responseData = response.data;
+        if (responseData.code !== 200) {
+            throw new Error('Failed to fetch document history');
+        }
+        return responseData.data; // Modify the response to return status for each document
+    } catch (error) {
+        console.error('Error fetching document history:', error);
+        return [];
+    }
+}
+
 
 watch([startDate, endDate], async () => {
     await fetchChartData();
