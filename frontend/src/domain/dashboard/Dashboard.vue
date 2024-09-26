@@ -47,29 +47,6 @@ onMounted(async () => {
 //     failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 // }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 async function fetchMetrics() {
     await templateStore.fetchTemplates();
     await documentStore.fetchDocuments();
