@@ -158,6 +158,21 @@ func CreateDocument(c *gin.Context) {
 	var template models.Template
 	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         "",
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: "Template not found",
+			TemplateId:          "",
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		return
 	}
 
@@ -166,6 +181,21 @@ func CreateDocument(c *gin.Context) {
 	templateBytes, err := services.DownloadFile("templates", templateKey)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching template: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         "",
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: "Error fetching template: " + err.Error(),
+			TemplateId:          "",
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		return
 	}
 
