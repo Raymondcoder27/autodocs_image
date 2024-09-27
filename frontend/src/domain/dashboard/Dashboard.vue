@@ -142,7 +142,7 @@ async function fetchChartData() {
 
 <template>
   <div class="p-0">
-    <div class="mb-4 bg-white font-semibold text-gray-700 rounded-lg max-w-sm mx-auto shadow-lg p-4">
+    <div class="mb-2 bg-white font-semibold text-gray-700 rounded-lg max-w-sm mx-auto shadow-lg p-4">
   <div class="text-center text-gray-700 text-sm mb-4">
     Choose Dates to View Report
   </div>
