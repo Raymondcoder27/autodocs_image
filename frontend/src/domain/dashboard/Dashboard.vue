@@ -37,12 +37,14 @@ async function fetchMetrics() {
 
   totalTemplates.value = templateStore.templates.length;
   totalDocuments.value = documentStore.documents.length;
+  failedGenerations.value = documentStore.fetchFailedDocuments.length;
+
 
   successfulGenerations.value = documentStore.documents.length;
-  failedGenerations.value =
-    logStore.logs?.filter((l) => l.requestStatus === "FAILED").length || 0;
+//   failedGenerations.value =
+//     logStore.logs?.filter((l) => l.requestStatus === "FAILED").length || 0;
 
-failedGenerations.value = documentStore.failedDocuments.length;
+// failedGenerations.value = documentStore.fetchFailedDocuments.length;
   const totalGenerations =
     successfulGenerations.value + failedGenerations.value;
 
