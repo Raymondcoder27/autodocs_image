@@ -798,8 +798,16 @@ func GetMetrics(c *gin.Context) {
 	}
 
 	// Count failed generations within the date range
-	if err := initializers.DB.Model(&models.Logs{}).
-		Where("created_at BETWEEN ? AND ? AND status = ?", start, end, "FAILED").
+	// if err := initializers.DB.Model(&models.Logs{}).
+	// 	Where("created_at BETWEEN ? AND ? AND status = ?", start, end, "FAILED").
+	// 	Count(&failedGenerations).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
+	// 	return
+	// }
+
+	//Count failed generations from failed generations table
+	if err := initializers.DB.Model(&models.FailedGenerations{}).
+		Where("created_at BETWEEN ? AND ?", start, end).
 		Count(&failedGenerations).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
 		return
