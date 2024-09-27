@@ -146,24 +146,24 @@ async function fetchChartData() {
   <div class="text-center text-gray-700 text-sm mb-4">
     Choose Dates to View Report
   </div>
-  <div class="flex flex-col items-center space-y-4">
+  <div class="flex items-center space-x-2">
     <DatePicker
       v-model="startDate"
       label="Start Date:"
       id="start-date"
-      class="w-full"
+      class="flex-1 text-xs"
     />
     <DatePicker
       v-model="endDate"
       label="End Date:"
       id="end-date"
-      class="w-full"
+      class="flex-1 text-xs"
     />
     <button
       @click="fetchRange"
-      class="w-full py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200"
+      class="py-1 pt-2 px-2 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition duration-200"
     >
-      Send Request
+      Send
     </button>
   </div>
 </div>
