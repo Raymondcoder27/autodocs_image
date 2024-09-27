@@ -110,7 +110,7 @@ const options = ref({
     exportEnabled: true,
     theme: "light",
     title: {
-        text: "This Week's Document Generation Report"
+        text: "This Week's Report"
     },
     axisX: {
         title: "Days of the Week",
