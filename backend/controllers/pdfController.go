@@ -761,6 +761,22 @@ func GetMetrics(c *gin.Context) {
 	}
 	end, err := time.Parse("2006-01-02", endDate)
 	if err != nil {
+
+		//inserting get request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "FAILED",
+			Method:         "GET",
+			LogDescription: "Invalid end date",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid end date"})
 		return
 	}
