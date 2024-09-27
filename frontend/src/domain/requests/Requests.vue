@@ -211,10 +211,15 @@ function prevPage() {
                 </td>
 
                 <td class="text-black-700">
-                  {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'All Templates' }}
+                  <!-- {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'All Templates' }} -->
+                  {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || '--' }}
                 </td>
+                <!-- <td class="text-black-700">
+                  {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.templateName || 'All Templates' }}
+                </td> -->
                 <td class="text-black-700">
-                  {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'All Documents' }}
+                  <!-- {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || 'All Documents' }} -->
+                  {{ logStore.logs?.find((l: Log) => l.refNumber == log.refNumber)?.description || '--' }}
                 </td>
                 <td class="text-black-700">
                   <span

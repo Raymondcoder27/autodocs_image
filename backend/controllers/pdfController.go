@@ -593,9 +593,10 @@ func DeleteDocument(c *gin.Context) {
 func DeleteTemplate(c *gin.Context) {
 	refNumber := c.Param("refNumber")
 
-	err := services.DeleteTemplateByRefNumber(refNumber)
-	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Template not found"})
+	//find this template in the database
+	var template models.Template
+	if err := initializers.DB.Where("ref_number = ?", refNumber).First(&template).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found"})
 		return
 	}
 
@@ -608,11 +609,17 @@ func DeleteTemplate(c *gin.Context) {
 		Status:         "SUCCESS",
 		Method:         "DELETE",
 		LogDescription: "Template deleted successfully",
-		TemplateId:     "",
+		TemplateId:     template.ID,
 		RefNumber:      refNumber,
 		CreatedAt:      time.Now(),
 	}).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+
+	err := services.DeleteTemplateByRefNumber(refNumber)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Template not found"})
 		return
 	}
 
