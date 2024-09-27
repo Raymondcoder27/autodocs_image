@@ -470,6 +470,22 @@ func PreviewDocument(c *gin.Context) {
 	// Encode the PDF bytes to base64
 	pdfBase64 := base64.StdEncoding.EncodeToString(pdfBytes)
 
+	//insert into logs table
+	if err := initializers.DB.Create(&models.Logs{
+		ID:                  document.ID,
+		DocumentName:        document.ID,
+		JsonPayload:         "",
+		Status:              "SUCCESS",
+		Method:              "GET",
+		DocumentDescription: document.Description,
+		TemplateId:          document.TemplateId,
+		RefNumber:           refNo,
+		CreatedAt:           time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+
 	// c.JSON(http.StatusOK, pdfBase64)
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": pdfBase64, "timestamp": document.CreatedAt})
 }
