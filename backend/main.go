@@ -35,6 +35,7 @@ func main() {
 	r.GET("/templates", controllers.Templates)
 	r.GET("/document-history", controllers.GetDocumentHistory)
 	r.GET("/logs", controllers.AutodocsLogs)
+	r.GET("/daterange-metrics", controllers.GetMetrics)
 
 	r.GET("/templates/preview/:refNumber", controllers.PreviewTemplate)
 	r.GET("/documents/preview/:refNumber", controllers.PreviewDocument)
