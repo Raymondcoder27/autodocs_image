@@ -120,6 +120,22 @@ func UploadTemplate(c *gin.Context) {
 		return
 	}
 
+	//inserting post request into logs table
+	if err := initializers.DB.Create(&models.Logs{
+		ID:                  id,
+		DocumentName:        id,
+		JsonPayload:         "",
+		Status:              "SUCCESS",
+		Method:              "POST",
+		DocumentDescription: templateName,
+		TemplateId:          id,
+		RefNumber:           refNumber,
+		CreatedAt:           time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+
 	// c.IndentedJSON(http.StatusOK, template)
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": template, "time": template.CreatedAt})
 }
@@ -415,20 +431,20 @@ func GetDocuments(c *gin.Context) {
 	// c.IndentedJSON(http.StatusOK, documents)
 
 	//inserting get request into logs table
-	if err := initializers.DB.Create(&models.Logs{
-		ID:             uuid.New().String(),
-		DocumentName:   "",
-		JsonPayload:    "",
-		Status:         "SUCCESS",
-		Method:         "GET",
-		LogDescription: "Get all documents",
-		TemplateId:     "",
-		RefNumber:      "",
-		CreatedAt:      currentTime,
-	}).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
-		return
-	}
+	// if err := initializers.DB.Create(&models.Logs{
+	// 	ID:             uuid.New().String(),
+	// 	DocumentName:   "",
+	// 	JsonPayload:    "",
+	// 	Status:         "SUCCESS",
+	// 	Method:         "GET",
+	// 	LogDescription: "Get all documents",
+	// 	TemplateId:     "",
+	// 	RefNumber:      "",
+	// 	CreatedAt:      currentTime,
+	// }).Error; err != nil {
+	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+	// 	return
+	// }
 
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": documents, "timestamp": currentTime})
 }
@@ -782,20 +798,20 @@ func GetRangeMetrics(c *gin.Context) {
 	}
 
 	// Count failed generations within the date range
-	if err := initializers.DB.Model(&models.Logs{}).
-		Where("created_at BETWEEN ? AND ? AND status = ?", start, end, "FAILED").
-		Count(&failedGenerations).Error; err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
-		return
-	}
-
-	//Count failed generations from failed generations table
-	// if err := initializers.DB.Model(&models.FailedGenerations{}).
-	// 	Where("created_at BETWEEN ? AND ?", start, end).
+	// if err := initializers.DB.Model(&models.Logs{}).
+	// 	Where("created_at BETWEEN ? AND ? AND status = ?", start, end, "FAILED").
 	// 	Count(&failedGenerations).Error; err != nil {
 	// 	c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
 	// 	return
 	// }
+
+	//Count failed generations from failed generations table
+	if err := initializers.DB.Model(&models.FailedGenerations{}).
+		Where("created_at BETWEEN ? AND ?", start, end).
+		Count(&failedGenerations).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
+		return
+	}
 
 	//calculate generation rate and failure rate
 	var generationRate float64
