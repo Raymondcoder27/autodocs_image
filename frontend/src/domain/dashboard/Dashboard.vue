@@ -143,10 +143,10 @@ async function fetchChartData() {
 <template>
   <div class="p-0">
     <div class="mb-2 bg-white font-semibold text-gray-700 rounded-lg max-w-sm mx-auto shadow-lg p-2">
-  <div class="text-center text-gray-700 text-sm mb-2">
+  <div class="text-center text-gray-700 text-sm mb-0">
     Choose Dates to View Report
   </div>
-  <div class="flex items-center space-x-1">
+  <div class="flex items-center space-x-0.5">
     <DatePicker
       v-model="startDate"
       label="Start Date:"
@@ -215,7 +215,7 @@ async function fetchChartData() {
         <h3 class="text-sm font-semibold text-blue-200">Failure Rate</h3>
       </div>
     </div>
-    <div class="bg-white p-4 rounded-lg shadow w-full overflow-y-auto">
+    <div class="bg-white p-4 rounded-lg shadow w-full  max-h-[385px]">
       <line-chart :chartData="chartData" />
     </div>
   </div>
