@@ -39,7 +39,7 @@ export const useDocumentStore = defineStore("documents", () => {
             })
     }
 
-    const failedDocuments = async () => {
+    const failedGenerations = async () => {
         return api.get("/failed-generations")
             .then((response: AxiosResponse<ApiResponse<Doc[]>>) => {
                 documents.value = response.data.data
@@ -50,7 +50,7 @@ export const useDocumentStore = defineStore("documents", () => {
         documents,
         generationResponse,
         fileBase64,
-        failedDocuments,
+        failedGenerations,
         fetchDocuments,
         fetchDocumentFile,
         deleteDocument,
