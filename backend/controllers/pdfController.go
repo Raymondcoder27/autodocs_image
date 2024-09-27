@@ -414,22 +414,6 @@ func GetDocuments(c *gin.Context) {
 	currentTime := time.Now()
 	// c.IndentedJSON(http.StatusOK, documents)
 
-	// var result []DocumentWithExtraFields
-	// for _, doc := range documents {
-	// 	result = append(result, DocumentWithExtraFields{
-	// 		ID:            doc.ID,
-	// 		DocumentName:  doc.DocumentName,
-	// 		Description:   doc.Description,
-	// 		TemplateID:    doc.TemplateId,
-	// 		RequestStatus: doc.Status, // Set default or dynamic value
-	// 		RequestMethod: doc.Method, // Set default or dynamic value
-	// 		JsonPayload:   doc.JsonPayload,
-	// 		RefNumber:     doc.RefNumber,
-	// 		CreatedAt:     doc.CreatedAt,
-	// 		// DeletedAt:     doc.DeletedAt,
-	// 	})
-	// }
-
 	//inserting get request into logs table
 	if err := initializers.DB.Create(&models.Logs{
 		ID:             uuid.New().String(),

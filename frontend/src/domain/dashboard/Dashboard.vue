@@ -37,7 +37,7 @@ async function fetchMetrics() {
 
   totalTemplates.value = templateStore.templates.length;
   totalDocuments.value = documentStore.documents.length;
-  failedGenerations.value = documentStore.fetchFailedDocuments.length;
+  failedGenerations.value = documentStore.failedGenerations?.length || 0;
 
 
   successfulGenerations.value = documentStore.documents.length;
