@@ -226,6 +226,21 @@ func CreateDocument(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 			return
 		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   templateId,
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
 		return
 	}
 
