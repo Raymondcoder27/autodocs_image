@@ -196,7 +196,7 @@ func CreateDocument(c *gin.Context) {
 			JsonPayload:         "",
 			Status:              "FAILED",
 			Method:              "POST",
-			DocumentDescription: "Template not found",
+			DocumentDescription: "--",
 			TemplateId:          "",
 			RefNumber:           request.RefNumber,
 			CreatedAt:           time.Now(),
