@@ -51,4 +51,9 @@ func MigrateDB() {
 	if err3 != nil {
 		log.Printf("Error migrating database: %v", err)
 	}
+
+	err4 := DB.AutoMigrate(&models.FailedGenerations{})
+	if err4 != nil {
+		log.Printf("Error migrating database: %v", err)
+	}
 }
