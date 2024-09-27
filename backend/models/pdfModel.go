@@ -43,3 +43,16 @@ type Logs struct {
 	CreatedAt           time.Time      `json:"created_at"`
 	DeletedAt           gorm.DeletedAt `json:"deleted_at"`
 }
+
+type FailedGenerations struct {
+	ID           string         `json:"id"`
+	DocumentName string         `json:"documentName"`
+	Description  string         `json:"description"`
+	TemplateId   string         `json:"templateId"`
+	Status       string         `json:"requestStatus"`
+	Method       string         `json:"requestMethod"`
+	JsonPayload  string         `json:"jsonPayload"`
+	RefNumber    string         `json:"refNumber"`
+	CreatedAt    time.Time      `json:"created_at"`
+	DeletedAt    gorm.DeletedAt `json:"deleted_at"`
+}
