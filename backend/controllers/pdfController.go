@@ -521,6 +521,21 @@ func DeleteDocument(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 			return
 		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           document.ID,
+			DocumentName: document.ID,
+			Description:  document.Description,
+			TemplateId:   document.TemplateId,
+			Status:       "FAILED",
+			Method:       "DELETE",
+			JsonPayload:  "",
+			RefNumber:    refNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
 		c.JSON(http.StatusNotFound, gin.H{"message": "Document not found"})
 		return
 	}
@@ -618,6 +633,22 @@ func GetDocumentHistory(c *gin.Context) {
 
 	if err != nil {
 		log.Println("Error fetching document history:", err)
+
+		//inserting get request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "FAILED",
+			Method:         "GET",
+			LogDescription: "Error fetching document history",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      now,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history"})
 		return
 	}
