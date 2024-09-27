@@ -838,3 +838,14 @@ func GetMetrics(c *gin.Context) {
 
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
 }
+
+// failed Generations
+func GetFailedGenerations(c *gin.Context) {
+	var failedGenerations []models.FailedGenerations
+	if err := initializers.DB.Find(&failedGenerations).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations"})
+		return
+	}
+	currentTime := time.Now()
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": failedGenerations, "timestamp": currentTime})
+}
