@@ -705,6 +705,22 @@ func AutodocsLogs(c *gin.Context) {
 func DeleteAllLogs(c *gin.Context) {
 	err := initializers.DB.Exec("DELETE FROM logs").Error
 	if err != nil {
+
+		//inserting delete request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "FAILED",
+			Method:         "DELETE",
+			LogDescription: "Error deleting logs",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error deleting logs"})
 		return
 	}
