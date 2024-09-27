@@ -49,6 +49,7 @@ export const useDocumentStore = defineStore("documents", () => {
         documents,
         generationResponse,
         fileBase64,
+        failedDocuments,
         fetchDocuments,
         fetchDocumentFile,
         deleteDocument,
