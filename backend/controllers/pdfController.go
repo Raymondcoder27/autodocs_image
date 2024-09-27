@@ -713,7 +713,7 @@ func DeleteAllLogs(c *gin.Context) {
 }
 
 // GetMetrics retrieves metrics based on the provided date range
-func GetMetrics(c *gin.Context) {
+func GetRangeMetrics(c *gin.Context) {
 	startDate := c.Query("startDate")
 	endDate := c.Query("endDate")
 

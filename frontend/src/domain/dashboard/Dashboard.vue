@@ -26,6 +26,7 @@ const chartData = ref([]);
 onMounted(async () => {
   await fetchMetrics();
   await fetchChartData();
+//   await fetchRange();
   // await fetchLogs();
 });
 
