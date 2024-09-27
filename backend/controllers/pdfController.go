@@ -675,13 +675,26 @@ func GetMetrics(c *gin.Context) {
 		return
 	}
 
+	//calculate generation rate and failure rate
+	var generationRate float64
+	var failureRate float64
+	totalDays := end.Sub(start).Hours() / 24
+
+	if totalDays > 0 {
+		generationRate = float64(totalDocuments) / totalDays
+	}
+
+	if totalDocuments > 0 {
+		failureRate = (float64(failedGenerations) / float64(totalDocuments)) * 100
+	}
+
 	// Prepare the response
 	response := gin.H{
 		"totalTemplates":    totalTemplates,
 		"totalDocuments":    totalDocuments,
 		"failedGenerations": failedGenerations,
-		"generationRate":    float64(totalDocuments) / float64(end.Sub(start).Hours()/24),
-		"failureRate":       float64(failedGenerations) / float64(totalDocuments) * 100,
+		"generationRate":    generationRate,
+		"failureRate":       failureRate,
 		"timestamp":         time.Now(),
 	}
 

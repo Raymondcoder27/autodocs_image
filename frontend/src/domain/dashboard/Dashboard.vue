@@ -161,7 +161,7 @@ async function fetchChartData() {
     />
     <button
       @click="fetchRange"
-      class="py-1 pt-2 px-2 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition duration-200"
+      class="py-1 mt-4 px-2 bg-blue-500 text-white text-xs rounded-md hover:bg-blue-600 transition duration-200"
     >
       Send
     </button>
