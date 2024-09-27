@@ -32,7 +32,7 @@ onMounted(async () => {
 async function fetchMetrics() {
   await templateStore.fetchTemplates();
   await documentStore.fetchDocuments();
-  await documentStore.failedDocuments();
+  await documentStore.fetchFailedDocuments();
   // await fetchLogs();
 
   totalTemplates.value = templateStore.templates.length;
