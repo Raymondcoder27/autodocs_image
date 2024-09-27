@@ -42,7 +42,7 @@ async function fetchMetrics() {
 //     logStore.logs?.filter((l) => l.requestStatus === "FAILED").length || 0;
 
 failedGenerations.value =
-failedDocStore.failedDocuments?.filter((l) => l.requestStatus === "FAILED").length || 0;
+documentStore.failedDocuments.length;
   const totalGenerations =
     successfulGenerations.value + failedGenerations.value;
 

@@ -40,7 +40,7 @@ export const useDocumentStore = defineStore("documents", () => {
     }
 
     const failedDocuments = async () => {
-        return api.get("/failed-documents")
+        return api.get("/failed-generations")
             .then((response: AxiosResponse<ApiResponse<Doc[]>>) => {
                 documents.value = response.data.data
             })
