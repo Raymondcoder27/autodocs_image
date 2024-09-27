@@ -44,6 +44,7 @@ export const useDocumentStore = defineStore("documents", () => {
             .then((response: AxiosResponse<ApiResponse<Doc[]>>) => {
                 documents.value = response.data.data
             })
+    }
 
     return {
         documents,
