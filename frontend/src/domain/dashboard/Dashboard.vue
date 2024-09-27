@@ -33,34 +33,34 @@ onMounted(async () => {
 
 
 
-async function fetchMetrics() {
-    await templateStore.fetchTemplates();
-    await documentStore.fetchDocuments();
-    // await fetchLogs();
+// async function fetchMetrics() {
+//     await templateStore.fetchTemplates();
+//     await documentStore.fetchDocuments();
+//     // await fetchLogs();
 
-    totalTemplates.value = templateStore.templates.length;
-    totalDocuments.value = documentStore.documents.length;
+//     totalTemplates.value = templateStore.templates.length;
+//     totalDocuments.value = documentStore.documents.length;
 
-    successfulGenerations.value = documentStore.documents.length;
-    // failedGenerations.value = logStore.logs.filter(l => l.requestStatus === 'FAILED').length;
-    failedGenerations.value = logStore.logs?.filter(l => l.requestStatus === 'FAILED').length || 0;
-    const totalGenerations = successfulGenerations.value + failedGenerations.value;
+//     successfulGenerations.value = documentStore.documents.length;
+//     // failedGenerations.value = logStore.logs.filter(l => l.requestStatus === 'FAILED').length;
+//     failedGenerations.value = logStore.logs?.filter(l => l.requestStatus === 'FAILED').length || 0;
+//     const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
-    // Fetch document history
-    const documentHistory = await fetchDocumentHistory();
+//     // Fetch document history
+//     const documentHistory = await fetchDocumentHistory();
     
-    if (documentHistory && Array.isArray(documentHistory)) {
-        const numberOfDays = documentHistory.length;
+//     if (documentHistory && Array.isArray(documentHistory)) {
+//         const numberOfDays = documentHistory.length;
 
-        generationRate.value = totalGenerations / numberOfDays;
-        failureRate.value = (failedGenerations.value / totalGenerations) * 100;
+//         generationRate.value = totalGenerations / numberOfDays;
+//         failureRate.value = (failedGenerations.value / totalGenerations) * 100;
 
-        // Log document history for debugging
-        console.log('Document History:', documentHistory);
-    } else {
-        console.error('Document history is empty or not in expected format.');
-    }
-}
+//         // Log document history for debugging
+//         console.log('Document History:', documentHistory);
+//     } else {
+//         console.error('Document history is empty or not in expected format.');
+//     }
+// }
 
 
 
