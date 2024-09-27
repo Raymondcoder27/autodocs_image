@@ -692,59 +692,6 @@ func GetDocumentHistory(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
 }
 
-// func GetDocumentHistory(c *gin.Context) {
-// 	var history []DocumentHistory
-
-// 	// Group by creation date and count documents
-// 	err := initializers.DB.Table("documents").
-// 		Select("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay') as date, COUNT(*) as count").
-// 		Group("TO_CHAR(created_at AT TIME ZONE 'UTC', 'FMDay')").
-// 		Scan(&history).Error
-
-// 	if err != nil {
-// 		log.Println("Error fetching document history:", err)
-// 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching document history"})
-// 		return
-// 	}
-
-// 	// Initialize counts for each day of the week
-// 	dayCounts := map[string]int{
-// 		"Sunday":    0,
-// 		"Monday":    0,
-// 		"Tuesday":   0,
-// 		"Wednesday": 0,
-// 		"Thursday":  0,
-// 		"Friday":    0,
-// 		"Saturday":  0,
-// 	}
-
-// 	// Populate counts from the database results
-// 	for _, record := range history {
-// 		dayCounts[record.Date] = record.Count
-// 	}
-
-// 	// Get the current day of the week
-// 	currentDay := time.Now().Weekday().String()
-
-// 	// Create the final response in the desired order, with the current day last
-// 	var response []map[string]interface{}
-// 	orderedDays := []string{"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"}
-// 	for _, day := range orderedDays {
-// 		if day != currentDay {
-// 			response = append(response, map[string]interface{}{
-// 				"date":  day,
-// 				"count": dayCounts[day],
-// 			})
-// 		}
-// 	}
-// 	// Add the current day last
-// 	response = append(response, map[string]interface{}{
-// 		"date":  currentDay,
-// 		"count": dayCounts[currentDay],
-// 	})
-
-//		c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
-//	}
 func AutodocsLogs(c *gin.Context) {
 	var logs []models.Logs
 	if err := initializers.DB.Find(&logs).Error; err != nil {
