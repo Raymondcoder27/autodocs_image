@@ -152,6 +152,21 @@ func CreateDocument(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 			return
 		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   "",
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
 		return
 	}
 
@@ -172,6 +187,21 @@ func CreateDocument(c *gin.Context) {
 		}).Error; err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 			return
+		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   "",
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
 		}
 		return
 	}
