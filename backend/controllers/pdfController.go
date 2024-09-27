@@ -629,3 +629,61 @@ func DeleteAllLogs(c *gin.Context) {
 	currentTime := time.Now()
 	c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Logs deleted successfully", "timestamp": currentTime})
 }
+
+// GetMetrics retrieves metrics based on the provided date range
+func GetMetrics(c *gin.Context) {
+	startDate := c.Query("startDate")
+	endDate := c.Query("endDate")
+
+	var totalTemplates int64
+	var totalDocuments int64
+	var failedGenerations int64
+
+	// Parse the start and end dates
+	start, err := time.Parse("2006-01-02", startDate)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid start date"})
+		return
+	}
+	end, err := time.Parse("2006-01-02", endDate)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid end date"})
+		return
+	}
+
+	// Count total templates within the date range
+	if err := initializers.DB.Model(&models.Template{}).
+		Where("created_at BETWEEN ? AND ?", start, end).
+		Count(&totalTemplates).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching templates count"})
+		return
+	}
+
+	// Count total documents within the date range
+	if err := initializers.DB.Model(&models.Document{}).
+		Where("created_at BETWEEN ? AND ?", start, end).
+		Count(&totalDocuments).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching documents count"})
+		return
+	}
+
+	// Count failed generations within the date range
+	if err := initializers.DB.Model(&models.Logs{}).
+		Where("created_at BETWEEN ? AND ? AND status = ?", start, end, "FAILED").
+		Count(&failedGenerations).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching failed generations count"})
+		return
+	}
+
+	// Prepare the response
+	response := gin.H{
+		"totalTemplates":    totalTemplates,
+		"totalDocuments":    totalDocuments,
+		"failedGenerations": failedGenerations,
+		"generationRate":    float64(totalDocuments) / float64(end.Sub(start).Hours()/24),
+		"failureRate":       float64(failedGenerations) / float64(totalDocuments) * 100,
+		"timestamp":         time.Now(),
+	}
+
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": response})
+}
