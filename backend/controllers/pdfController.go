@@ -599,6 +599,23 @@ func DeleteTemplate(c *gin.Context) {
 		return
 	}
 
+	//inserting delete request into logs table
+	if err := initializers.DB.Create(&models.Logs{
+		// ID: uuid.New().String(),
+		ID:             uuid.New().String(),
+		DocumentName:   "",
+		JsonPayload:    "",
+		Status:         "SUCCESS",
+		Method:         "DELETE",
+		LogDescription: "Template deleted successfully",
+		TemplateId:     "",
+		RefNumber:      refNumber,
+		CreatedAt:      time.Now(),
+	}).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		return
+	}
+
 	currentTime := time.Now()
 	c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Template deleted successfully", "timestamp": currentTime})
 }
