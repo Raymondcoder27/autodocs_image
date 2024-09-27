@@ -211,7 +211,7 @@ function prevPage() {
                 </td>
 
                 <td class="text-black-700">
-                  <!-- {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || 'All Templates' }} -->
+                  <!-- {{ logStore.logs?.find((l: Log) => l.templateId == log.templateId)?.templateName || '--' }} -->
                   {{ templateStore.templates?.find((t: Template) => t.id == log.templateId)?.templateName || '--' }}
                 </td>
                 <!-- <td class="text-black-700">
