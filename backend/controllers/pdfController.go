@@ -27,19 +27,6 @@ type DocumentPreviewResponse struct {
 	Status    string    `json:"requestStatus"`
 }
 
-type DocumentWithExtraFields struct {
-	ID            string     `json:"id"`
-	DocumentName  string     `json:"documentName"`
-	Description   string     `json:"description"`
-	TemplateID    string     `json:"templateId"`
-	RequestStatus string     `json:"requestStatus"`
-	RequestMethod string     `json:"requestMethod"`
-	JsonPayload   string     `json:"jsonPayload"`
-	RefNumber     string     `json:"refNumber"`
-	CreatedAt     time.Time  `json:"created_at"`
-	DeletedAt     *time.Time `json:"deleted_at"`
-}
-
 type PDFResponse struct {
 	ID           string    `json:"id"`
 	DocumentName string    `json:"documentName"`
