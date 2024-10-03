@@ -681,11 +681,11 @@ func DeleteTemplate(c *gin.Context) {
 		return
 	}
 
-	// err := services.DeleteTemplateByRefNumber(refNumber)
-	// if err != nil {
-	// 	c.JSON(http.StatusNotFound, gin.H{"error": "Template not found"})
-	// 	return
-	// }
+	err := services.DeleteTemplateByRefNumber(refNumber)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Template not found"})
+		return
+	}
 
 	currentTime := time.Now()
 	c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Template deleted successfully", "timestamp": currentTime})

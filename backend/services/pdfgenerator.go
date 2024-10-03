@@ -14,7 +14,7 @@ import (
 
 func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, error) {
 	// Parse the HTML template
-	t, err := template.New("upload").Parse(string(templateBytes))
+	tmpl, err := template.New("upload").Parse(string(templateBytes))
 	if err != nil {
 		return nil, err
 	}
@@ -23,7 +23,7 @@ func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, err
 	var filledTemplate bytes.Buffer
 
 	// Execute the template with the JSON data, storing the result in the buffer
-	if err := t.Execute(&filledTemplate, data); err != nil {
+	if err := tmpl.Execute(&filledTemplate, data); err != nil {
 		return nil, err
 	}
 

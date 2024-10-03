@@ -42,12 +42,9 @@ async function fetchMetrics() {
 
 
   successfulGenerations.value = documentStore.documents.length;
-//   failedGenerations.value =
-//     logStore.logs?.filter((l) => l.requestStatus === "FAILED").length || 0;
 
 // failedGenerations.value = documentStore.fetchFailedDocuments.length;
-  const totalGenerations =
-    successfulGenerations.value + failedGenerations.value;
+  const totalGenerations = successfulGenerations.value + failedGenerations.value;
 
   // Fetch document history
   const documentHistory = await fetchDocumentHistory();
@@ -172,7 +169,7 @@ async function fetchChartData() {
     </button>
   </div>
 </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-2 mb-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-2 mb-2">
       <div
         class="bg-white border border-blue-100 p-1 rounded-lg shadow text-center"
       >
@@ -185,7 +182,7 @@ async function fetchChartData() {
         <p class="text-2xl font-bold text-warning-600">{{ totalDocuments }}</p>
         <h3 class="text-sm font-semibold text-warning-600">Total Documents</h3>
       </div>
-      <div
+      <!--<div
         class="bg-white border border-green-300 p-1 rounded-lg shadow text-center"
       >
         <p class="text-2xl font-bold text-green-700">
@@ -194,13 +191,7 @@ async function fetchChartData() {
         <h3 class="text-sm font-semibold text-green-500">
           Successful Generations
         </h3>
-      </div>
-      <div
-        class="bg-white border border-red-100 p-1 rounded-lg shadow text-center"
-      >
-        <p class="text-2xl font-bold text-red-500">{{ failedGenerations }}</p>
-        <h3 class="text-sm font-semibold text-red-300">Failed Generations</h3>
-      </div>
+      </div> -->
       <div
         class="bg-white border border-gray-400 p-1 rounded-lg shadow text-center"
       >
@@ -211,6 +202,13 @@ async function fetchChartData() {
           Generation Rate (daily)
         </h3>
       </div>
+      <div
+        class="bg-white border border-red-100 p-1 rounded-lg shadow text-center"
+      >
+        <p class="text-2xl font-bold text-red-500">{{ failedGenerations }}</p>
+        <h3 class="text-sm font-semibold text-red-300">Failed Generations</h3>
+      </div>
+      
       <div
         class="bg-white border border-blue-100 p-1 rounded-lg shadow text-center"
       >
