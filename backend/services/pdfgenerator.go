@@ -12,6 +12,44 @@ import (
 	"github.com/SebastiaanKlippert/go-wkhtmltopdf"
 )
 
+func GeneratePDF2(templateBytes []byte, data map[string]interface{}) ([]byte, error) {
+	// Parse the HTML template
+	tmpl, err := template.New("upload").Parse(string(templateBytes))
+	if err != nil {
+		return nil, err
+	}
+
+	// Create a buffer to store the filled template
+	var filledTemplate bytes.Buffer
+
+	// Execute the template with the JSON data, storing the result in the buffer
+	if err := tmpl.Execute(&filledTemplate, data); err != nil {
+		return nil, err
+	}
+	//log out the output at this point
+	// log.Print(filledTemplate.String())
+
+	// log.Printf("Hello World")
+
+	// Initialize a new PDF generator
+	// pdfg, err := wkhtmltopdf.NewPDFGenerator()
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// // Add a new page to the PDF generator with the filled template content
+	// pdfg.AddPage(wkhtmltopdf.NewPageReader(bytes.NewReader(filledTemplate.Bytes())))
+	// if err := pdfg.Create(); err != nil {
+	// 	return nil, err
+	// }
+
+	// Encode the PDF bytes to base64
+	// pdfBase64 := base64.StdEncoding.EncodeToString(pdfg.Bytes())
+	// pdfBase64 :=
+	// return pdfg.Bytes(), nil
+	return filledTemplate.Bytes(), nil
+}
+
 func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, error) {
 	// Parse the HTML template
 	tmpl, err := template.New("upload").Parse(string(templateBytes))
@@ -26,6 +64,10 @@ func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, err
 	if err := tmpl.Execute(&filledTemplate, data); err != nil {
 		return nil, err
 	}
+	//log out the output at this point
+	// log.Print(filledTemplate.String())
+
+	// log.Printf("Hello World")
 
 	// Initialize a new PDF generator
 	pdfg, err := wkhtmltopdf.NewPDFGenerator()

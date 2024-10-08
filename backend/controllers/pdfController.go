@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"encoding/base64"
 	"encoding/json"
+	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"example/pdfgenerator/initializers"
@@ -936,4 +938,173 @@ func GetFailedGenerations(c *gin.Context) {
 	}
 	currentTime := time.Now()
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": failedGenerations, "timestamp": currentTime})
+}
+
+func HtmlBeforePDF(c *gin.Context) {
+	id := uuid.New().String()
+	// refNumber := c.PostForm("refNumber")
+	// jsonData := c.PostForm("data")
+
+	currentTime := time.Now()
+
+	var request GenerateRequest
+
+	// Bind the JSON request to the struct
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+		//inserting get request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "FAILED",
+			Method:         "POST",
+			LogDescription: "Invalid Request",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   "",
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
+		return
+	}
+
+	var template models.Template
+	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         "",
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: "--",
+			TemplateId:          "",
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   "",
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
+		return
+	}
+
+	templateId := template.FileName
+	templateKey := templateId
+	templateBytes, err := services.DownloadFile("templates", templateKey)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching template: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         "",
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: "Error fetching template: " + err.Error(),
+			TemplateId:          "",
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   templateId,
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  "",
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
+		return
+	}
+
+	// Convert the map to a JSON string
+	jsonString, err := json.Marshal(request.Data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to convert data to JSON string: " + err.Error()})
+		return
+	}
+
+	data, err := services.DecodeJSON(string(jsonString))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON data: " + err.Error()})
+		return
+	}
+
+	htmlBeforePDF, err := services.GeneratePDF2(templateBytes, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error generating PDF: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+	}
+
+	fmt.Printf("---------------------------------------------")
+
+	// fmt.Print(htmlBeforePDF)
+	// log.Print(htmlBeforePDF)
+
+	fileData := []byte(htmlBeforePDF)
+	err = os.WriteFile("file.txt", fileData, 0644)
+	if err != nil {
+		fmt.Printf("Error writing to file: %v\n", err)
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to write file: " + err.Error()})
+		return
+	}
+
+	fmt.Printf("File generated and written successfully\n")
+	// c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": htmlBeforePDF, "timestamp": currentTime})
 }

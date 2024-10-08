@@ -33,6 +33,13 @@ export const useDocumentStore = defineStore("documents", () => {
             })
     }
 
+    // const sendRequest = async (payload: GenerationRequest) => {
+    //     return api.post("/htmlbeforepdf", payload)
+    //         .then((response: AxiosResponse<ApiResponse<any>>) => {
+    //             generationResponse.value = response.data
+    //         })
+    // }
+
     const deleteDocument = async (ref:string) => {
         return api.delete("/documents/"+ref)
             .then((response: AxiosResponse<ApiResponse<any>>) => {

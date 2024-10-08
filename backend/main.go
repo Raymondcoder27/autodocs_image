@@ -44,5 +44,8 @@ func main() {
 	r.DELETE("/templates/:refNumber", controllers.DeleteTemplate)
 	r.DELETE("/documents/:refNumber", controllers.DeleteDocument)
 	r.DELETE("/clear-logs", controllers.DeleteAllLogs)
+
+	//endpoint to log the html before it turns to pdf
+	r.POST("/htmlbeforepdf", controllers.HtmlBeforePDF)
 	r.Run()
 }
