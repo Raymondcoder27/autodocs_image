@@ -46,7 +46,6 @@ function onFileChanged($event: Event) {
     payload.value.file = target.files[0] || null;
   }
 }
-
 </script>
 
 <template>

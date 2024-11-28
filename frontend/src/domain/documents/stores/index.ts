@@ -1,8 +1,8 @@
-import {defineStore} from "pinia";
-import type {AxiosResponse} from "axios";
-import type {ApiResponse} from "@/types";
-import {ref, type Ref} from "vue";
-import type {Doc, GenerationRequest} from "@/domain/documents/types";
+import { defineStore } from "pinia";
+import type { AxiosResponse } from "axios";
+import type { ApiResponse } from "@/types";
+import { ref, type Ref } from "vue";
+import type { Doc, GenerationRequest } from "@/domain/documents/types";
 import api from "@/config/api";
 
 export const useDocumentStore = defineStore("documents", () => {
@@ -19,29 +19,29 @@ export const useDocumentStore = defineStore("documents", () => {
             })
     }
 
-    const fetchDocumentFile = async (ref:string) => {
-        return api.get("/documents/preview/"+ref)
+    const fetchDocumentFile = async (ref: string) => {
+        return api.get("/documents/preview/" + ref)
             .then((response: AxiosResponse<ApiResponse<string>>) => {
                 fileBase64.value = response.data.data
             })
     }
 
-    const sendRequest = async (payload: GenerationRequest) => {
-        return api.post("/generate", payload)
-            .then((response: AxiosResponse<ApiResponse<any>>) => {
-                generationResponse.value = response.data
-            })
-    }
-
     // const sendRequest = async (payload: GenerationRequest) => {
-    //     return api.post("/htmlbeforepdf", payload)
+    //     return api.post("/generate", payload)
     //         .then((response: AxiosResponse<ApiResponse<any>>) => {
     //             generationResponse.value = response.data
     //         })
     // }
 
-    const deleteDocument = async (ref:string) => {
-        return api.delete("/documents/"+ref)
+    const sendRequest = async (payload: GenerationRequest) => {
+        return api.post("/htmlbeforepdf", payload)
+            .then((response: AxiosResponse<ApiResponse<any>>) => {
+                generationResponse.value = response.data
+            })
+    }
+
+    const deleteDocument = async (ref: string) => {
+        return api.delete("/documents/" + ref)
             .then((response: AxiosResponse<ApiResponse<any>>) => {
                 generationResponse.value = response.data
             })

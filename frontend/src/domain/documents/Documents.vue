@@ -139,8 +139,6 @@ function prevPage() {
     currentPage.value--;
   }
 }
-
-
 </script>
 
 <template>

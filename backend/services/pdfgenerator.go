@@ -5,6 +5,7 @@ import (
 	"errors"
 	"example/pdfgenerator/initializers"
 	"example/pdfgenerator/models"
+	"log"
 
 	// "encoding/base64"
 	"html/template"
@@ -26,6 +27,7 @@ func GeneratePDF2(templateBytes []byte, data map[string]interface{}) ([]byte, er
 	if err := tmpl.Execute(&filledTemplate, data); err != nil {
 		return nil, err
 	}
+	log.Printf("%v\n", filledTemplate.Len())
 	//log out the output at this point
 	// log.Print(filledTemplate.String())
 
