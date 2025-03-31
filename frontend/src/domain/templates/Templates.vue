@@ -15,7 +15,7 @@ const templatePreview: Ref<boolean> = ref(false);
 const showDeleteModal: Ref<boolean> = ref(false);
 const selectedTemplateRef: Ref<string> = ref("");
 // const selectedTemplateRef2:Ref<string> = ref("")
-const currentPage: REf<number> = ref(1);
+const currentPage: Ref<number> = ref(1);
 const itemsPerPage: number = 10;
 
 const store = useTemplateStore();

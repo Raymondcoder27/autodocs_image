@@ -29,32 +29,31 @@ function submit() {
   // catch (!form.value.data){
   //   notify.error("Please insert all required data")
   // }
-  try{
-  loading.value = true;
-  form.value.data = JSON.parse(json.value);
-  form.value.description = description.value;
-  store
-    .sendRequest(form.value)
-    .then(() => {
-      loading.value = false;
-      // window.location.reload();
+  try {
+    loading.value = true;
+    form.value.data = JSON.parse(json.value);
+    form.value.description = description.value;
+    store
+      .sendRequest(form.value)
+      .then(() => {
+        loading.value = false;
+        // window.location.reload();
 
-      // Delay before showing the notification
-      notify.success("Document generated successfully");
+        // Delay before showing the notification
+        notify.success("Document generated successfully");
 
-      setTimeout(() => {
-        window.location.reload(); // Reload after notification is shown
-      }, 1000);
-    })
-    .catch(() => {
-      loading.value = false;
-    });
-  }catch{
-    notify.error("Please insert all required data")
-    loading.value = false
+        setTimeout(() => {
+          window.location.reload(); // Reload after notification is shown
+        }, 1000);
+      })
+      .catch(() => {
+        loading.value = false;
+      });
+  } catch {
+    notify.error("Please insert all required data");
+    loading.value = false;
   }
 }
-
 
 function fetch() {
   loading.value = true;
@@ -68,7 +67,6 @@ function fetch() {
       notify.error(error.response?.data.message || "Error fetching templates");
     });
 }
-
 </script>
 
 <template>
@@ -78,9 +76,12 @@ function fetch() {
         <div class="grid grid-cols-1 gap-2">
           <div class="flex flex-col py-1">
             <label class="font-semibold text-sm">Select Template</label>
-            <select class="form-element border-blue-400 hover:border-blue-500 focus:border-blue-500" v-model="form.refNumber">
+            <select
+              class="form-element border-blue-400 hover:border-blue-500 focus:border-blue-500"
+              v-model="form.refNumber"
+            >
               <option
-              class="text-sm font-light rounded bg-gray-100 hover:bg-red-400"
+                class="text-sm font-light rounded bg-gray-100 hover:bg-red-400"
                 :value="template.refNumber"
                 v-for="(template, idx) in templateStore.templates"
                 :key="idx"
@@ -90,10 +91,8 @@ function fetch() {
             </select>
           </div>
           <div class="flex flex-col py-1">
-            <label class="font-semibold text-sm ">Document Description</label>
-            <input type="text" 
-            class="form-element"
-             v-model="description" />
+            <label class="font-semibold text-sm">Document Description</label>
+            <input type="text" class="form-element" v-model="description" />
           </div>
           <div class="flex flex-col py-1">
             <label class="font-semibold text-sm">JSON Data</label>
@@ -101,13 +100,12 @@ function fetch() {
           </div>
         </div>
 
-        <div
-        v-if="json"
-         class="flex flex-col py-2">
+        <div v-if="json" class="flex flex-col py-2">
           <label class="font-semibold text-sm">Data Preview</label>
-          <pre class="text-wrap bg-gray-10 text-[8.5px] p-2 h-auto overflow-auto max-h-[205px] flex-grow">{{
-            json
-          }}</pre>
+          <pre
+            class="text-wrap bg-gray-10 text-[8.5px] p-2 h-auto overflow-auto max-h-[205px] flex-grow"
+            >{{ json }}</pre
+          >
         </div>
 
         <div class="flex justify-between py-2">
