@@ -690,7 +690,14 @@ func DeleteTemplate(c *gin.Context) {
 	}
 
 	currentTime := time.Now()
-	c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Template deleted successfully", "timestamp": currentTime})
+	// c.JSON(http.StatusOK, gin.H{"code": 200, "message": "Template deleted successfully", "timestamp": currentTime})
+	response := DeleteResponse{
+		Status:    "SUCCESS",
+		Method:    "DELETE",
+		Code:      "200",
+		Timestamp: currentTime,
+	}
+	c.IndentedJSON(http.StatusOK, response)
 }
 
 // Templates retrieves all templates
