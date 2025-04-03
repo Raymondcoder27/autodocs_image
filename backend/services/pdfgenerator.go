@@ -6,6 +6,7 @@ import (
 	"example/pdfgenerator/initializers"
 	"example/pdfgenerator/models"
 	"log"
+	"os"
 
 	// "encoding/base64"
 	"html/template"
@@ -97,8 +98,11 @@ func DeleteDocumentByRefNumber(refNumber string) error {
 		return errors.New("document not found")
 	}
 
+	pdfBucket := os.Getenv("PDF_BUCKET")
+
 	//delete the document from minio
-	err := DeleteFile("pdfs", document.ID)
+	// err := DeleteFile("pdfs", document.ID)
+	err := DeleteFile(pdfBucket, document.ID)
 	if err != nil {
 		return errors.New("failed to delete document from storage: " + err.Error())
 	}
@@ -119,8 +123,11 @@ func DeleteTemplateByRefNumber(refNumber string) error {
 		return errors.New("template not found")
 	}
 
+	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+
 	//delete the file from minio
-	err := DeleteFile("templates", template.ID)
+	// err := DeleteFile("templates", template.ID)
+	err := DeleteFile(templateBucket, template.ID)
 	if err != nil {
 		return errors.New("failed to delete template from storage: " + err.Error())
 	}

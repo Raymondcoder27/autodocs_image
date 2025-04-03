@@ -99,7 +99,9 @@ func UploadTemplate(c *gin.Context) {
 	}
 
 	templateReader := bytes.NewReader(templateBytes)
-	if err := services.UploadTemplate("templates", objectName, templateReader); err != nil {
+	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	// if err := services.UploadTemplate("templates", objectName, templateReader); err != nil {
+	if err := services.UploadTemplate(templateBucket, objectName, templateReader); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error uploading template file: " + err.Error()})
 		return
 	}
@@ -213,7 +215,9 @@ func CreateDocument(c *gin.Context) {
 
 	templateId := template.FileName
 	templateKey := templateId
-	templateBytes, err := services.DownloadFile("templates", templateKey)
+	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	// templateBytes, err := services.DownloadFile("templates", templateKey)
+	templateBytes, err := services.DownloadFile(templateBucket, templateKey)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching template: " + err.Error()})
 		//inserting post request into logs table
@@ -301,7 +305,10 @@ func CreateDocument(c *gin.Context) {
 	objectName := id
 	fileReader := bytes.NewReader(pdfBytes)
 
-	if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
+	pdfBucket := os.Getenv("PDF_BUCKET")
+
+	// if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
+	if err := services.UploadFile(pdfBucket, objectName, fileReader); err != nil {
 
 		//inserting post request into logs table
 		if err := initializers.DB.Create(&models.Logs{
@@ -466,7 +473,11 @@ func PreviewDocument(c *gin.Context) {
 
 	objectName := document.ID
 
-	pdfBytes, err := services.DownloadFile("pdfs", objectName)
+	//pdf bucket
+	pdfBucket := os.Getenv("PDF_BUCKET")
+
+	// pdfBytes, err := services.DownloadFile("pdfs", objectName)
+	pdfBytes, err := services.DownloadFile(pdfBucket, objectName)
 	if err != nil {
 		//inserting get request into logs table
 		if err := initializers.DB.Create(&models.Logs{
@@ -536,7 +547,9 @@ func PreviewTemplate(c *gin.Context) {
 	}
 
 	objectName := template.ID
-	templateBytes, err := services.DownloadFile("templates", objectName)
+	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	// templateBytes, err := services.DownloadFile("templates", objectName)
+	templateBytes, err := services.DownloadFile(templateBucket, objectName)
 	if err != nil {
 		//inserting get request into logs table
 		if err := initializers.DB.Create(&models.Logs{
@@ -1030,7 +1043,9 @@ func HtmlBeforePDF(c *gin.Context) {
 
 	templateId := template.FileName
 	templateKey := templateId
-	templateBytes, err := services.DownloadFile("templates", templateKey)
+	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	// templateBytes, err := services.DownloadFile("templates", templateKey)
+	templateBytes, err := services.DownloadFile(templateBucket, templateKey)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching template: " + err.Error()})
 		//inserting post request into logs table
