@@ -12,11 +12,11 @@ var MinioClient *minio.Client
 
 func InitMinioClient() {
 	var err error
-	minioURL := os.Getenv("MINIO_URL")
-	minioAccessKey := os.Getenv("MINIO_ACCESS_KEY")
-	minioSecretKey := os.Getenv("MINIO_SECRET_KEY")
+	minioURL := os.Getenv("AUTODOCS_MINIO_URL")
+	minioAccessKey := os.Getenv("AUTODOCS_MINIO_ACCESS_KEY")
+	minioSecretKey := os.Getenv("AUTODOCS_MINIO_SECRET_KEY")
 	if minioURL == "" || minioAccessKey == "" || minioSecretKey == "" {
-		log.Fatalf("MINIO_URL, MINIO_ACCESS_KEY, or MINIO_SECRET_KEY environment variable not set")
+		log.Fatalf("AUTODOCS_MINIO_URL, AUTODOCS_MINIO_ACCESS_KEY, or AUTODOCS_MINIO_SECRET_KEY environment variable not set")
 	}
 	MinioClient, err = minio.New(minioURL, &minio.Options{
 		Creds:  credentials.NewStaticV4(minioAccessKey, minioSecretKey, ""),
