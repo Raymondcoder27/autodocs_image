@@ -133,6 +133,8 @@ func UploadTemplate(c *gin.Context) {
 
 // CreateDocument generates a PDF using a stored template and JSON data
 func CreateDocument(c *gin.Context) {
+	method := c.Request.Method
+	// url := c.Request.URL
 	id := uuid.New().String()
 	// refNumber := c.PostForm("refNumber")
 	// jsonData := c.PostForm("data")
@@ -150,7 +152,7 @@ func CreateDocument(c *gin.Context) {
 			DocumentName:   "",
 			JsonPayload:    "",
 			Status:         "FAILED",
-			Method:         "POST",
+			Method:         method,
 			LogDescription: "Invalid Request",
 			TemplateId:     "",
 			RefNumber:      "",
@@ -1130,5 +1132,5 @@ func HtmlBeforePDF(c *gin.Context) {
 	//flashing the buffer to the file
 
 	fmt.Printf("File generated and written successfully\n")
-	// c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": htmlBeforePDF, "timestamp": currentTime})
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": htmlBeforePDF, "timestamp": currentTime})
 }

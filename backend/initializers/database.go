@@ -18,11 +18,11 @@ func ConnectToDB() {
 	var err error
 	// dsn := os.Getenv("DB")
 
-	dbHost := os.Getenv("DB_HOST")
-	dbUser := os.Getenv("DB_USER")
-	dbPassword := os.Getenv("DB_PASSWORD")
-	dbName := os.Getenv("DB_NAME")
-	dbSchema := os.Getenv("DB_SCHEMA")
+	dbHost := os.Getenv("AUTODOCS_DB_HOST")
+	dbUser := os.Getenv("AUTODOCS_DB_USER")
+	dbPassword := os.Getenv("AUTODOCS_DB_PASSWORD")
+	dbName := os.Getenv("AUTODOCS_DB_NAME")
+	dbSchema := os.Getenv("AUTODOCS_DB_SCHEMA")
 
 	if dbSchema == "" {
 		dbSchema = "public"
