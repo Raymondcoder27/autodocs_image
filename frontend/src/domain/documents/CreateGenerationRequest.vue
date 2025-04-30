@@ -55,6 +55,38 @@ function submit() {
   }
 }
 
+function submit2() {
+  // catch (!form.value.data){
+  //   notify.error("Please insert all required data")
+  // }
+  console.log("Submit 2 triggered")
+
+  try {
+    loading.value = true;
+    form.value.data = JSON.parse(json.value);
+    form.value.description = description.value;
+    store
+      .sendRequestFromSlug(form.value)
+      .then(() => {
+        loading.value = false;
+        // window.location.reload();
+
+        // Delay before showing the notification
+        notify.success("Document generated successfully");
+
+        setTimeout(() => {
+          window.location.reload(); // Reload after notification is shown
+        }, 1000);
+      })
+      .catch(() => {
+        loading.value = false;
+      });
+  } catch {
+    notify.error("Please insert all required data");
+    loading.value = false;
+  }
+}
+
 function fetch() {
   loading.value = true;
   templateStore
@@ -108,9 +140,10 @@ function fetch() {
           >
         </div>
 
-        <div class="flex justify-between py-2">
+        <!-- <div class="flex justify-between py-2"> -->
+        <div class="flex justify-end py-2">
           <span></span>
-          <button class="button" type="submit">
+          <button class="button mr-2" type="submit">
             Send Request
             <span v-if="loading" class="lds-ring">
               <div></div>
@@ -119,6 +152,15 @@ function fetch() {
               <div></div>
             </span>
           </button>
+          <!-- <button class="button-gray" @click="submit2" type="button">
+            Generate from Slug
+            <span v-if="loading" class="lds-ring">
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </span>
+          </button> -->
         </div>
       </form>
     </div>

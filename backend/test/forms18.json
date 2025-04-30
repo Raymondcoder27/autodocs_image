@@ -1,0 +1,32 @@
+{
+    "CompanyName": "HENS UG LIMITED",
+    "CompanyImage": "https://sdgs.opm.go.ug/wp-content/uploads/2024/10/IMG_2600-scaled.jpg",
+    "Address": "CENTRAL, CENTRAL, WAKISO, NANSANA WEST, WEST 1B",
+    "PlaceOfBusiness": "CENTRAL, CENTRAL, WAKISO, NANSANA WEST, WEST 1B",
+    "NatureOfBusiness": "OTHER EDUCATION",
+    "ShareCapital": "1,000,000",
+    "Subscribers": [
+        {
+            "Name": "ZERO FRICTION CO. LIMITED",
+            "Signature": "Raymond's Signature"
+        },
+        {
+            "Name": "NEW ORION LIMITED",
+            "Signature": "Jack's Signature"
+        },
+        {
+            "Name": "NEW HAVEN LIMITED",
+            "Signature": "Rodger's Signature"
+        }
+    ],
+    "Signatures": [
+        {
+            "Name": "ZERO FRICTION CO. LIMITED",
+            "Signature": ""
+        },
+        {
+            "Name": "NEW ORION LIMITED",
+            "Signature": ""
+        }
+    ]
+}

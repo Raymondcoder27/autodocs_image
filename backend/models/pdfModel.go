@@ -26,6 +26,7 @@ type Template struct {
 	FileName  string         `json:"fileName"`
 	CreatedAt time.Time      `json:"created_at"`
 	DeletedAt gorm.DeletedAt `json:"deleted_at"`
+	Slug      string         `json:"slug"`
 	// Status    string         `json:"requestStatus"`
 	// Method    string         `json:"requestMethod"`
 }

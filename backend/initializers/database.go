@@ -16,20 +16,25 @@ var DB *gorm.DB
 
 func ConnectToDB() {
 	var err error
-	// dsn := os.Getenv("DB")
+	dsn := os.Getenv("DB")
 
-	dbHost := os.Getenv("AUTODOCS_DB_HOST")
-	dbUser := os.Getenv("AUTODOCS_DB_USER")
-	dbPassword := os.Getenv("AUTODOCS_DB_PASSWORD")
-	dbName := os.Getenv("AUTODOCS_DB_NAME")
+	// dbHost := os.Getenv("AUTODOCS_DB_HOST")
+	// dbUser := os.Getenv("AUTODOCS_DB_USER")
+	// dbPassword := os.Getenv("AUTODOCS_DB_PASSWORD")
+	// dbName := os.Getenv("AUTODOCS_DB_NAME")
 	dbSchema := os.Getenv("AUTODOCS_DB_SCHEMA")
+
+	// dbHost := os.Getenv("DB_HOST")
+	// dbUser := os.Getenv("DB_USER")
+	// dbPassword := os.Getenv("DB_PASSWORD")
+	// dbName := os.Getenv("DB_NAME")
 
 	if dbSchema == "" {
 		dbSchema = "public"
 	}
 
 	// dsn := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbName)
-	dsn := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbName)
+	// dsn := fmt.Sprintf("postgres://%s:%s@%s:5432/%s?sslmode=disable", dbUser, dbPassword, dbHost, dbName)
 
 	if dsn == "" {
 		log.Fatal("DATABASE_URL is not set")

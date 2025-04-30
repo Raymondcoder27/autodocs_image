@@ -17,6 +17,11 @@
     @apply text-sm px-2 font-semibold py-0.5 bg-blue-400 text-white rounded-md hover:bg-black-900;
 }
 
+.button-gray{
+    /* @apply text-sm px-3 py-2 bg-primary text-white rounded hover:bg-primary-700; */
+    @apply text-sm px-2 font-semibold py-0.5 bg-gray-800 text-white rounded-md hover:bg-black-900;
+}
+
 .button-outline{
     @apply text-sm px-3 py-2 bg-white text-primary border border-primary rounded hover:text-primary-700 hover:shadow;
 }

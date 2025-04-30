@@ -99,9 +99,9 @@ func UploadTemplate(c *gin.Context) {
 	}
 
 	templateReader := bytes.NewReader(templateBytes)
-	templateBucket := os.Getenv("TEMPLATE_BUCKET")
-	// if err := services.UploadTemplate("templates", objectName, templateReader); err != nil {
-	if err := services.UploadTemplate(templateBucket, objectName, templateReader); err != nil {
+	// templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
+	if err := services.UploadTemplate("templates", objectName, templateReader); err != nil {
+		// if err := services.UploadTemplate(templateBucket, objectName, templateReader); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error uploading template file: " + err.Error()})
 		return
 	}
@@ -217,7 +217,7 @@ func CreateDocument(c *gin.Context) {
 
 	templateId := template.FileName
 	templateKey := templateId
-	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
 	// templateBytes, err := services.DownloadFile("templates", templateKey)
 	templateBytes, err := services.DownloadFile(templateBucket, templateKey)
 	if err != nil {
@@ -307,10 +307,10 @@ func CreateDocument(c *gin.Context) {
 	objectName := id
 	fileReader := bytes.NewReader(pdfBytes)
 
-	pdfBucket := os.Getenv("PDF_BUCKET")
+	// pdfBucket := os.Getenv("AUTODOCS_PDF_BUCKET")
 
-	// if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
-	if err := services.UploadFile(pdfBucket, objectName, fileReader); err != nil {
+	if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
+		// if err := services.UploadFile(pdfBucket, objectName, fileReader); err != nil {
 
 		//inserting post request into logs table
 		if err := initializers.DB.Create(&models.Logs{
@@ -418,6 +418,162 @@ func CreateDocument(c *gin.Context) {
 	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": pdfGenerationResponse, "timestamp": pdfGenerationResponse.CreatedAt})
 }
 
+// r.POST("/generate-from-slug", controllers.CreateDocumentFromSlug, controllers.AutodocsLogs)
+func CreateDocumentFromSlug(c *gin.Context) {
+	method := c.Request.Method
+	// url := c.Request.URL
+	id := uuid.New().String()
+	// refNumber := c.PostForm("refNumber")
+	// jsonData := c.PostForm("data")
+
+	currentTime := time.Now()
+
+	var request GenerateRequest
+
+	// Bind the JSON request to the struct
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid request"})
+		//inserting get request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:             uuid.New().String(),
+			DocumentName:   "",
+			JsonPayload:    "",
+			Status:         "FAILED",
+			Method:         method,
+			LogDescription: "Invalid Request",
+			TemplateId:     "",
+			RefNumber:      "",
+			CreatedAt:      currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+		return
+	}
+
+	var template models.Template
+	if err := initializers.DB.First(&template, "ref_number = ?", request.RefNumber).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"message": "Template not found for refNumber: " + request.RefNumber})
+		return
+	}
+
+	templateId := template.FileName
+	templateKey := templateId
+	templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
+	templateBytes, err := services.DownloadFile(templateBucket, templateKey)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching template: " + err.Error()})
+		return
+	}
+
+	jsonString, err := json.Marshal(request.Data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Failed to convert data to JSON string: " + err.Error()})
+		return
+	}
+
+	data, err := services.DecodeJSON(string(jsonString))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"message": "Invalid JSON data: " + err.Error()})
+		return
+	}
+
+	pdfBytes, err := services.GeneratePDF(templateBytes, data)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error generating PDF: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+		//insert into failed generations table
+		if err := initializers.DB.Create(&models.FailedGenerations{
+			ID:           id,
+			DocumentName: id,
+			Description:  request.Description,
+			TemplateId:   templateId,
+			Status:       "FAILED",
+			Method:       "POST",
+			JsonPayload:  string(jsonString),
+			RefNumber:    request.RefNumber,
+			CreatedAt:    currentTime,
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		}
+		return
+	}
+	objectName := id
+	fileReader := bytes.NewReader(pdfBytes)
+	pdfBucket := os.Getenv("AUTODOCS_PDF_BUCKET")
+	// if err := services.UploadFile("pdfs", objectName, fileReader); err != nil {
+	if err := services.UploadFile(pdfBucket, objectName, fileReader); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error uploading PDF: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+		return
+	}
+	storageKey := services.GenerateReferenceNumber()
+	document := models.Document{
+		ID:           id,
+		DocumentName: id,
+		JsonPayload:  string(jsonString),
+		Description:  request.Description,
+		TemplateId:   templateId,
+		RefNumber:    storageKey,
+		CreatedAt:    time.Now(),
+	}
+	if err := initializers.DB.Create(&document).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+		//inserting post request into logs table
+		if err := initializers.DB.Create(&models.Logs{
+			ID:                  id,
+			DocumentName:        id,
+			JsonPayload:         string(jsonString),
+			Status:              "FAILED",
+			Method:              "POST",
+			DocumentDescription: request.Description,
+			TemplateId:          templateId,
+			RefNumber:           request.RefNumber,
+			CreatedAt:           time.Now(),
+		}).Error; err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"message": "Error saving document metadata in database: " + err.Error()})
+			return
+		}
+		return
+	}
+	//inserting post request into logs table
+	PDFGenerationResponse2 := PDFGenerationResponse{
+		RefNumber: document.RefNumber,
+		CreatedAt: document.CreatedAt,
+	}
+	c.IndentedJSON(http.StatusOK, gin.H{"code": 200, "data": PDFGenerationResponse2, "timestamp": PDFGenerationResponse2.CreatedAt})
+}
+
+//inserting post request into logs table
+
 // GetDocuments retrieves all documents
 func GetDocuments(c *gin.Context) {
 	var documents []models.Document
@@ -476,7 +632,7 @@ func PreviewDocument(c *gin.Context) {
 	objectName := document.ID
 
 	//pdf bucket
-	pdfBucket := os.Getenv("PDF_BUCKET")
+	pdfBucket := os.Getenv("AUTODOCS_PDF_BUCKET")
 
 	// pdfBytes, err := services.DownloadFile("pdfs", objectName)
 	pdfBytes, err := services.DownloadFile(pdfBucket, objectName)
@@ -549,7 +705,7 @@ func PreviewTemplate(c *gin.Context) {
 	}
 
 	objectName := template.ID
-	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
 	// templateBytes, err := services.DownloadFile("templates", objectName)
 	templateBytes, err := services.DownloadFile(templateBucket, objectName)
 	if err != nil {
@@ -718,7 +874,7 @@ func DeleteTemplate(c *gin.Context) {
 // Templates retrieves all templates
 func Templates(c *gin.Context) {
 	var templates []models.Template
-	if err := initializers.DB.Find(&templates).Error; err != nil {
+	if err := initializers.DB.Order("created_at DESC").Find(&templates).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching templates"})
 		return
 	}
@@ -806,7 +962,8 @@ func GetDocumentHistory(c *gin.Context) {
 
 func AutodocsLogs(c *gin.Context) {
 	var logs []models.Logs
-	if err := initializers.DB.Find(&logs).Error; err != nil {
+	// if err := initializers.DB.Find(&logs).Error; err != nil {
+	if err := initializers.DB.Order("created_at DESC").Find(&logs).Error; err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Error fetching logs"})
 		return
 	}
@@ -1045,7 +1202,7 @@ func HtmlBeforePDF(c *gin.Context) {
 
 	templateId := template.FileName
 	templateKey := templateId
-	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
 	// templateBytes, err := services.DownloadFile("templates", templateKey)
 	templateBytes, err := services.DownloadFile(templateBucket, templateKey)
 	if err != nil {

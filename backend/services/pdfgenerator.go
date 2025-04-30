@@ -7,6 +7,7 @@ import (
 	"example/pdfgenerator/models"
 	"log"
 	"os"
+	"strconv"
 
 	// "encoding/base64"
 	"html/template"
@@ -53,9 +54,71 @@ func GeneratePDF2(templateBytes []byte, data map[string]interface{}) ([]byte, er
 	return filledTemplate.Bytes(), nil
 }
 
+// func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, error) {
+// 	funcMap := template.FuncMap{
+// 		"add": func(a, b int) int {
+// 			return a + b
+// 		},
+// 		"multiply": func(a, b int) int {
+// 			return a * b
+// 		},
+// 		"atoi": strconv.Atoi, // Helper to convert string to int
+// 	}
+// 	// Parse the HTML template
+// 	// tmpl, err := template.New("upload").Parse(string(templateBytes))
+// 	// Parse the HTML template with the function map
+// 	tmpl, err := template.New("upload").Funcs(funcMap).Parse(string(templateBytes))
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	// Create a buffer to store the filled template
+// 	var filledTemplate bytes.Buffer
+
+// 	// Execute the template with the JSON data, storing the result in the buffer
+// 	if err := tmpl.Execute(&filledTemplate, data); err != nil {
+// 		return nil, err
+// 	}
+// 	//log out the output at this point
+// 	// log.Print(filledTemplate.String())
+
+// 	// log.Printf("Hello World")
+
+// 	// Initialize a new PDF generator
+// 	pdfg, err := wkhtmltopdf.NewPDFGenerator()
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	// Add a new page to the PDF generator with the filled template content
+// 	pdfg.AddPage(wkhtmltopdf.NewPageReader(bytes.NewReader(filledTemplate.Bytes())))
+// 	if err := pdfg.Create(); err != nil {
+// 		return nil, err
+// 	}
+
+// 	// Encode the PDF bytes to base64
+// 	// pdfBase64 := base64.StdEncoding.EncodeToString(pdfg.Bytes())
+// 	// pdfBase64 :=
+// 	return pdfg.Bytes(), nil
+// }
+
 func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, error) {
-	// Parse the HTML template
-	tmpl, err := template.New("upload").Parse(string(templateBytes))
+	// Define generic add, multiply, atoi, and toInt functions
+	funcMap := template.FuncMap{
+		"add": func(a, b int) int {
+			return a + b
+		},
+		"multiply": func(a, b int) int {
+			return a * b
+		},
+		"atoi": strconv.Atoi, // Helper to convert string to int (if needed)
+		"toInt": func(f float64) int {
+			return int(f)
+		},
+	}
+
+	// Parse the HTML template with the function map
+	tmpl, err := template.New("upload").Funcs(funcMap).Parse(string(templateBytes))
 	if err != nil {
 		return nil, err
 	}
@@ -67,10 +130,6 @@ func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, err
 	if err := tmpl.Execute(&filledTemplate, data); err != nil {
 		return nil, err
 	}
-	//log out the output at this point
-	// log.Print(filledTemplate.String())
-
-	// log.Printf("Hello World")
 
 	// Initialize a new PDF generator
 	pdfg, err := wkhtmltopdf.NewPDFGenerator()
@@ -84,9 +143,6 @@ func GeneratePDF(templateBytes []byte, data map[string]interface{}) ([]byte, err
 		return nil, err
 	}
 
-	// Encode the PDF bytes to base64
-	// pdfBase64 := base64.StdEncoding.EncodeToString(pdfg.Bytes())
-	// pdfBase64 :=
 	return pdfg.Bytes(), nil
 }
 
@@ -98,7 +154,7 @@ func DeleteDocumentByRefNumber(refNumber string) error {
 		return errors.New("document not found")
 	}
 
-	pdfBucket := os.Getenv("PDF_BUCKET")
+	pdfBucket := os.Getenv("AUTODOCS_PDF_BUCKET")
 
 	//delete the document from minio
 	// err := DeleteFile("pdfs", document.ID)
@@ -123,7 +179,7 @@ func DeleteTemplateByRefNumber(refNumber string) error {
 		return errors.New("template not found")
 	}
 
-	templateBucket := os.Getenv("TEMPLATE_BUCKET")
+	templateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
 
 	//delete the file from minio
 	// err := DeleteFile("templates", template.ID)

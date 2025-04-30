@@ -31,6 +31,9 @@ func main() {
 
 	r.POST("/upload-template", controllers.UploadTemplate)
 	r.POST("/generate", controllers.CreateDocument, controllers.AutodocsLogs)
+	r.POST("/generate-from-slug", controllers.CreateDocumentFromSlug, controllers.AutodocsLogs)
+
+	// r.POST("/generate-with-page-creds", controllers.GenerateWithPageCreds)
 	r.GET("/documents", controllers.GetDocuments)
 	r.GET("/templates", controllers.Templates)
 	r.GET("/document-history", controllers.GetDocumentHistory)

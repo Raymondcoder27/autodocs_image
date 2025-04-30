@@ -18,8 +18,8 @@ func LoadEnvVariables() {
 	// 	fmt.Print("Error loading .env file")
 	// }
 
-	TemplateBucket := os.Getenv("TEMPLATE_BUCKET")
-	PdfBucket := os.Getenv("PDF_BUCKET")
+	TemplateBucket := os.Getenv("AUTODOCS_TEMPLATE_BUCKET")
+	PdfBucket := os.Getenv("AUTODOCS_PDF_BUCKET")
 
 	// Optional: log the values for confirmation
 	log.Printf("Loaded Template Bucket: %s", TemplateBucket)
