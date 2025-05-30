@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tourism Permit</title>
+    <style>
+        body {
+            font-family: 'DejaVu Sans', sans-serif;
+            margin: 40px;
+        }
+        .title {
+            text-align: center;
+            font-weight: bold;
+            font-size: 25px;
+            margin-bottom: 20px;
+        }
+        .subtitle {
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: underline;
+            margin-bottom: 20px;
+        }
+        .content {
+            margin-bottom: 20px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #000;
+            padding: 8px;
+            text-align: left;
+        }
+        .permit-table {
+            width: 50%;
+            margin-bottom: 20px;
+        }
+        .visitor-table {
+            width: 70%;
+            float: left;
+            margin-right: 20px;
+        }
+        .qr-code {
+            width: 30%;
+            float: right;
+            text-align: center;
+        }
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+        }
+        .statement {
+            clear: both;
+            margin-top: 20px;
+        }
+        .logo {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .logo img {
+            width: 150px;
+            height: 60px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">
+        <img src="{{.LogoImage}}" alt="Tourism Permit Logo">
+    </div>
+    <div class="title">
+        Tourism Permit
+    </div>
+    <div class="content">
+        <table class="table permit-table">
+            <tr>
+                <th>Permit Reference Number</th>
+                <td>{{.PermitReferenceNumber}}</td>
+            </tr>
+            <tr>
+                <th>Issue Date</th>
+                <td>{{.IssueDate}}</td>
+            </tr>
+        </table>
+        
+        <div class="subtitle">
+            Visitor and Product Details
+        </div>
+        <table class="table visitor-table">
+            <tr>
+                <th>Visitor Name</th>
+                <td>{{.VisitorName}}</td>
+            </tr>
+            <tr>
+                <th>Visit Category</th>
+                <td>{{.VisitCategory}}</td>
+            </tr>
+            <tr>
+                <th>Country of Nationality</th>
+                <td>{{.CountryOfNationality}}</td>
+            </tr>
+            <tr>
+                <th>Visitor ID</th>
+                <td>{{.VisitorID}}</td>
+            </tr>
+            <tr>
+                <th>Eco Tourism Site</th>
+                <td>{{.EcoTourismSite}}</td>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <td>{{.Product}}</td>
+            </tr>
+            <tr>
+                <th>Date of Visit</th>
+                <td>{{.DateOfVisit}}</td>
+            </tr>
+            <tr>
+                <th>Visit Duration</th>
+                <td>{{.VisitDuration}}</td>
+            </tr>
+            <tr>
+                <th>Total Fee Paid</th>
+                <td>{{.TotalFeePaid}}</td>
+            </tr>
+        </table>
+        <div class="qr-code">
+            <img src="{{.QRCodeImage}}" alt="QR Code">
+        </div>
+        <div class="statement">
+            <p>Please be advised that verification of tourist Identification documents is done at the eco-tourism site entry gates. Tourists who made erroneous, incomplete or false applications WILL be denied entry to the eco-tourism site regardless of whether they paid and acquired a system-generated permit.</p>
+        </div>
+    </div>
+</body>
+</html>
